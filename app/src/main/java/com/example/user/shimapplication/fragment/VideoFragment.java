@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.user.shimapplication.R;
-import com.example.user.shimapplication.adapter.VideoAdapter;
 import com.example.user.shimapplication.adapter.VideoPagerAdapter;
 import com.example.user.shimapplication.data.Video;
 
@@ -20,7 +19,6 @@ import java.util.List;
 
 public class VideoFragment extends Fragment {
     private RecyclerView videoContainerView;
-    private VideoAdapter videoAdapter;
     private List<Video> videoList = new ArrayList<>();
     VideoPagerAdapter videoPagerAdapter;
     TabLayout videoTab;
