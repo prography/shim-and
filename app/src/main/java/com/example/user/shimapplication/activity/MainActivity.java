@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 
 import com.example.user.shimapplication.data.Main;
 import com.example.user.shimapplication.data.handler.ShowMainHandler;
