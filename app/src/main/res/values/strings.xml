@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">ShimApplication</string>
-    <string name="title_home">Home</string>
-    <string name="title_sleep">Sleep</string>
-    <string name="title_video">Video</string>
-    <string name="title_music">Music</string>
-    <string name="title_etc">Etc</string>
+    <string name="app_name">쉼</string>
+    <string name="title_home">홈</string>
+    <string name="title_sleep">수면</string>
+    <string name="title_video">영상</string>
+    <string name="title_music">음악</string>
+    <string name="title_etc">더보기</string>
     <string name="youtube_key">AIzaSyApKLg2ZLzIt18X1FlCYvXPoUYxgWOWfpM</string>
 
     <!-- TODO: Remove or change this placeholder text -->

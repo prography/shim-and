@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -85,15 +86,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView musicImage;
         TextView musicName;
-        Button musicPlayBtn;
-        Button musicStopBtn;
+        ImageButton musicPlayBtn;
+        ImageButton musicStopBtn;
 
         ViewHolder(View itemView){
             super(itemView);
             musicImage = (ImageView)itemView.findViewById(R.id.music_picture);
             musicName = (TextView)itemView.findViewById(R.id.music_name);
-            musicPlayBtn = (Button)itemView.findViewById(R.id.music_btn_play);
-            musicStopBtn = (Button)itemView.findViewById(R.id.music_btn_stop);
+            musicPlayBtn = (ImageButton)itemView.findViewById(R.id.music_btn_play);
+            musicStopBtn = (ImageButton)itemView.findViewById(R.id.music_btn_stop);
         }
     }
 

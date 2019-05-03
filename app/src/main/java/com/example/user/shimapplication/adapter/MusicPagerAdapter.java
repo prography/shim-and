@@ -42,13 +42,13 @@ public class MusicPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position){
         switch(position){
             case 0:
-                return "All";
+                return "전체";
             case 1:
-                return "Sleep";
+                return "수면";
             case 2:
-                return "Instrument";
+                return "악기";
             case 3:
-                return "Nature";
+                return "자연";
 
                 default:
                     return null;
