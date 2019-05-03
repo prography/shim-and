@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.user.shimapplication.R;
 import com.example.user.shimapplication.data.Video;
@@ -17,12 +18,12 @@ import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHolder> {
     private List<Video> videoList;
-    //these ids are the unique id for each video
-    //String[] VideoID = {"CqWlTsCH1BA", "w-N8FWyNZzk", "kPsHCs-OBco"};
     Context ctx;
 
     public VideoAdapter(Context context, List<Video> videoList) {
@@ -38,7 +39,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
 
     @Override
     public void onBindViewHolder(final VideoInfoHolder holder, final int position) {
+        final Video video = videoList.get(position);
 
+        holder.videoTitle.setText(video.getVideo_title());
 
         final YouTubeThumbnailLoader.OnThumbnailLoadedListener  onThumbnailLoadedListener = new YouTubeThumbnailLoader.OnThumbnailLoadedListener(){
             @Override
@@ -57,12 +60,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
             @Override
             public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
 
-                //if(videoList==null){
-               //     youTubeThumbnailLoader.setVideo(VideoID[position]);
-                //}
-               // else {
-                    youTubeThumbnailLoader.setVideo(videoList.get(position).getVideo_url());
-                //}
+                youTubeThumbnailLoader.setVideo(video.getVideo_url());
+
                 youTubeThumbnailLoader.setOnThumbnailLoadedListener(onThumbnailLoadedListener);
             }
 
@@ -75,10 +74,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
 
     @Override
     public int getItemCount() {
-        //if(videoList==null){
-          //  return VideoID.length;
-        //}
-        //else{
         if(videoList==null){
             return 0;
         }else {
@@ -91,9 +86,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
         protected RelativeLayout relativeLayoutOverYouTubeThumbnailView;
         YouTubeThumbnailView youTubeThumbnailView;
         protected ImageView playButton;
+        TextView videoTitle;
 
         public VideoInfoHolder(View itemView) {
             super(itemView);
+            videoTitle = (TextView)itemView.findViewById(R.id.video_title);
             playButton=(ImageView)itemView.findViewById(R.id.btnYoutube_player);
             playButton.setOnClickListener(this);
             relativeLayoutOverYouTubeThumbnailView = (RelativeLayout) itemView.findViewById(R.id.relativeLayout_over_youtube_thumbnail);
