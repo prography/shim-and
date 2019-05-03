@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.example.user.shimapplication.R;
 import com.example.user.shimapplication.adapter.VideoAdapter;
 import com.example.user.shimapplication.data.Video;
+import com.example.user.shimapplication.data.handler.ShowVideoHandler;
 import com.example.user.shimapplication.data.repository.ShimRepo;
 
 import java.util.ArrayList;
@@ -41,12 +42,12 @@ public class VideoFirstFragment extends Fragment {
 
         videoFirstContainerView = (RecyclerView)view.findViewById(R.id.video_all_recycler_container);
         videoFirstContainerView.setHasFixedSize(true);
-        videoFirstAdapter = new VideoAdapter(getContext());
+        videoFirstAdapter = new VideoAdapter(getContext(), videoFirstList);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL,false);
         videoFirstContainerView.setLayoutManager(manager);
         videoFirstContainerView.setAdapter(videoFirstAdapter);
-/*
+
         ShowVideoHandler showVideoHandler = new ShowVideoHandler() {
             @Override
             public void onSuccessShowVideo(List<Video> arr) {
@@ -60,7 +61,7 @@ public class VideoFirstFragment extends Fragment {
         };
         shimRepo = new ShimRepo(showVideoHandler);
         shimRepo.showVideo("all");
-*/
+
         return view;
     }
 

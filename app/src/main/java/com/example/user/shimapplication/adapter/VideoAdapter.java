@@ -11,19 +11,23 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.user.shimapplication.R;
+import com.example.user.shimapplication.data.Video;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHolder> {
+import java.util.List;
 
+public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHolder> {
+    private List<Video> videoList;
     //these ids are the unique id for each video
-    String[] VideoID = {"CqWlTsCH1BA", "w-N8FWyNZzk", "kPsHCs-OBco", "VDc3kb14YsU"};
+    //String[] VideoID = {"CqWlTsCH1BA", "w-N8FWyNZzk", "kPsHCs-OBco"};
     Context ctx;
 
-    public VideoAdapter(Context context) {
+    public VideoAdapter(Context context, List<Video> videoList) {
         this.ctx = context;
+        this.videoList = videoList;
     }
 
     @Override
@@ -53,7 +57,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
             @Override
             public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
 
-                youTubeThumbnailLoader.setVideo(VideoID[position]);
+                //if(videoList==null){
+               //     youTubeThumbnailLoader.setVideo(VideoID[position]);
+                //}
+               // else {
+                    youTubeThumbnailLoader.setVideo(videoList.get(position).getVideo_url());
+                //}
                 youTubeThumbnailLoader.setOnThumbnailLoadedListener(onThumbnailLoadedListener);
             }
 
@@ -66,7 +75,15 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
 
     @Override
     public int getItemCount() {
-        return VideoID.length;
+        //if(videoList==null){
+          //  return VideoID.length;
+        //}
+        //else{
+        if(videoList==null){
+            return 0;
+        }else {
+            return videoList.size();
+        }
     }
 
     public class VideoInfoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -85,9 +102,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
 
         @Override
         public void onClick(View v) {
-
-            Intent intent = YouTubeStandalonePlayer.createVideoIntent((Activity) ctx, "AIzaSyApKLg2ZLzIt18X1FlCYvXPoUYxgWOWfpM", VideoID[getLayoutPosition()]);
+            Intent intent = YouTubeStandalonePlayer.createVideoIntent((Activity) ctx, "AIzaSyApKLg2ZLzIt18X1FlCYvXPoUYxgWOWfpM", videoList.get(getLayoutPosition()).getVideo_url());
             ctx.startActivity(intent);
         }
+    }
+
+    public void setItem(List<Video> List){
+        videoList = List;
+        notifyDataSetChanged();
     }
 }
