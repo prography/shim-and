@@ -3,11 +3,13 @@ package com.example.user.shimapplication.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.user.shimapplication.R;
@@ -65,13 +67,14 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
                 */
             }
         });
-        viewHolder.sleepStopBtn.setOnClickListener(new View.OnClickListener(){
+        /*viewHolder.sleepStopBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 // 정지 기능 추가
                 mp.stop();
             }
         });
+        */
         /*
         viewHolder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -94,13 +97,11 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView sleepName;
-        Button sleepPlayBtn;
-        Button sleepStopBtn;
+        ImageButton sleepPlayBtn;
 
         ViewHolder(View itemView){
             super(itemView);
-            sleepPlayBtn = (Button)itemView.findViewById(R.id.sleep_btn_play);
-            sleepStopBtn = (Button)itemView.findViewById(R.id.sleep_btn_stop);
+            sleepPlayBtn = (ImageButton)itemView.findViewById(R.id.sleep_btn_play);
             sleepName = (TextView)itemView.findViewById(R.id.sleep_name);
         }
     }
