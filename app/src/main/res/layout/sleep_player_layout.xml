@@ -3,35 +3,39 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="25dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="25dp"
     android:orientation="horizontal">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="30dp"
+        android:padding="10dp"
         android:background="@drawable/sleep_border">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sleep_name"
-        android:textColor="@color/white"
-        android:textSize="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:text="Music Subject"/>
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sleep_name"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:layout_marginRight="10dp"
+            android:text="Music Subject"/>
 
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/sleep_btn_play"
-        android:background="@color/transparent"
-        android:src="@drawable/ic_play"
-        android:scaleType="centerCrop"
-        />
+        <ImageButton
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/sleep_btn_play"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_play"
+            android:scaleType="centerCrop"
+            />
 
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
