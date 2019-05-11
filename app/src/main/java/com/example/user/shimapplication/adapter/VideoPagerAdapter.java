@@ -39,11 +39,11 @@ public class VideoPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position){
         switch(position){
             case 0:
-                return "All";
+                return "전체";
             case 1:
-                return "Baby";
+                return "아기";
             case 2:
-                return "Animal";
+                return "동물";
             default:
                 return null;
 
