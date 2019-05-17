@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.user.shimapplication.R;
 import com.example.user.shimapplication.adapter.VideoPagerAdapter;
@@ -38,7 +40,27 @@ public class VideoFragment extends Fragment {
 
         videoTab = (TabLayout)view.findViewById(R.id.video_tabs);
         videoTab.setupWithViewPager(videoViewPager);
+        videoTab.setSelectedTabIndicatorColor(getResources().getColor(R.color.white));
+        createTabIcons();
 
         return view;
+    }
+
+    private void createTabIcons() {
+
+        LinearLayout tabOne = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
+        TextView tabOneText = (TextView) tabOne.findViewById(R.id.text_view);
+        tabOneText.setText("전체");
+        videoTab.getTabAt(0).setCustomView(tabOne);
+
+        LinearLayout tabTwo = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
+        TextView tabTwoText = (TextView) tabTwo.findViewById(R.id.text_view);
+        tabTwoText.setText("아기");
+        videoTab.getTabAt(1).setCustomView(tabTwo);
+
+        LinearLayout tabThree = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
+        TextView tabThreeText = (TextView) tabThree.findViewById(R.id.text_view);
+        tabThreeText.setText("동물");
+        videoTab.getTabAt(2).setCustomView(tabThree);
     }
 }
