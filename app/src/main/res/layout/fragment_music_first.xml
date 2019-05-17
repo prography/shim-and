@@ -9,6 +9,8 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="40dp"
+        android:clipToPadding="false"
         android:id="@+id/music_all_recycler_container"
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
         app:spanCount="2">

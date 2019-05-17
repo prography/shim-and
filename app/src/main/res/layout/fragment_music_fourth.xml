@@ -9,6 +9,8 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="40dp"
+        android:clipToPadding="false"
         android:id="@+id/music_nature_recycler_container"
         app:spanCount="2">
     </android.support.v7.widget.RecyclerView>
