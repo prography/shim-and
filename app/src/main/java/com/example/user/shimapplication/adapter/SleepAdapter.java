@@ -34,7 +34,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
         View view = LayoutInflater.from(context).inflate(R.layout.sleep_player_layout, viewGroup,false);
         return new ViewHolder(view);
     }
-    public void onBindViewHolder(ViewHolder viewHolder, int position){
+    public void onBindViewHolder(ViewHolder viewHolder, final int position){
         final Sleep sleep = sleepList.get(position);
         viewHolder.sleepName.setText(sleep.getSleep_name());
         viewHolder.sleepPlayBtn.setOnClickListener(new View.OnClickListener(){

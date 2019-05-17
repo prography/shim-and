@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.user.shimapplication.R;
@@ -18,14 +19,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.user.shimapplication.activity.MainActivity.mainList;
+import static com.example.user.shimapplication.activity.MainActivity.isPlaying;
 import static com.example.user.shimapplication.activity.MainActivity.mp;
 
 public class HomeFirstFragment extends Fragment {
     private String title;
     private int page;
     private ImageView mainFirstImage;
-    public static List<Main> mainList = new ArrayList<>();
-    ShimRepo shimRepo;
+
 
     // newInstance constructor for creating fragment with arguments
     public static HomeFirstFragment newInstance() {
@@ -41,24 +43,10 @@ public class HomeFirstFragment extends Fragment {
 
     // Inflate the view for the fragment based on layout XML
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_first, container, false);
 
-        ShowMainHandler showMainHandler = new ShowMainHandler() {
-            @Override
-            public void onSuccessShowMain(List<Main> arr) {
-                //mainList = new ArrayList<>(arr);
-                mainList.addAll(arr);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        };
-        shimRepo = new ShimRepo(showMainHandler);
-        shimRepo.showMain();
 
         mainFirstImage = (ImageView)view.findViewById(R.id.main_first_image);
         if(mainList.size()!=0) {
@@ -71,20 +59,47 @@ public class HomeFirstFragment extends Fragment {
                     .load("https://s3.ap-northeast-2.amazonaws.com/shim-main/1.jpg")
                     .into(mainFirstImage);
         }
+
+        if(!isPlaying){
+            mp.reset();
+            mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            if(mainList.size()!=0) {
+                try {
+                    mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/"
+                            + mainList.get(0).getMain_music());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    mp.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mp.start();
+            }
+            isPlaying=true;
+        }
+        /*
         mp.reset();
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/BachGavotte.mp3");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(mainList.size()!=0) {
+            try {
+                mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/"
+                        + mainList.get(1).getMain_music());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                mp.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mp.start();
         }
-        try {
-            mp.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mp.start();
+        */
 
         return view;
     }
+
+
 }

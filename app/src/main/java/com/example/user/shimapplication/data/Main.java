@@ -16,6 +16,13 @@ public class Main {
         this.main_picture = main_picture;
     }
 
+    public Main(Main main){
+        this.main_id = main.getMain_id();
+        this.main_name = main.getMain_name();
+        this.main_music = main.getMain_music();
+        this.main_picture = main.getMain_picture();
+    }
+
     public int getMain_id() {
         return main_id;
     }

@@ -2,6 +2,7 @@ package com.example.user.shimapplication.activity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -9,10 +10,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.user.shimapplication.data.Main;
+import com.example.user.shimapplication.data.ShowMainResponse;
 import com.example.user.shimapplication.data.handler.ShowMainHandler;
 import com.example.user.shimapplication.data.repository.ShimRepo;
+import com.example.user.shimapplication.data.retrofit.RetrofitClient;
+import com.example.user.shimapplication.data.retrofit.ShimService;
 import com.example.user.shimapplication.fragment.EtcFragment;
 import com.example.user.shimapplication.fragment.HomeFragment;
 import com.example.user.shimapplication.fragment.MusicFragment;
@@ -23,10 +28,21 @@ import com.example.user.shimapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity {
     public static MediaPlayer mp;
     int pos;
-    boolean isPlaaing = false;
+    public static boolean isPlaying = false;
+    public static int playingPosition=-1;
+
+    public static final List<Main> mainList = new ArrayList<>();
+    ShimRepo shimRepo;
+
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -68,6 +84,54 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //mp = MediaPlayer.create(getApplicationContext(), null);
+        //mp.setLooping(false);
+        // if true , 반복재생
+
+        /*
+        ShowMainHandler showMainHandler = new ShowMainHandler() {
+            @Override
+            public void onSuccessShowMain(List<Main> arr) {
+                for(int i=0;i<arr.size(); i++){
+                    mainList.add(new Main(arr.get(i)));
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        };
+
+        shimRepo = new ShimRepo(showMainHandler);
+        shimRepo.showMain();
+        */
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://52.78.106.14/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ShimService shimService = retrofit.create(ShimService.class);
+        shimService.showMain().enqueue(new Callback<ShowMainResponse>() {
+            @Override
+            public void onResponse(Call<ShowMainResponse> call, Response<ShowMainResponse> response) {
+                for(int i=0;i<response.body().getArr().size(); i++){
+                    mainList.add(new Main(response.body().getArr().get(i)));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShowMainResponse> call, Throwable t) {
+
+            }
+        });
+        shimService.showMain();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -77,10 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         mp = new MediaPlayer();
 
-        //mp = MediaPlayer.create(getApplicationContext(), null);
-        //mp.setLooping(false);
-        // if true , 반복재생
-
     }
+
 
 }

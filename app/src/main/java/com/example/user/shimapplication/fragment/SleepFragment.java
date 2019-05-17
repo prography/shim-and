@@ -23,7 +23,7 @@ import java.util.List;
 public class SleepFragment extends Fragment {
     private RecyclerView sleepContainerView;
     private SleepAdapter sleepAdapter;
-    private List<Sleep> sleepList = new ArrayList<>();
+    private static List<Sleep> sleepList = new ArrayList<>();
 
     ShimRepo shimRepo;
 
@@ -46,6 +46,7 @@ public class SleepFragment extends Fragment {
             @Override
             public void onSuccessShowSleep(List<Sleep> arr) {
                     sleepAdapter.setItem(arr);
+                    sleepList = arr;
             }
 
             @Override
@@ -56,8 +57,8 @@ public class SleepFragment extends Fragment {
         shimRepo = new ShimRepo(showSleepHandler);
 
         shimRepo.showSleep();
-        // List Item 추가 및 Adapter Setting
 
         return view;
     }
+
 }

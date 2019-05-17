@@ -18,14 +18,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.user.shimapplication.activity.MainActivity.mainList;
 import static com.example.user.shimapplication.activity.MainActivity.mp;
 
 public class HomeThirdFragment extends Fragment {
     private String title;
     private int page;
     private ImageView mainThirdImage;
-    public static List<Main> mainList = new ArrayList<>();
-    ShimRepo shimRepo;
 
     // newInstance constructor for creating fragment with arguments
     public static HomeThirdFragment newInstance() {
@@ -45,20 +44,6 @@ public class HomeThirdFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_third, container, false);
 
-        ShowMainHandler showMainHandler = new ShowMainHandler() {
-            @Override
-            public void onSuccessShowMain(List<Main> arr) {
-                //mainList = new ArrayList<>(arr);
-                mainList.addAll(arr);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        };
-        shimRepo = new ShimRepo(showMainHandler);
-        shimRepo.showMain();
 
         mainThirdImage = (ImageView)view.findViewById(R.id.main_third_image);
         if(mainList.size()!=0) {
@@ -68,22 +53,27 @@ public class HomeThirdFragment extends Fragment {
                     .into(mainThirdImage);
         }else{
             Glide.with(getContext())
-                    .load("https://s3.ap-northeast-2.amazonaws.com/shim-main/3.jpg")
+                    .load("https://s3.ap-northeast-2.amazonaws.com/shim-main/1.jpg")
                     .into(mainThirdImage);
         }
+        /*
         mp.reset();
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/WalloonLilli.mp3 ");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(mainList.size()!=0) {
+            try {
+                mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/"
+                        + mainList.get(2).getMain_picture());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                mp.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mp.start();
         }
-        try {
-            mp.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mp.start();
+        */
 
         return view;
     }
