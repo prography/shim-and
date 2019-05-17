@@ -24,8 +24,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.user.shimapplication.activity.MainActivity.isPlaying;
 import static com.example.user.shimapplication.activity.MainActivity.mainList;
 import static com.example.user.shimapplication.activity.MainActivity.mp;
+import static com.example.user.shimapplication.activity.MainActivity.playingPosition;
 
 public class HomeFragment extends Fragment {
     FragmentPagerAdapter adapterViewPager;
@@ -76,6 +78,8 @@ public class HomeFragment extends Fragment {
                         e.printStackTrace();
                     }
                     mp.start();
+                    isPlaying = true;
+                    playingPosition = 0;
                 }
             }
 

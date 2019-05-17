@@ -14,17 +14,23 @@ import android.widget.TextView;
 
 import com.example.user.shimapplication.R;
 import com.example.user.shimapplication.data.Sleep;
+import com.example.user.shimapplication.data.SleepExtend;
 
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.user.shimapplication.activity.MainActivity.changeButton;
+import static com.example.user.shimapplication.activity.MainActivity.isPlaying;
 import static com.example.user.shimapplication.activity.MainActivity.mp;
+import static com.example.user.shimapplication.activity.MainActivity.playingIndex;
+import static com.example.user.shimapplication.activity.MainActivity.playingPosition;
 
 public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> {
-    private List<Sleep> sleepList;
+    private List<SleepExtend> sleepList;
     private Context context;
+    private int category;
 
-    public SleepAdapter(Context context, List<Sleep> sleepList){
+    public SleepAdapter(Context context, List<SleepExtend> sleepList){
         this.context = context;
         this.sleepList = sleepList;
     }
@@ -34,26 +40,46 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
         View view = LayoutInflater.from(context).inflate(R.layout.sleep_player_layout, viewGroup,false);
         return new ViewHolder(view);
     }
-    public void onBindViewHolder(ViewHolder viewHolder, final int position){
-        final Sleep sleep = sleepList.get(position);
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position){
+        final SleepExtend sleep = sleepList.get(position);
         viewHolder.sleepName.setText(sleep.getSleep_name());
+        if(sleep.getButton_pushed()==1){
+            viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_stop);
+        }else{
+            viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_play);
+        }
         viewHolder.sleepPlayBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                mp.reset();
-                mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                try {
-                    mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/" +
-                            "shim-sleep/"+sleep.getSleep_music());
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(sleep.getButton_pushed()==0){
+                    mp.reset();
+                    mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    try {
+                        mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/" +
+                                "shim-sleep/"+sleep.getSleep_music());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        mp.prepare();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    mp.start();
+                    isPlaying = true;
+                    viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_stop);
+                    changeButton(1, position);
+                    playingPosition = 1;
+                    playingIndex = position;
                 }
-                try {
-                    mp.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                else{
+                    mp.stop();
+                    isPlaying = false;
+                    playingPosition = -1;
+                    playingIndex = -1;
+                    sleepList.get(position).setButton_pushed(0);
+                    viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_play);
                 }
-                mp.start();
                 /*Intent intent = new Intent(context, MusicService.class);
 
                 if(v.getId()==R.id.sleep_btn_play){
@@ -106,7 +132,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
         }
     }
 
-    public void setItem(List<Sleep> List){
+    public void setItem(List<SleepExtend> List){
         sleepList = List;
         notifyDataSetChanged();
     }

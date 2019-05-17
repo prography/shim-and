@@ -41,17 +41,12 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginRight="5dp"
                     android:id="@+id/music_btn_play"
-                    android:background="@drawable/ic_play_small"/>
-
-                <ImageButton
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/music_btn_stop"
-                    android:background="@drawable/ic_stop_small"/>
+                    android:background="@color/transparent"
+                    />
 
             </LinearLayout>
 

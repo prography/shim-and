@@ -14,6 +14,7 @@ import com.example.user.shimapplication.activity.MainActivity;
 import com.example.user.shimapplication.adapter.SleepAdapter;
 import com.example.user.shimapplication.data.ShowSleepResponse;
 import com.example.user.shimapplication.data.Sleep;
+import com.example.user.shimapplication.data.SleepExtend;
 import com.example.user.shimapplication.data.handler.ShowSleepHandler;
 import com.example.user.shimapplication.data.repository.ShimRepo;
 
@@ -22,8 +23,8 @@ import java.util.List;
 
 public class SleepFragment extends Fragment {
     private RecyclerView sleepContainerView;
-    private SleepAdapter sleepAdapter;
-    private static List<Sleep> sleepList = new ArrayList<>();
+    public static SleepAdapter sleepAdapter;
+    public static List<SleepExtend> sleepExtendList = new ArrayList<>();
 
     ShimRepo shimRepo;
 
@@ -36,7 +37,7 @@ public class SleepFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sleep, container, false);
 
         sleepContainerView = (RecyclerView)view.findViewById(R.id.sleep_recycler_container);
-        sleepAdapter = new SleepAdapter(getContext(), sleepList);
+        sleepAdapter = new SleepAdapter(getContext(), sleepExtendList);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         sleepContainerView.setLayoutManager(manager);
@@ -45,8 +46,27 @@ public class SleepFragment extends Fragment {
         ShowSleepHandler showSleepHandler = new ShowSleepHandler() {
             @Override
             public void onSuccessShowSleep(List<Sleep> arr) {
-                    sleepAdapter.setItem(arr);
-                    sleepList = arr;
+                int remember = -1;
+                boolean check=false;
+                for(int i=0; i<sleepExtendList.size(); i++){
+                    if(sleepExtendList.get(i).getButton_pushed()==1){
+                        check=true;
+                        remember = i;
+                    }
+                }
+                sleepExtendList.clear();
+                for(int i=0; i<arr.size(); i++){
+                    SleepExtend sleepExtend = new SleepExtend();
+                    sleepExtend.setSleep_id(arr.get(i).getSleep_id());
+                    sleepExtend.setSleep_music(arr.get(i).getSleep_music());
+                    sleepExtend.setSleep_name(arr.get(i).getSleep_name());
+                    sleepExtend.setButton_pushed(0);
+                    if(i==remember&&check==true){
+                        sleepExtend.setButton_pushed(1);
+                    }
+                    sleepExtendList.add(sleepExtend);
+                }
+                sleepAdapter.setItem(sleepExtendList);
             }
 
             @Override

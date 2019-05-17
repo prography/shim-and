@@ -16,19 +16,26 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.user.shimapplication.R;
 import com.example.user.shimapplication.data.Music;
+import com.example.user.shimapplication.data.MusicExtend;
 
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.user.shimapplication.activity.MainActivity.changeButton;
+import static com.example.user.shimapplication.activity.MainActivity.isPlaying;
 import static com.example.user.shimapplication.activity.MainActivity.mp;
+import static com.example.user.shimapplication.activity.MainActivity.playingIndex;
+import static com.example.user.shimapplication.activity.MainActivity.playingPosition;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
-    private List<Music> musicList;
+    private List<MusicExtend> musicList;
     private Context context;
+    private int category;
 
-    public MusicAdapter(Context context, List<Music> musicList){
+    public MusicAdapter(Context context, List<MusicExtend> musicList, int category){
         this.context = context;
         this.musicList = musicList;
+        this.category = category;
     }
 
 
@@ -39,36 +46,50 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        final Music music = musicList.get(position);
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+        final MusicExtend music = musicList.get(position);
         viewHolder.musicName.setText(music.getMusic_name());
         Glide.with(viewHolder.itemView.getContext())
                 .load("https://s3.ap-northeast-2.amazonaws.com/shim-music/"
                 +music.getMusic_picture())
                 .into(viewHolder.musicImage);
-        viewHolder.musicPlayBtn.setOnClickListener(new View.OnClickListener(){
+        if(music.getButton_pushed()==1){
+            viewHolder.musicBtn.setImageResource(R.drawable.ic_stop_small);
+        }else{
+            viewHolder.musicBtn.setImageResource(R.drawable.ic_play_small);
+        }
+        viewHolder.musicBtn.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v){
-                mp.reset();
-                mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                try {
-                    mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/" +
-                            "shim-music/"+music.getMusic_music());
-                } catch (IOException e) {
-                    e.printStackTrace();
+            public void onClick(View v) {
+                if (music.getButton_pushed() == 0) {
+                    mp.reset();
+                    mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    try {
+                        mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/" +
+                                "shim-music/" + music.getMusic_music());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        mp.prepare();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    mp.start();
+                    isPlaying=true;
+                    viewHolder.musicBtn.setImageResource(R.drawable.ic_stop_small);
+                    changeButton(category+1, position);
+                    playingPosition=category+1;
+                    playingIndex=position;
                 }
-                try {
-                    mp.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                else{
+                    mp.stop();
+                    isPlaying = false;
+                    playingPosition = -1;
+                    playingIndex = -1;
+                    musicList.get(position).setButton_pushed(0);
+                    viewHolder.musicBtn.setImageResource(R.drawable.ic_play_small);
                 }
-                mp.start();
-            }
-        });
-        viewHolder.musicStopBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                mp.stop();
             }
         });
     }
@@ -86,19 +107,17 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView musicImage;
         TextView musicName;
-        ImageButton musicPlayBtn;
-        ImageButton musicStopBtn;
+        ImageButton musicBtn;
 
         ViewHolder(View itemView){
             super(itemView);
             musicImage = (ImageView)itemView.findViewById(R.id.music_picture);
             musicName = (TextView)itemView.findViewById(R.id.music_name);
-            musicPlayBtn = (ImageButton)itemView.findViewById(R.id.music_btn_play);
-            musicStopBtn = (ImageButton)itemView.findViewById(R.id.music_btn_stop);
+            musicBtn = (ImageButton)itemView.findViewById(R.id.music_btn_play);
         }
     }
 
-    public void setItem(List<Music> List){
+    public void setItem(List<MusicExtend> List){
         musicList = List;
         notifyDataSetChanged();
     }

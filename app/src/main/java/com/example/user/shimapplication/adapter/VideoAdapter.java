@@ -22,6 +22,11 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import static com.example.user.shimapplication.activity.MainActivity.isPlaying;
+import static com.example.user.shimapplication.activity.MainActivity.mp;
+import static com.example.user.shimapplication.activity.MainActivity.playingIndex;
+import static com.example.user.shimapplication.activity.MainActivity.playingPosition;
+
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHolder> {
     private List<Video> videoList;
     Context ctx;
@@ -99,6 +104,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
 
         @Override
         public void onClick(View v) {
+            mp.stop();
+            isPlaying=false;
+            playingIndex=-1;
+            playingPosition=-1;
             Intent intent = YouTubeStandalonePlayer.createVideoIntent((Activity) ctx, "AIzaSyApKLg2ZLzIt18X1FlCYvXPoUYxgWOWfpM", videoList.get(getLayoutPosition()).getVideo_url());
             ctx.startActivity(intent);
         }

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.example.user.shimapplication.R;
 import com.example.user.shimapplication.adapter.MusicAdapter;
 import com.example.user.shimapplication.data.Music;
+import com.example.user.shimapplication.data.MusicExtend;
 import com.example.user.shimapplication.data.handler.ShowMusicHandler;
 import com.example.user.shimapplication.data.repository.ShimRepo;
 
@@ -20,8 +21,8 @@ import java.util.List;
 
 public class MusicFourthFragment extends Fragment {
     private RecyclerView musicFourthContainerView;
-    private MusicAdapter musicFourthAdapter;
-    private List<Music> musicFourthList = new ArrayList<>();
+    public static MusicAdapter musicFourthAdapter;
+    public static List<MusicExtend> musicFourthList = new ArrayList<>();
 
     ShimRepo shimRepo;
 
@@ -39,7 +40,7 @@ public class MusicFourthFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_music_fourth, container, false);
 
         musicFourthContainerView = (RecyclerView)view.findViewById(R.id.music_nature_recycler_container);
-        musicFourthAdapter = new MusicAdapter(getContext(), musicFourthList);
+        musicFourthAdapter = new MusicAdapter(getContext(), musicFourthList, 4);
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
         musicFourthContainerView.setLayoutManager(manager);
         musicFourthContainerView.setAdapter(musicFourthAdapter);
@@ -47,7 +48,27 @@ public class MusicFourthFragment extends Fragment {
         ShowMusicHandler showMusicHandler = new ShowMusicHandler() {
             @Override
             public void onSuccessShowMusic(List<Music> arr) {
-                musicFourthAdapter.setItem(arr);
+                int remember = -1;
+                boolean check=false;
+                for(int i=0; i<musicFourthList.size(); i++){
+                    if(musicFourthList.get(i).getButton_pushed()==1){
+                        check=true;
+                        remember = i;
+                    }
+                }
+                musicFourthList.clear();
+                for(int i=0; i<arr.size(); i++){
+                    MusicExtend musicExtend = new MusicExtend();
+                    musicExtend.setMusic_id(arr.get(i).getMusic_id());
+                    musicExtend.setMusic_music(arr.get(i).getMusic_music());
+                    musicExtend.setMusic_name(arr.get(i).getMusic_name());
+                    musicExtend.setMusic_picture(arr.get(i).getMusic_picture());
+                    if(i==remember&&check==true){
+                        musicExtend.setButton_pushed(1);
+                    }
+                    musicFourthList.add(musicExtend);
+                }
+                musicFourthAdapter.setItem(musicFourthList);
             }
 
             @Override

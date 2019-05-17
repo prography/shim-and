@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.example.user.shimapplication.R;
 import com.example.user.shimapplication.adapter.MusicAdapter;
 import com.example.user.shimapplication.data.Music;
+import com.example.user.shimapplication.data.MusicExtend;
 import com.example.user.shimapplication.data.handler.ShowMusicHandler;
 import com.example.user.shimapplication.data.repository.ShimRepo;
 
@@ -20,8 +21,8 @@ import java.util.List;
 
 public class MusicThirdFragment extends Fragment {
     private RecyclerView musicThirdContainerView;
-    private MusicAdapter musicThirdAdapter;
-    private List<Music> musicThirdList = new ArrayList<>();
+    public static MusicAdapter musicThirdAdapter;
+    public static List<MusicExtend> musicThirdList = new ArrayList<>();
 
     ShimRepo shimRepo;
 
@@ -39,7 +40,7 @@ public class MusicThirdFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_music_third, container, false);
 
         musicThirdContainerView = (RecyclerView)view.findViewById(R.id.music_instrument_recycler_container);
-        musicThirdAdapter = new MusicAdapter(getContext(), musicThirdList);
+        musicThirdAdapter = new MusicAdapter(getContext(), musicThirdList, 3);
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
         musicThirdContainerView.setLayoutManager(manager);
         musicThirdContainerView.setAdapter(musicThirdAdapter);
@@ -47,7 +48,27 @@ public class MusicThirdFragment extends Fragment {
         ShowMusicHandler showMusicHandler = new ShowMusicHandler() {
             @Override
             public void onSuccessShowMusic(List<Music> arr) {
-                musicThirdAdapter.setItem(arr);
+                int remember = -1;
+                boolean check=false;
+                for(int i=0; i<musicThirdList.size(); i++){
+                    if(musicThirdList.get(i).getButton_pushed()==1){
+                        check=true;
+                        remember = i;
+                    }
+                }
+                musicThirdList.clear();
+                for(int i=0; i<arr.size(); i++){
+                    MusicExtend musicExtend = new MusicExtend();
+                    musicExtend.setMusic_id(arr.get(i).getMusic_id());
+                    musicExtend.setMusic_music(arr.get(i).getMusic_music());
+                    musicExtend.setMusic_name(arr.get(i).getMusic_name());
+                    musicExtend.setMusic_picture(arr.get(i).getMusic_picture());
+                    if(i==remember&&check==true){
+                        musicExtend.setButton_pushed(1);
+                    }
+                    musicThirdList.add(musicExtend);
+                }
+                musicThirdAdapter.setItem(musicThirdList);
             }
 
             @Override
@@ -59,6 +80,8 @@ public class MusicThirdFragment extends Fragment {
 
         shimRepo.showMusic("instrument");
 
-        return view;    }
+        return view;
+
+    }
 
 }
