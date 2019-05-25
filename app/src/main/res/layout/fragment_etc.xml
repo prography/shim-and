@@ -1,14 +1,27 @@
 <?xml version="1.0"?>
-<FrameLayout
+<RelativeLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:background="@color/colorBlueDark"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:textColor="#000000"
-        android:text="ETC Fragment"
-        android:gravity="center"/>
+        android:id="@+id/etc_version"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        android:text="App Version"
+        android:layout_centerInParent="true"
+        android:textSize="20dp"/>
 
-</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Developed by Prography"
+        android:layout_below="@+id/etc_version"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        />
+
+</RelativeLayout>

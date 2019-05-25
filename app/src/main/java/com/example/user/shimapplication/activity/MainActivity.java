@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mp = new MediaPlayer();
+        mp.setLooping(true);
 
     }
 

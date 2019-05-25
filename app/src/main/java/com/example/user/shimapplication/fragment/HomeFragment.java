@@ -77,6 +77,7 @@ public class HomeFragment extends Fragment {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    mp.setLooping(true);
                     mp.start();
                     isPlaying = true;
                     playingPosition = 0;
