@@ -2,6 +2,7 @@ package com.example.user.shimapplication.fragment;
 
 import android.app.Activity;
 import android.media.AudioManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +22,7 @@ import com.example.user.shimapplication.data.handler.ShowMainHandler;
 import com.example.user.shimapplication.data.repository.ShimRepo;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +64,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(final int position){
-
+                MusicResetTask resetTask = new MusicResetTask();
+                resetTask.execute(position);
+                /*
                 mp.reset();
                 mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 if(mainList.size()!=0){
@@ -82,6 +86,7 @@ public class HomeFragment extends Fragment {
                     isPlaying = true;
                     playingPosition = 0;
                 }
+                */
             }
 
             @Override
@@ -133,4 +138,35 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private class MusicResetTask extends AsyncTask<Integer, Void, Integer> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... positions) {
+            mp.reset();
+            mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            if(mainList.size()!=0){
+                try{
+                    mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/"
+                            +mainList.get(positions[0]).getMain_music());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+                try {
+                    mp.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mp.setLooping(true);
+                mp.start();
+                isPlaying = true;
+                playingPosition = 0;
+            }
+            return 0;
+        }
+    }
 }
+

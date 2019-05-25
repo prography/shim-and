@@ -12,16 +12,17 @@
         android:textColor="@color/white"
         android:text="App Version"
         android:layout_centerInParent="true"
-        android:textSize="20dp"/>
+        android:textSize="15dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:text="Developed by Prography"
         android:layout_below="@+id/etc_version"
         android:layout_centerHorizontal="true"
-        android:textSize="20dp"
+        android:textSize="15dp"
         />
 
 </RelativeLayout>
