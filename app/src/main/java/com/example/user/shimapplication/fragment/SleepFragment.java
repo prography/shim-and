@@ -12,10 +12,14 @@ import android.widget.Toast;
 import com.example.user.shimapplication.R;
 import com.example.user.shimapplication.activity.MainActivity;
 import com.example.user.shimapplication.adapter.SleepAdapter;
+import com.example.user.shimapplication.data.LogResponse;
+import com.example.user.shimapplication.data.LogSleep;
 import com.example.user.shimapplication.data.ShowSleepResponse;
 import com.example.user.shimapplication.data.Sleep;
 import com.example.user.shimapplication.data.SleepExtend;
+import com.example.user.shimapplication.data.handler.LogSleepHandler;
 import com.example.user.shimapplication.data.handler.ShowSleepHandler;
+import com.example.user.shimapplication.data.repository.LogRepo;
 import com.example.user.shimapplication.data.repository.ShimRepo;
 
 import java.util.ArrayList;
@@ -35,6 +39,7 @@ public class SleepFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_sleep, container, false);
+
 
         sleepContainerView = (RecyclerView)view.findViewById(R.id.sleep_recycler_container);
         sleepAdapter = new SleepAdapter(getContext(), sleepExtendList);
@@ -75,7 +80,6 @@ public class SleepFragment extends Fragment {
             }
         };
         shimRepo = new ShimRepo(showSleepHandler);
-
         shimRepo.showSleep();
 
         return view;

@@ -12,7 +12,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.user.shimapplication.R;
+import com.example.user.shimapplication.data.LogResponse;
+import com.example.user.shimapplication.data.LogVideo;
 import com.example.user.shimapplication.data.Video;
+import com.example.user.shimapplication.data.handler.LogVideoHandler;
+import com.example.user.shimapplication.data.repository.LogRepo;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
@@ -26,10 +30,14 @@ import static com.example.user.shimapplication.activity.MainActivity.isPlaying;
 import static com.example.user.shimapplication.activity.MainActivity.mp;
 import static com.example.user.shimapplication.activity.MainActivity.playingIndex;
 import static com.example.user.shimapplication.activity.MainActivity.playingPosition;
+import static com.example.user.shimapplication.activity.MainActivity.userID;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHolder> {
     private List<Video> videoList;
     Context ctx;
+
+    private LogVideo logVideo;
+    LogRepo logVideoRepo;
 
     public VideoAdapter(Context context, List<Video> videoList) {
         this.ctx = context;
@@ -39,6 +47,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
     @Override
     public VideoInfoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_player_layout, parent, false);
+
+        logVideo = new LogVideo();
+        LogVideoHandler logVideoHandler = new LogVideoHandler() {
+            @Override
+            public void onSuccessLogVideo(LogResponse response) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        };
+        logVideoRepo = new LogRepo(logVideoHandler);
+
         return new VideoInfoHolder(itemView);
     }
 
@@ -108,6 +131,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
             isPlaying=false;
             playingIndex=-1;
             playingPosition=-1;
+
+            logVideo.setVideo_log_action(1);
+            logVideo.setVideo_log_user_id(userID);
+            logVideo.setVideo_log_video_id(videoList.get(getLayoutPosition()).getVideo_id());
+            logVideoRepo.logVideo(logVideo);
+
             Intent intent = YouTubeStandalonePlayer.createVideoIntent((Activity) ctx, "AIzaSyApKLg2ZLzIt18X1FlCYvXPoUYxgWOWfpM", videoList.get(getLayoutPosition()).getVideo_url());
             ctx.startActivity(intent);
         }

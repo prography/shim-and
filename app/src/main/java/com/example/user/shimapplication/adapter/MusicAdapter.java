@@ -15,8 +15,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.user.shimapplication.R;
+import com.example.user.shimapplication.data.LogMusic;
+import com.example.user.shimapplication.data.LogResponse;
 import com.example.user.shimapplication.data.Music;
 import com.example.user.shimapplication.data.MusicExtend;
+import com.example.user.shimapplication.data.handler.LogMusicHandler;
+import com.example.user.shimapplication.data.repository.LogRepo;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,11 +30,15 @@ import static com.example.user.shimapplication.activity.MainActivity.isPlaying;
 import static com.example.user.shimapplication.activity.MainActivity.mp;
 import static com.example.user.shimapplication.activity.MainActivity.playingIndex;
 import static com.example.user.shimapplication.activity.MainActivity.playingPosition;
+import static com.example.user.shimapplication.activity.MainActivity.userID;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
     private List<MusicExtend> musicList;
     private Context context;
     private int category;
+
+    private LogMusic logMusic;
+    LogRepo logMusicRepo;
 
     public MusicAdapter(Context context, List<MusicExtend> musicList, int category){
         this.context = context;
@@ -42,6 +50,21 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.music_player_layout, viewGroup, false);
+
+        logMusic = new LogMusic();
+        LogMusicHandler logMusicHandler = new LogMusicHandler() {
+            @Override
+            public void onSuccessLogMusic(LogResponse response) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        };
+        logMusicRepo = new LogRepo(logMusicHandler);
+
         return new ViewHolder(view);
     }
 
@@ -81,6 +104,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                     changeButton(category+1, position);
                     playingPosition=category+1;
                     playingIndex=position;
+
+                    logMusic.setMusic_log_action(1);
+                    logMusic.setMusic_log_user_id(userID);
+                    logMusic.setMusic_log_music_id(music.getMusic_id());
+                    logMusicRepo.logMusic(logMusic);
                 }
                 else{
                     mp.stop();
@@ -89,6 +117,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                     playingIndex = -1;
                     musicList.get(position).setButton_pushed(0);
                     viewHolder.musicBtn.setImageResource(R.drawable.ic_play_small);
+
+                    logMusic.setMusic_log_music_id(music.getMusic_id());
+                    logMusic.setMusic_log_user_id(userID);
+                    logMusic.setMusic_log_action(0);
+                    logMusicRepo.logMusic(logMusic);
                 }
             }
         });

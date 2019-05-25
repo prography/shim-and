@@ -3,6 +3,7 @@ package com.example.user.shimapplication.activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -45,12 +46,15 @@ import static com.example.user.shimapplication.fragment.MusicThirdFragment.music
 import static com.example.user.shimapplication.fragment.SleepFragment.sleepAdapter;
 import static com.example.user.shimapplication.fragment.SleepFragment.sleepExtendList;
 
+
 public class MainActivity extends AppCompatActivity {
     public static MediaPlayer mp;
     int pos;
     public static boolean isPlaying = false;
     public static int playingPosition=-1;
     public static int playingIndex=-1;
+
+    public static String userID;
 
     public static final List<Main> mainList = new ArrayList<>();
     ShimRepo shimRepo;
@@ -94,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userID = Settings.Secure.getString(getApplicationContext()
+                .getContentResolver(), Settings.Secure.ANDROID_ID);
         setContentView(R.layout.activity_main);
 
         //mp = MediaPlayer.create(getApplicationContext(), null);

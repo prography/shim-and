@@ -13,8 +13,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.user.shimapplication.R;
+import com.example.user.shimapplication.data.LogResponse;
+import com.example.user.shimapplication.data.LogSleep;
 import com.example.user.shimapplication.data.Sleep;
 import com.example.user.shimapplication.data.SleepExtend;
+import com.example.user.shimapplication.data.handler.LogSleepHandler;
+import com.example.user.shimapplication.data.repository.LogRepo;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,11 +28,15 @@ import static com.example.user.shimapplication.activity.MainActivity.isPlaying;
 import static com.example.user.shimapplication.activity.MainActivity.mp;
 import static com.example.user.shimapplication.activity.MainActivity.playingIndex;
 import static com.example.user.shimapplication.activity.MainActivity.playingPosition;
+import static com.example.user.shimapplication.activity.MainActivity.userID;
 
 public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> {
     private List<SleepExtend> sleepList;
     private Context context;
     private int category;
+
+    private LogSleep logSleep;
+    LogRepo logSleepRepo;
 
     public SleepAdapter(Context context, List<SleepExtend> sleepList){
         this.context = context;
@@ -38,6 +46,21 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i){
         View view = LayoutInflater.from(context).inflate(R.layout.sleep_player_layout, viewGroup,false);
+
+        logSleep = new LogSleep();
+        LogSleepHandler logSleepHandler = new LogSleepHandler() {
+            @Override
+            public void onSuccessLogSleep(LogResponse response) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        };
+        logSleepRepo = new LogRepo(logSleepHandler);
+
         return new ViewHolder(view);
     }
     public void onBindViewHolder(final ViewHolder viewHolder, final int position){
@@ -71,6 +94,11 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
                     changeButton(1, position);
                     playingPosition = 1;
                     playingIndex = position;
+
+                    logSleep.setSleep_log_action(1);
+                    logSleep.setSleep_log_user_id(userID);
+                    logSleep.setSleep_log_sleep_id(sleep.getSleep_id());
+                    logSleepRepo.logSleep(logSleep);
                 }
                 else{
                     mp.stop();
@@ -79,13 +107,18 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
                     playingIndex = -1;
                     sleepList.get(position).setButton_pushed(0);
                     viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_play);
+
+                    logSleep.setSleep_log_sleep_id(sleep.getSleep_id());
+                    logSleep.setSleep_log_user_id(userID);
+                    logSleep.setSleep_log_action(0);
+                    logSleepRepo.logSleep(logSleep);
                 }
                 /*Intent intent = new Intent(context, MusicService.class);
 
                 if(v.getId()==R.id.sleep_btn_play){
                     intent.putExtra(MusicService.MESSAGE_KEY, true);
                     intent.putExtra("URL", sleep.getSleep_url());
-                }else{
+                }else{log
                     intent.putExtra(MusicService.MESSAGE_KEY, false);
                 }
 
