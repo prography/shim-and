@@ -75,6 +75,7 @@ public class HomeFirstFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                mp.setLooping(true);
                 mp.start();
             }
             isPlaying=true;

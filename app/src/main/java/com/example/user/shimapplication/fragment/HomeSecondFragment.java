@@ -77,4 +77,5 @@ public class HomeSecondFragment extends Fragment {
 
         return view;
     }
+
 }

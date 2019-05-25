@@ -98,6 +98,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    mp.setLooping(true);
                     mp.start();
                     isPlaying=true;
                     viewHolder.musicBtn.setImageResource(R.drawable.ic_stop_small);

@@ -88,6 +88,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    mp.setLooping(true);
                     mp.start();
                     isPlaying = true;
                     viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_stop);
