@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="center"
-                    android:src="@mipmap/ic_video_play"/>
+                    android:src="@drawable/ic_video_play"/>
 
             </RelativeLayout>
 
