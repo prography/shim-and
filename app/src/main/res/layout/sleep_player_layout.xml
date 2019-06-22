@@ -32,7 +32,7 @@
             android:layout_height="40dp"
             android:id="@+id/sleep_btn_play"
             android:background="@color/transparent"
-            android:src="@drawable/ic_play"
+            android:src="@drawable/ic_play_circle_outline"
             android:scaleType="centerCrop"
             />
 

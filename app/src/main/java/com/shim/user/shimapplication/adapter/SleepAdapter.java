@@ -67,9 +67,9 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
         final SleepExtend sleep = sleepList.get(position);
         viewHolder.sleepName.setText(sleep.getSleep_name());
         if(sleep.getButton_pushed()==1){
-            viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_stop);
+            viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_pause_circle_outline);
         }else{
-            viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_play);
+            viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_play_circle_outline);
         }
         viewHolder.sleepPlayBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -91,7 +91,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
                     mp.setLooping(true);
                     mp.start();
                     isPlaying = true;
-                    viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_stop);
+                    viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_pause_circle_outline);
                     changeButton(1, position);
                     playingPosition = 1;
                     playingIndex = position;
@@ -107,7 +107,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
                     playingPosition = -1;
                     playingIndex = -1;
                     sleepList.get(position).setButton_pushed(0);
-                    viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_play);
+                    viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_play_circle_outline);
 
                     logSleep.setSleep_log_sleep_id(sleep.getSleep_id());
                     logSleep.setSleep_log_user_id(userID);

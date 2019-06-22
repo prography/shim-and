@@ -77,9 +77,9 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 +music.getMusic_picture())
                 .into(viewHolder.musicImage);
         if(music.getButton_pushed()==1){
-            viewHolder.musicBtn.setImageResource(R.drawable.ic_stop_small);
+            viewHolder.musicBtn.setImageResource(R.drawable.ic_pause_circle_outline);
         }else{
-            viewHolder.musicBtn.setImageResource(R.drawable.ic_play_small);
+            viewHolder.musicBtn.setImageResource(R.drawable.ic_play_circle_outline);
         }
         viewHolder.musicBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -101,7 +101,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                     mp.setLooping(true);
                     mp.start();
                     isPlaying=true;
-                    viewHolder.musicBtn.setImageResource(R.drawable.ic_stop_small);
+                    viewHolder.musicBtn.setImageResource(R.drawable.ic_pause_circle_outline);
                     changeButton(category+1, position);
                     playingPosition=category+1;
                     playingIndex=position;
@@ -117,7 +117,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                     playingPosition = -1;
                     playingIndex = -1;
                     musicList.get(position).setButton_pushed(0);
-                    viewHolder.musicBtn.setImageResource(R.drawable.ic_play_small);
+                    viewHolder.musicBtn.setImageResource(R.drawable.ic_play_circle_outline);
 
                     logMusic.setMusic_log_music_id(music.getMusic_id());
                     logMusic.setMusic_log_user_id(userID);
