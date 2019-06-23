@@ -1,28 +1,28 @@
 <?xml version="1.0"?>
-<RelativeLayout
+<LinearLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:background="@color/colorBlueDark"
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:id="@+id/etc_version"
+        android:id="@+id/feedback_intent_button"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="20dp"
         android:textColor="@color/white"
-        android:text="App Version"
-        android:layout_centerInParent="true"
-        android:textSize="15dp"/>
+        android:text="1:1 문의"
+        android:textSize="25dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/detail_intent_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:padding="20dp"
         android:textColor="@color/white"
-        android:text="Developed by Prography"
-        android:layout_below="@+id/etc_version"
-        android:layout_centerHorizontal="true"
-        android:textSize="15dp"
+        android:text="어플리케이션 정보"
+        android:textSize="25dp"
         />
 
-</RelativeLayout>
+</LinearLayout>

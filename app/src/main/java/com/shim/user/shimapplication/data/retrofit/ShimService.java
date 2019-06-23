@@ -1,5 +1,7 @@
 package com.shim.user.shimapplication.data.retrofit;
 
+import com.shim.user.shimapplication.data.Feedback;
+import com.shim.user.shimapplication.data.FeedbackResponse;
 import com.shim.user.shimapplication.data.LogMain;
 import com.shim.user.shimapplication.data.LogMusic;
 import com.shim.user.shimapplication.data.LogResponse;
@@ -40,5 +42,8 @@ public interface ShimService {
 
     @POST("log/music")
     Call<LogResponse> logMusic(@Body LogMusic logMusic);
+
+    @POST("etc/feedback")
+    Call<FeedbackResponse> sendFeedback(@Body Feedback feedback);
 
 }

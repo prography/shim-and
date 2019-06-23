@@ -26,8 +26,10 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import static com.shim.user.shimapplication.activity.MainActivity.changeButton;
 import static com.shim.user.shimapplication.activity.MainActivity.isPlaying;
 import static com.shim.user.shimapplication.activity.MainActivity.mp;
+import static com.shim.user.shimapplication.activity.MainActivity.pauseButton;
 import static com.shim.user.shimapplication.activity.MainActivity.playingIndex;
 import static com.shim.user.shimapplication.activity.MainActivity.playingPosition;
 import static com.shim.user.shimapplication.activity.MainActivity.userID;
@@ -127,6 +129,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
 
         @Override
         public void onClick(View v) {
+            pauseButton();
             mp.stop();
             isPlaying=false;
             playingIndex=-1;

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBlueDark"
+    tools:context=".activity.FeedbackActivity">
+
+    <EditText
+        android:id="@+id/feedback_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:padding="15dp"
+        android:textSize="20dp"
+        android:hint="제목"/>
+
+    <EditText
+        android:id="@+id/feedback_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:padding="15dp"
+        android:textSize="20dp"
+        android:hint="전화번호 또는 이메일"/>
+
+    <EditText
+        android:id="@+id/feedback_contents"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:padding="15dp"
+        android:textSize="20dp"
+        android:hint="내용"/>
+
+    <TextView
+        android:id="@+id/feedback_send_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:padding="15dp"
+        android:layout_gravity="center"
+        android:textSize="25dp"
+        android:text="의견 보내기"/>
+
+
+</LinearLayout>

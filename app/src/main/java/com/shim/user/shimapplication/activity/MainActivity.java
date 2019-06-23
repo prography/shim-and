@@ -162,6 +162,44 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public static void pauseButton(){
+        switch (playingPosition) {
+            case 1:
+                for (int i = 0; i < sleepExtendList.size(); i++) {
+                    sleepExtendList.get(i).setButton_pushed(0);
+                }
+                sleepAdapter.setItem(sleepExtendList);
+                break;
+            case 2:
+                for (int i = 0; i < musicFirstList.size(); i++) {
+                    musicFirstList.get(i).setButton_pushed(0);
+                }
+                musicFirstAdapter.setItem(musicFirstList);
+                break;
+            case 3:
+                for (int i=0;i<musicSecondList.size();i++){
+                    musicSecondList.get(i).setButton_pushed(0);
+                }
+                musicSecondAdapter.setItem(musicSecondList);
+                break;
+            case 4:
+                for (int i=0;i<musicThirdList.size();i++){
+                    musicThirdList.get(i).setButton_pushed(0);
+                }
+                musicThirdAdapter.setItem(musicThirdList);
+                break;
+            case 5:
+                for (int i=0;i<musicFourthList.size();i++){
+                    musicFourthList.get(i).setButton_pushed(0);
+                }
+                musicFourthAdapter.setItem(musicFourthList);
+                break;
+            default:
+                break;
+        }
+        playingPosition=-1;
+    }
+
     public static void changeButton(int position, int index){
         if(playingPosition!=position) {
             switch (playingPosition) {
