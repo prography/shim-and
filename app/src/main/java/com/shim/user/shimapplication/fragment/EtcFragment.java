@@ -1,8 +1,6 @@
 package com.shim.user.shimapplication.fragment;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shim.user.shimapplication.R;
-import com.shim.user.shimapplication.activity.AppDetailActivity;
 import com.shim.user.shimapplication.activity.FeedbackActivity;
 
 
@@ -36,14 +33,6 @@ public class EtcFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FeedbackActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        detailIntentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AppDetailActivity.class);
                 startActivity(intent);
             }
         });
