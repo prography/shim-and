@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shim.user.shimapplication.R;
+import com.shim.user.shimapplication.activity.AppDetailActivity;
 import com.shim.user.shimapplication.activity.FeedbackActivity;
 
 
@@ -36,24 +37,13 @@ public class EtcFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        /*
-        versionText = (TextView)view.findViewById(R.id.etc_version);
-
-
-
-        if(getContext()!=null) {
-            try {
-                packageInfo = getContext().getApplicationContext().getPackageManager()
-                        .getPackageInfo(getContext().getApplicationContext().getPackageName(), 0);
-                version = packageInfo.versionName;
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
+        detailIntentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AppDetailActivity.class);
+                startActivity(intent);
             }
-        }
-        versionText.setText("App Version : "+version);
-
-        */
+        });
 
         return view;
     }

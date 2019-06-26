@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.data.Feedback;
@@ -22,6 +23,8 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private Feedback feedback;
     EtcRepo etcRepo;
+
+    //예외처리 및 디자인 추가 필요!! (추후 작업 예정)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,8 @@ public class FeedbackActivity extends AppCompatActivity {
                 feedback.setFeedback_contents(editContents.getText().toString());
 
                 etcRepo.sendFeedback(feedback);
+
+                Toast.makeText(getApplicationContext(), "의견이 전송되었습니다!", Toast.LENGTH_SHORT).show();
             }
         });
     }
