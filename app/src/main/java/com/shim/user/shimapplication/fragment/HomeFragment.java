@@ -26,11 +26,6 @@ import static com.shim.user.shimapplication.activity.MainActivity.mp;
 import static com.shim.user.shimapplication.activity.MainActivity.playingPosition;
 
 public class HomeFragment extends Fragment {
-
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -61,10 +56,10 @@ public class HomeFragment extends Fragment {
     public static class Page extends Fragment {
 
         public static Page newInstance(int position) {
-            Bundle bundle = new Bundle();
-            bundle.putInt("position", position);
+            Bundle args = new Bundle();
+            args.putInt("position", position);
             Page page = new Page();
-            page.setArguments(bundle);
+            page.setArguments(args);
             return page;
         }
 
@@ -72,11 +67,11 @@ public class HomeFragment extends Fragment {
         public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
             int position = getArguments() != null ? getArguments().getInt("position") : 0;
             View view = inflater.inflate(R.layout.fragment_home_page, container, false);
-            ImageView mainFirstImage = view.findViewById(R.id.main_first_image);
+            ImageView imageView = view.findViewById(R.id.main_first_image);
             if (mainList.size() != 0) {
                 Glide.with(getContext())
                         .load("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + mainList.get(position).getMain_picture())
-                        .into(mainFirstImage);
+                        .into(imageView);
             }
             if (!isPlaying) {
                 mp.reset();
@@ -105,17 +100,17 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
+        public int getCount() {
+            return ITEM_COUNT;
+        }
+
+        @Override
         public Fragment getItem(int position) {
             if (position >= 0 && position < ITEM_COUNT) {
                 return Page.newInstance(position);
             } else {
                 return null;
             }
-        }
-
-        @Override
-        public int getCount() {
-            return ITEM_COUNT;
         }
     }
 
