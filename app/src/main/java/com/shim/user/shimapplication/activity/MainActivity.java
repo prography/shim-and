@@ -30,14 +30,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.shim.user.shimapplication.fragment.MusicFirstFragment.musicFirstAdapter;
-import static com.shim.user.shimapplication.fragment.MusicFirstFragment.musicFirstList;
-import static com.shim.user.shimapplication.fragment.MusicFourthFragment.musicFourthAdapter;
-import static com.shim.user.shimapplication.fragment.MusicFourthFragment.musicFourthList;
-import static com.shim.user.shimapplication.fragment.MusicSecondFragment.musicSecondAdapter;
-import static com.shim.user.shimapplication.fragment.MusicSecondFragment.musicSecondList;
-import static com.shim.user.shimapplication.fragment.MusicThirdFragment.musicThirdAdapter;
-import static com.shim.user.shimapplication.fragment.MusicThirdFragment.musicThirdList;
 import static com.shim.user.shimapplication.fragment.SleepFragment.sleepAdapter;
 import static com.shim.user.shimapplication.fragment.SleepFragment.sleepExtendList;
 
@@ -97,30 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 sleepAdapter.setItem(sleepExtendList);
                 break;
-            case 2:
-                for (int i = 0; i < musicFirstList.size(); i++) {
-                    musicFirstList.get(i).setButton_pushed(0);
-                }
-                musicFirstAdapter.setItem(musicFirstList);
-                break;
-            case 3:
-                for (int i = 0; i < musicSecondList.size(); i++) {
-                    musicSecondList.get(i).setButton_pushed(0);
-                }
-                musicSecondAdapter.setItem(musicSecondList);
-                break;
-            case 4:
-                for (int i = 0; i < musicThirdList.size(); i++) {
-                    musicThirdList.get(i).setButton_pushed(0);
-                }
-                musicThirdAdapter.setItem(musicThirdList);
-                break;
-            case 5:
-                for (int i = 0; i < musicFourthList.size(); i++) {
-                    musicFourthList.get(i).setButton_pushed(0);
-                }
-                musicFourthAdapter.setItem(musicFourthList);
-                break;
             default:
                 break;
         }
@@ -135,30 +103,6 @@ public class MainActivity extends AppCompatActivity {
                         sleepExtendList.get(i).setButton_pushed(0);
                     }
                     sleepAdapter.setItem(sleepExtendList);
-                    break;
-                case 2:
-                    for (int i = 0; i < musicFirstList.size(); i++) {
-                        musicFirstList.get(i).setButton_pushed(0);
-                    }
-                    musicFirstAdapter.setItem(musicFirstList);
-                    break;
-                case 3:
-                    for (int i = 0; i < musicSecondList.size(); i++) {
-                        musicSecondList.get(i).setButton_pushed(0);
-                    }
-                    musicSecondAdapter.setItem(musicSecondList);
-                    break;
-                case 4:
-                    for (int i = 0; i < musicThirdList.size(); i++) {
-                        musicThirdList.get(i).setButton_pushed(0);
-                    }
-                    musicThirdAdapter.setItem(musicThirdList);
-                    break;
-                case 5:
-                    for (int i = 0; i < musicFourthList.size(); i++) {
-                        musicFourthList.get(i).setButton_pushed(0);
-                    }
-                    musicFourthAdapter.setItem(musicFourthList);
                     break;
                 default:
                     break;
@@ -175,46 +119,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 sleepAdapter.setItem(sleepExtendList);
-                break;
-            case 2:
-                for (int i = 0; i < musicFirstList.size(); i++) {
-                    if (i != index) {
-                        musicFirstList.get(i).setButton_pushed(0);
-                    } else {
-                        musicFirstList.get(i).setButton_pushed(1);
-                    }
-                }
-                musicFirstAdapter.setItem(musicFirstList);
-                break;
-            case 3:
-                for (int i = 0; i < musicSecondList.size(); i++) {
-                    if (i != index) {
-                        musicSecondList.get(i).setButton_pushed(0);
-                    } else {
-                        musicSecondList.get(i).setButton_pushed(1);
-                    }
-                }
-                musicSecondAdapter.setItem(musicSecondList);
-                break;
-            case 4:
-                for (int i = 0; i < musicThirdList.size(); i++) {
-                    if (i != index) {
-                        musicThirdList.get(i).setButton_pushed(0);
-                    } else {
-                        musicThirdList.get(i).setButton_pushed(1);
-                    }
-                }
-                musicThirdAdapter.setItem(musicThirdList);
-                break;
-            case 5:
-                for (int i = 0; i < musicFourthList.size(); i++) {
-                    if (i != index) {
-                        musicFourthList.get(i).setButton_pushed(0);
-                    } else {
-                        musicFourthList.get(i).setButton_pushed(1);
-                    }
-                }
-                musicFourthAdapter.setItem(musicFourthList);
                 break;
             default:
                 break;
