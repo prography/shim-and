@@ -1,8 +1,6 @@
 package com.shim.user.shimapplication.fragment;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,7 +37,6 @@ public class EtcFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         detailIntentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,24 +44,6 @@ public class EtcFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        /*
-        versionText = (TextView)view.findViewById(R.id.etc_version);
-
-
-
-        if(getContext()!=null) {
-            try {
-                packageInfo = getContext().getApplicationContext().getPackageManager()
-                        .getPackageInfo(getContext().getApplicationContext().getPackageName(), 0);
-                version = packageInfo.versionName;
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        versionText.setText("App Version : "+version);
-
-        */
 
         return view;
     }

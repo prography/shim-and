@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.data.LogResponse;
 import com.shim.user.shimapplication.data.LogSleep;
@@ -66,6 +68,10 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder viewHolder, final int position){
         final SleepExtend sleep = sleepList.get(position);
         viewHolder.sleepName.setText(sleep.getSleep_name());
+        Glide.with(viewHolder.itemView.getContext())
+                .load("https://s3.ap-northeast-2.amazonaws.com/shim-sleep/"
+                        + sleep.getSleep_picture())
+                .into(viewHolder.sleepImage);
         if(sleep.getButton_pushed()==1){
             viewHolder.sleepPlayBtn.setImageResource(R.drawable.ic_pause_circle_outline);
         }else{
@@ -157,10 +163,12 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView sleepName;
+        ImageView sleepImage;
         ImageButton sleepPlayBtn;
 
         ViewHolder(View itemView){
             super(itemView);
+            sleepImage = (ImageView)itemView.findViewById(R.id.sleep_picture);
             sleepPlayBtn = (ImageButton)itemView.findViewById(R.id.sleep_btn_play);
             sleepName = (TextView)itemView.findViewById(R.id.sleep_name);
         }

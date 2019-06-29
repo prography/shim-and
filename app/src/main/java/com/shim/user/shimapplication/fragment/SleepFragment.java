@@ -65,6 +65,7 @@ public class SleepFragment extends Fragment {
                     sleepExtend.setSleep_id(arr.get(i).getSleep_id());
                     sleepExtend.setSleep_music(arr.get(i).getSleep_music());
                     sleepExtend.setSleep_name(arr.get(i).getSleep_name());
+                    sleepExtend.setSleep_picture(arr.get(i).getSleep_picture());
                     sleepExtend.setButton_pushed(0);
                     if(i==remember&&check==true){
                         sleepExtend.setButton_pushed(1);

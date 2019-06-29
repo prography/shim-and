@@ -4,15 +4,17 @@ public class SleepExtend {
     private int sleep_id;
     private String sleep_music;
     private String sleep_name;
+    private String sleep_picture;
     private int button_pushed;
 
     public SleepExtend() {
     }
 
-    public SleepExtend(int sleep_id, String sleep_music, String sleep_name, int button_pushed) {
+    public SleepExtend(int sleep_id, String sleep_music, String sleep_name, String sleep_picture, int button_pushed) {
         this.sleep_id = sleep_id;
         this.sleep_music = sleep_music;
         this.sleep_name = sleep_name;
+        this.sleep_picture = sleep_picture;
         this.button_pushed = button_pushed;
     }
 
@@ -40,6 +42,14 @@ public class SleepExtend {
         this.sleep_name = sleep_name;
     }
 
+    public String getSleep_picture() {
+        return sleep_picture;
+    }
+
+    public void setSleep_picture(String sleep_picture) {
+        this.sleep_picture = sleep_picture;
+    }
+
     public int getButton_pushed() {
         return button_pushed;
     }
@@ -47,4 +57,7 @@ public class SleepExtend {
     public void setButton_pushed(int button_pushed) {
         this.button_pushed = button_pushed;
     }
+
 }
+
+
