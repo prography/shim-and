@@ -1,6 +1,7 @@
 package com.shim.user.shimapplication.adapter;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.Image;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.data.LogMusic;
 import com.shim.user.shimapplication.data.LogResponse;
+import com.shim.user.shimapplication.data.Media.BroadcastActions;
 import com.shim.user.shimapplication.data.Music;
 import com.shim.user.shimapplication.data.MusicExtend;
 import com.shim.user.shimapplication.data.handler.LogMusicHandler;
@@ -28,6 +30,7 @@ import java.util.List;
 import static com.shim.user.shimapplication.activity.MainActivity.changeButton;
 import static com.shim.user.shimapplication.activity.MainActivity.isPlaying;
 import static com.shim.user.shimapplication.activity.MainActivity.mp;
+import static com.shim.user.shimapplication.activity.MainActivity.musicPlayList;
 import static com.shim.user.shimapplication.activity.MainActivity.playingIndex;
 import static com.shim.user.shimapplication.activity.MainActivity.playingPosition;
 import static com.shim.user.shimapplication.activity.MainActivity.userID;
@@ -81,6 +84,17 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         }else{
             viewHolder.musicBtn.setImageResource(R.drawable.ic_play_circle_outline);
         }
+
+        viewHolder.musicBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mp.stop();
+                Music addingMusic = new Music(music.getMusic_id(),
+                        music.getMusic_name(), music.getMusic_music(), music.getMusic_picture());
+                musicPlayList.add(addingMusic);
+            }
+        });
+        /*
         viewHolder.musicBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -126,6 +140,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 }
             }
         });
+        */
     }
 
     @Override
@@ -155,4 +170,5 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         musicList = List;
         notifyDataSetChanged();
     }
+
 }

@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.shim.user.shimapplication.data.Main;
+import com.shim.user.shimapplication.data.Music;
 import com.shim.user.shimapplication.data.ShowMainResponse;
 import com.shim.user.shimapplication.data.handler.ShowMainHandler;
 import com.shim.user.shimapplication.data.repository.ShimRepo;
@@ -48,6 +49,9 @@ import static com.shim.user.shimapplication.fragment.SleepFragment.sleepExtendLi
 
 
 public class MainActivity extends AppCompatActivity {
+    public static ArrayList<Music> musicPlayList = new ArrayList<>();
+    // 재생목록 추가를 위한 Music Play List
+
     public static MediaPlayer mp;
     int pos;
     public static boolean isPlaying = false;

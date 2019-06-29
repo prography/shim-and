@@ -1,6 +1,10 @@
 package com.shim.user.shimapplication.fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,9 +13,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.shim.user.shimapplication.R;
+import com.shim.user.shimapplication.activity.MusicListActivity;
 import com.shim.user.shimapplication.adapter.MusicAdapter;
+import com.shim.user.shimapplication.data.Media.AudioApplication;
+import com.shim.user.shimapplication.data.Media.BroadcastActions;
 import com.shim.user.shimapplication.data.Music;
 import com.shim.user.shimapplication.data.MusicExtend;
 import com.shim.user.shimapplication.data.handler.ShowMusicHandler;
@@ -21,13 +31,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MusicFirstFragment extends Fragment {
+public class MusicFirstFragment extends Fragment{
     private RecyclerView musicFirstContainerView;
     public static MusicAdapter musicFirstAdapter;
     public static List<MusicExtend> musicFirstList = new ArrayList<>();
 
     ShimRepo shimRepo;
 
+    ImageButton playerCallButton;
 
     public static MusicFirstFragment newInstance() {
         Bundle args = new Bundle();
@@ -42,11 +53,20 @@ public class MusicFirstFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_music_first, container, false);
 
+
         musicFirstContainerView = (RecyclerView)view.findViewById(R.id.music_all_recycler_container);
         musicFirstAdapter = new MusicAdapter(getContext(), musicFirstList, 1);
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
         musicFirstContainerView.setLayoutManager(manager);
         musicFirstContainerView.setAdapter(musicFirstAdapter);
+
+        playerCallButton = (ImageButton)view.findViewById(R.id.player_call_button);
+        playerCallButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(getActivity(), MusicListActivity.class);
+                startActivity(intent);
+            }
+        });
 
         ShowMusicHandler showMusicHandler = new ShowMusicHandler() {
             @Override

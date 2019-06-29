@@ -78,7 +78,7 @@ public class MusicSecondFragment extends Fragment {
         };
         shimRepo = new ShimRepo(showMusicHandler);
 
-        shimRepo.showMusic("sleep");
+        shimRepo.showMusic("my");
 
         return view;
     }

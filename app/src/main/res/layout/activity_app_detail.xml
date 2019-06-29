@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBlueDark"
+    android:orientation="vertical"
+    tools:context=".activity.AppDetailActivity">
+
+    <TextView
+        android:id="@+id/detail_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="200dp"
+        android:textColor="@color/white"
+        android:text="Version"
+        android:textSize="15dp"
+        />
+
+    <TextView
+        android:id="@+id/detail_developer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:paddingTop="25dp"
+        android:layout_below="@+id/detail_version"
+        android:text="Developed by Prography"
+        android:textSize="15dp"/>
+
+    <TextView
+        android:id="@+id/detail_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:paddingTop="25dp"
+        android:layout_below="@+id/detail_developer"
+        android:text="develop@prography.org"
+        android:textSize="15dp"/>
+
+</LinearLayout>
