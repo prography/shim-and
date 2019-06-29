@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import com.shim.user.shimapplication.adapter.AudioAdapter;
 import com.shim.user.shimapplication.data.Music;
 
 import java.util.ArrayList;
@@ -89,5 +88,17 @@ public class AudioServiceInterface {
             return mService.getMusic();
         }
         return null;
+    }
+
+    public void playOneMusic() {
+        if (mService != null) {
+            mService.playOneMusic();
+        }
+    }
+
+    public void stop() {
+        if (mService != null) {
+            mService.stop();
+        }
     }
 }

@@ -1,7 +1,5 @@
 package com.shim.user.shimapplication.fragment;
 
-import android.media.AudioManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,17 +13,18 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.shim.user.shimapplication.R;
+import com.shim.user.shimapplication.data.Media.AudioApplication;
+import com.shim.user.shimapplication.data.Music;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
-import static com.shim.user.shimapplication.activity.MainActivity.isPlaying;
 import static com.shim.user.shimapplication.activity.MainActivity.mainList;
-import static com.shim.user.shimapplication.activity.MainActivity.mp;
-import static com.shim.user.shimapplication.activity.MainActivity.playingPosition;
 
 public class HomeFragment extends Fragment {
+    private static List<Music> homeMusicList = new ArrayList<>();
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -39,8 +38,12 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(final int position) {
-                MusicResetTask resetTask = new MusicResetTask();
-                resetTask.execute(position);
+                if (mainList.size() != 0) {
+                    homeMusicList.clear();
+                    homeMusicList.add(mainList.get(position));
+                    AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
+                    AudioApplication.getInstance().getServiceInterface().playOneMusic();
+                }
             }
 
             @Override
@@ -70,23 +73,16 @@ public class HomeFragment extends Fragment {
             ImageView imageView = view.findViewById(R.id.main_first_image);
             if (mainList.size() != 0) {
                 Glide.with(getContext())
-                        .load("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + mainList.get(position).getMain_picture())
+                        .load("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + mainList.get(position).getMusic_picture())
                         .into(imageView);
             }
-            if (!isPlaying) {
-                mp.reset();
-                mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            if (AudioApplication.getInstance().getServiceInterface().isPlaying()) {
                 if (mainList.size() != 0) {
-                    try {
-                        mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + mainList.get(position).getMain_music());
-                        mp.prepare();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    mp.setLooping(true);
-                    mp.start();
+                    homeMusicList.clear();
+                    homeMusicList.add(mainList.get(position));
+                    AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
+                    AudioApplication.getInstance().getServiceInterface().playOneMusic();
                 }
-                isPlaying = true;
             }
             return view;
         }
@@ -114,29 +110,4 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private class MusicResetTask extends AsyncTask<Integer, Void, Integer> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... positions) {
-            mp.reset();
-            mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            if (mainList.size() != 0) {
-                try {
-                    mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + mainList.get(positions[0]).getMain_music());
-                    mp.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mp.setLooping(true);
-                mp.start();
-                isPlaying = true;
-                playingPosition = 0;
-            }
-            return 0;
-        }
-    }
 }

@@ -21,7 +21,6 @@ import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.activity.MusicListActivity;
 import com.shim.user.shimapplication.adapter.MusicAdapter;
 import com.shim.user.shimapplication.data.Music;
-import com.shim.user.shimapplication.data.MusicExtend;
 import com.shim.user.shimapplication.data.handler.ShowMusicHandler;
 import com.shim.user.shimapplication.data.repository.ShimRepo;
 
@@ -64,7 +63,7 @@ public class MusicFragment extends Fragment {
     }
 
     public static class Page extends Fragment {
-        public static List<MusicExtend> musicList = new ArrayList<>();
+        public static List<Music> musicList = new ArrayList<>();
         ImageButton playerCallButton;
 
         public static Page newInstance(int position) {
@@ -95,27 +94,7 @@ public class MusicFragment extends Fragment {
             ShowMusicHandler showMusicHandler = new ShowMusicHandler() {
                 @Override
                 public void onSuccessShowMusic(List<Music> arr) {
-                    int remember = -1;
-                    boolean check = false;
-                    for (int i = 0; i < musicList.size(); i++) {
-                        if (musicList.get(i).getButton_pushed() == 1) {
-                            check = true;
-                            remember = i;
-                        }
-                    }
-                    musicList.clear();
-                    for (int i = 0; i < arr.size(); i++) {
-                        MusicExtend musicExtend = new MusicExtend();
-                        musicExtend.setMusic_id(arr.get(i).getMusic_id());
-                        musicExtend.setMusic_music(arr.get(i).getMusic_music());
-                        musicExtend.setMusic_name(arr.get(i).getMusic_name());
-                        musicExtend.setMusic_picture(arr.get(i).getMusic_picture());
-                        if (i == remember && check) {
-                            musicExtend.setButton_pushed(1);
-                        }
-                        musicList.add(musicExtend);
-                    }
-                    musicAdapter.setItem(musicList);
+                    musicAdapter.setItem(arr);
                 }
 
                 @Override

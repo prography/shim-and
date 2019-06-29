@@ -2,7 +2,6 @@ package com.shim.user.shimapplication.data.Media;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
@@ -90,8 +89,7 @@ public class AudioService extends Service {
 
     public void prepare(){
         try{
-            mMediaPlayer.setDataSource("https://s3.ap-northeast-2.amazonaws.com/" +
-                    "shim-music/" + musicList.get(mCurrentPosition).getMusic_music());
+            mMediaPlayer.setDataSource(musicList.get(mCurrentPosition).getMusic_music());
             // 초기화 필요
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.prepareAsync();
@@ -100,7 +98,7 @@ public class AudioService extends Service {
         }
     }
 
-    private void stop(){
+    public void stop() {
         mMediaPlayer.stop();
         mMediaPlayer.reset();
     }
@@ -161,6 +159,17 @@ public class AudioService extends Service {
         }
         music = musicList.get(mCurrentPosition);
         return music;
+    }
+
+    public void playOneMusic() {
+        try {
+            mMediaPlayer.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + musicList.get(0).getMusic_music());
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mMediaPlayer.prepareAsync();
+            mMediaPlayer.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public int getmCurrentPosition(){

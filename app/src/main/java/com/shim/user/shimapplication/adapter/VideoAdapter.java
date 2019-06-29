@@ -11,25 +11,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.shim.user.shimapplication.R;
-import com.shim.user.shimapplication.data.LogResponse;
-import com.shim.user.shimapplication.data.LogVideo;
-import com.shim.user.shimapplication.data.Video;
-import com.shim.user.shimapplication.data.handler.LogVideoHandler;
-import com.shim.user.shimapplication.data.repository.LogRepo;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
-
-import org.w3c.dom.Text;
+import com.shim.user.shimapplication.R;
+import com.shim.user.shimapplication.data.LogResponse;
+import com.shim.user.shimapplication.data.LogVideo;
+import com.shim.user.shimapplication.data.Media.AudioApplication;
+import com.shim.user.shimapplication.data.Video;
+import com.shim.user.shimapplication.data.handler.LogVideoHandler;
+import com.shim.user.shimapplication.data.repository.LogRepo;
 
 import java.util.List;
 
-import static com.shim.user.shimapplication.activity.MainActivity.changeButton;
-import static com.shim.user.shimapplication.activity.MainActivity.isPlaying;
-import static com.shim.user.shimapplication.activity.MainActivity.mp;
-import static com.shim.user.shimapplication.activity.MainActivity.pauseButton;
 import static com.shim.user.shimapplication.activity.MainActivity.playingIndex;
 import static com.shim.user.shimapplication.activity.MainActivity.playingPosition;
 import static com.shim.user.shimapplication.activity.MainActivity.userID;
@@ -129,9 +124,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoInfoHol
 
         @Override
         public void onClick(View v) {
-            pauseButton();
-            mp.stop();
-            isPlaying=false;
+            AudioApplication.getInstance().getServiceInterface().stop();
             playingIndex=-1;
             playingPosition=-1;
 

@@ -1,15 +1,10 @@
 package com.shim.user.shimapplication.adapter;
 
 import android.content.Context;
-import android.content.IntentFilter;
-import android.media.AudioManager;
-import android.media.Image;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,32 +13,23 @@ import com.bumptech.glide.Glide;
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.data.LogMusic;
 import com.shim.user.shimapplication.data.LogResponse;
-import com.shim.user.shimapplication.data.Media.BroadcastActions;
 import com.shim.user.shimapplication.data.Music;
-import com.shim.user.shimapplication.data.MusicExtend;
 import com.shim.user.shimapplication.data.handler.LogMusicHandler;
 import com.shim.user.shimapplication.data.repository.LogRepo;
 
-import java.io.IOException;
 import java.util.List;
 
-import static com.shim.user.shimapplication.activity.MainActivity.changeButton;
-import static com.shim.user.shimapplication.activity.MainActivity.isPlaying;
-import static com.shim.user.shimapplication.activity.MainActivity.mp;
 import static com.shim.user.shimapplication.activity.MainActivity.musicPlayList;
-import static com.shim.user.shimapplication.activity.MainActivity.playingIndex;
-import static com.shim.user.shimapplication.activity.MainActivity.playingPosition;
-import static com.shim.user.shimapplication.activity.MainActivity.userID;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
-    private List<MusicExtend> musicList;
+    private List<Music> musicList;
     private Context context;
     private int category;
 
     private LogMusic logMusic;
     LogRepo logMusicRepo;
 
-    public MusicAdapter(Context context, List<MusicExtend> musicList, int category){
+    public MusicAdapter(Context context, List<Music> musicList, int category) {
         this.context = context;
         this.musicList = musicList;
         this.category = category;
@@ -73,74 +59,22 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        final MusicExtend music = musicList.get(position);
+        final Music music = musicList.get(position);
         viewHolder.musicName.setText(music.getMusic_name());
         Glide.with(viewHolder.itemView.getContext())
                 .load("https://s3.ap-northeast-2.amazonaws.com/shim-music/"
                 +music.getMusic_picture())
                 .into(viewHolder.musicImage);
-        if(music.getButton_pushed()==1){
-            viewHolder.musicBtn.setImageResource(R.drawable.ic_pause_circle_outline);
-        }else{
-            viewHolder.musicBtn.setImageResource(R.drawable.ic_play_circle_outline);
-        }
 
         viewHolder.musicBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                mp.stop();
-                Music addingMusic = new Music(music.getMusic_id(),
-                        music.getMusic_name(), music.getMusic_music(), music.getMusic_picture());
+                Music addingMusic = new Music(music.getMusic_id(), music.getMusic_name(),
+                        "https://s3.ap-northeast-2.amazonaws.com/" +
+                                "shim-music/" + music.getMusic_music(), music.getMusic_picture(), music.isMusic_my());
                 musicPlayList.add(addingMusic);
             }
         });
-        /*
-        viewHolder.musicBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if (music.getButton_pushed() == 0) {
-                    mp.reset();
-                    mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    try {
-                        mp.setDataSource("https://s3.ap-northeast-2.amazonaws.com/" +
-                                "shim-music/" + music.getMusic_music());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        mp.prepare();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    mp.setLooping(true);
-                    mp.start();
-                    isPlaying=true;
-                    viewHolder.musicBtn.setImageResource(R.drawable.ic_pause_circle_outline);
-                    changeButton(category+1, position);
-                    playingPosition=category+1;
-                    playingIndex=position;
-
-                    logMusic.setMusic_log_action(1);
-                    logMusic.setMusic_log_user_id(userID);
-                    logMusic.setMusic_log_music_id(music.getMusic_id());
-                    logMusicRepo.logMusic(logMusic);
-                }
-                else{
-                    mp.stop();
-                    isPlaying = false;
-                    playingPosition = -1;
-                    playingIndex = -1;
-                    musicList.get(position).setButton_pushed(0);
-                    viewHolder.musicBtn.setImageResource(R.drawable.ic_play_circle_outline);
-
-                    logMusic.setMusic_log_music_id(music.getMusic_id());
-                    logMusic.setMusic_log_user_id(userID);
-                    logMusic.setMusic_log_action(0);
-                    logMusicRepo.logMusic(logMusic);
-                }
-            }
-        });
-        */
     }
 
     @Override
@@ -166,7 +100,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         }
     }
 
-    public void setItem(List<MusicExtend> List){
+    public void setItem(List<Music> List) {
         musicList = List;
         notifyDataSetChanged();
     }

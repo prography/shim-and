@@ -5,15 +5,19 @@ public class Music {
     private String music_name;
     private String music_music;
     private String music_picture;
+    private boolean music_my;
 
-    public Music() {
-    }
 
-    public Music(int music_id, String music_name, String music_music, String music_picture) {
+    public Music(int music_id, String music_name, String music_music, String music_picture, boolean music_my) {
         this.music_id = music_id;
         this.music_name = music_name;
         this.music_music = music_music;
         this.music_picture = music_picture;
+        this.music_my = music_my;
+    }
+
+    public Music() {
+
     }
 
     public int getMusic_id() {
@@ -47,4 +51,13 @@ public class Music {
     public void setMusic_picture(String music_picture) {
         this.music_picture = music_picture;
     }
+
+    public boolean isMusic_my() {
+        return music_my;
+    }
+
+    public void setMusic_my(boolean music_my) {
+        this.music_my = music_my;
+    }
 }
+

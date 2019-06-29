@@ -1,6 +1,5 @@
 package com.shim.user.shimapplication.activity;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -11,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.shim.user.shimapplication.R;
-import com.shim.user.shimapplication.data.Main;
 import com.shim.user.shimapplication.data.Music;
 import com.shim.user.shimapplication.data.ShowMainResponse;
 import com.shim.user.shimapplication.data.repository.ShimRepo;
@@ -31,17 +29,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.shim.user.shimapplication.fragment.SleepFragment.sleepAdapter;
-import static com.shim.user.shimapplication.fragment.SleepFragment.sleepExtendList;
-
 
 public class MainActivity extends AppCompatActivity {
     public static ArrayList<Music> musicPlayList = new ArrayList<>();
     // 재생목록 추가를 위한 Music Play List
 
-    public static final List<Main> mainList = new ArrayList<>();
-    public static MediaPlayer mp;
-    public static boolean isPlaying = false;
+    public static final List<Music> mainList = new ArrayList<>();
     public static int playingPosition = -1;
     public static int playingIndex = -1;
 
@@ -85,50 +78,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public static void pauseButton() {
-        switch (playingPosition) {
-            case 1:
-                for (int i = 0; i < sleepExtendList.size(); i++) {
-                    sleepExtendList.get(i).setButton_pushed(0);
-                }
-                sleepAdapter.setItem(sleepExtendList);
-                break;
-            default:
-                break;
-        }
-        playingPosition = -1;
-    }
-
-    public static void changeButton(int position, int index) {
-        if (playingPosition != position) {
-            switch (playingPosition) {
-                case 1:
-                    for (int i = 0; i < sleepExtendList.size(); i++) {
-                        sleepExtendList.get(i).setButton_pushed(0);
-                    }
-                    sleepAdapter.setItem(sleepExtendList);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        switch (position) {
-            case 1:
-                for (int i = 0; i < sleepExtendList.size(); i++) {
-                    if (i != index) {
-                        sleepExtendList.get(i).setButton_pushed(0);
-                    } else {
-                        sleepExtendList.get(i).setButton_pushed(1);
-                    }
-                }
-                sleepAdapter.setItem(sleepExtendList);
-                break;
-            default:
-                break;
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ShowMainResponse> call, Response<ShowMainResponse> response) {
                 for (int i = 0; i < response.body().getArr().size(); i++) {
-                    mainList.add(new Main(response.body().getArr().get(i)));
+                    mainList.add(response.body().getArr().get(i));
                 }
             }
 
@@ -190,9 +139,5 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        mp = new MediaPlayer();
-        mp.setLooping(true);
-
     }
 }
