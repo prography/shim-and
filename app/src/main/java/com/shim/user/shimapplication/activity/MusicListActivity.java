@@ -108,9 +108,9 @@ public class MusicListActivity extends AppCompatActivity {
 
     private void updateUI(){
         if(AudioApplication.getInstance().getServiceInterface().isPlaying()){
-            musicPlayerPlayBtn.setImageResource(R.drawable.pause);
+            musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
         }else{
-            musicPlayerPlayBtn.setImageResource(R.drawable.play);
+            musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
         }
         Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
         if(music!=null){
