@@ -5,7 +5,7 @@
 
     <item>
         <bitmap
-            android:src="@drawable/shim_logo_small"
+            android:src="@drawable/ic_logo"
             android:gravity="center" />
     </item>
 
