@@ -1,52 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorBlueDark"
+    android:background="@color/colorPrimary"
+    android:padding="16dp"
     tools:context=".activity.FeedbackActivity">
 
     <EditText
-        android:id="@+id/feedback_title"
+        android:id="@+id/text_feedback_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:padding="15dp"
-        android:textSize="20dp"
-        android:hint="제목"/>
+        android:hint="@string/title"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="o" />
 
     <EditText
-        android:id="@+id/feedback_contact"
+        android:id="@+id/text_feedback_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:padding="15dp"
-        android:textSize="20dp"
-        android:hint="전화번호 또는 이메일"/>
+        android:autofillHints="no"
+        android:hint="@string/contact"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/text_feedback_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_feedback_title"
+        tools:targetApi="o" />
 
     <EditText
-        android:id="@+id/feedback_contents"
+        android:id="@+id/text_feedback_content"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:padding="15dp"
-        android:textSize="20dp"
-        android:hint="내용"/>
+        android:layout_height="0dp"
+        android:autofillHints="no"
+        android:hint="@string/content"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/button_feedback_send"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_feedback_contact"
+        app:layout_constraintVertical_weight="1"
+        tools:targetApi="o" />
 
-    <TextView
-        android:id="@+id/feedback_send_button"
+    <Button
+        android:id="@+id/button_feedback_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:padding="15dp"
-        android:layout_gravity="center"
-        android:textSize="25dp"
-        android:text="의견 보내기"/>
+        android:text="@string/send_feedback"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_feedback_content" />
 
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

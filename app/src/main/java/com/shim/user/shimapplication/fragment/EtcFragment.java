@@ -27,8 +27,8 @@ public class EtcFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_etc, container, false);
 
-        feedbackIntentButton = (TextView)view.findViewById(R.id.feedback_intent_button);
-        detailIntentButton = (TextView)view.findViewById(R.id.detail_intent_button);
+        feedbackIntentButton = (TextView)view.findViewById(R.id.button_show_feedback_input);
+        detailIntentButton = (TextView)view.findViewById(R.id.button_show_app_info);
 
         feedbackIntentButton.setOnClickListener(new View.OnClickListener() {
             @Override

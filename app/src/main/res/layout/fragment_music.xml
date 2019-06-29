@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorBlueDark"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="30dp"
@@ -13,33 +12,17 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_logo"/>
+        android:contentDescription="@string/shim_logo"
+        android:src="@drawable/ic_logo" />
 
-    <FrameLayout
-        android:layout_height="match_parent"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/music_tabs"
         android:layout_width="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="wrap_content" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/music_tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/music_view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v4.view.ViewPager>
-
-        </LinearLayout>
-
-    </FrameLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/music_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

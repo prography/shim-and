@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
-<LinearLayout
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/sleep_background"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="30dp"
@@ -12,14 +11,13 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_logo"/>
+        android:src="@drawable/ic_logo" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/sleep_recycler_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="40dp"
         android:clipToPadding="false"
-        android:id="@+id/sleep_recycler_container">
-    </android.support.v7.widget.RecyclerView>
+        android:paddingBottom="40dp" />
 
 </LinearLayout>

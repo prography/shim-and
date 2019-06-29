@@ -31,10 +31,10 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
 
-        editTitle = (EditText)findViewById(R.id.feedback_title);
-        editContact = (EditText)findViewById(R.id.feedback_contact);
-        editContents = (EditText)findViewById(R.id.feedback_contents);
-        feedbackSendButton = (TextView)findViewById(R.id.feedback_send_button);
+        editTitle = (EditText)findViewById(R.id.text_feedback_title);
+        editContact = (EditText)findViewById(R.id.text_feedback_contact);
+        editContents = (EditText)findViewById(R.id.text_feedback_content);
+        feedbackSendButton = (TextView)findViewById(R.id.button_feedback_send);
 
 
         feedback = new Feedback();

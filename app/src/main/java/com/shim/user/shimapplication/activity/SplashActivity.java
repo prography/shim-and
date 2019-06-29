@@ -1,9 +1,11 @@
 package com.shim.user.shimapplication.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+
+import com.shim.user.shimapplication.R;
 
 public class SplashActivity extends AppCompatActivity {
 

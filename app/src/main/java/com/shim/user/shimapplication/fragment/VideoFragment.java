@@ -40,7 +40,7 @@ public class VideoFragment extends Fragment {
 
         videoTab = (TabLayout)view.findViewById(R.id.video_tabs);
         videoTab.setupWithViewPager(videoViewPager);
-        videoTab.setSelectedTabIndicatorColor(getResources().getColor(R.color.white));
+//        videoTab.setSelectedTabIndicatorColor(getResources().getColor(R.color.white));
         createTabIcons();
 
         return view;

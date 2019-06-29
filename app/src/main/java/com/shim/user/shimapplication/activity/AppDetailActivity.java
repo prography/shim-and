@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import com.shim.user.shimapplication.R;
 
-import static java.security.AccessController.getContext;
-
 public class AppDetailActivity extends AppCompatActivity {
     private TextView versionText;
     private PackageInfo packageInfo;
@@ -20,7 +18,7 @@ public class AppDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_detail);
 
-        versionText = (TextView)findViewById(R.id.detail_version);
+        versionText = (TextView)findViewById(R.id.text_app_version);
 
         if(getApplicationContext()!=null){
             try{

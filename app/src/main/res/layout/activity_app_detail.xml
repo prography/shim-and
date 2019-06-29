@@ -1,44 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlueDark"
-    android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".activity.AppDetailActivity">
 
     <TextView
-        android:id="@+id/detail_version"
-        android:layout_width="match_parent"
+        android:id="@+id/text_app_version"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="200dp"
-        android:textColor="@color/white"
-        android:text="Version"
-        android:textSize="15dp"
-        />
+        app:layout_constraintBottom_toTopOf="@+id/text_app_developer"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/detail_developer"
-        android:layout_width="match_parent"
+        android:id="@+id/text_app_developer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:paddingTop="25dp"
-        android:layout_below="@+id/detail_version"
-        android:text="Developed by Prography"
-        android:textSize="15dp"/>
+        android:layout_marginTop="16dp"
+        android:text="@string/app_developer"
+        app:layout_constraintBottom_toTopOf="@+id/text_app_developer_contact"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_app_version" />
 
     <TextView
-        android:id="@+id/detail_contact"
-        android:layout_width="match_parent"
+        android:id="@+id/text_app_developer_contact"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:paddingTop="25dp"
-        android:layout_below="@+id/detail_developer"
-        android:text="develop@prography.org"
-        android:textSize="15dp"/>
+        android:layout_marginTop="16dp"
+        android:text="@string/app_developer_contact"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_app_developer" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
