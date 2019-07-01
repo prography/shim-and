@@ -35,6 +35,28 @@ public enum LogEvent {
             }
         }
     },
+    HOME_MUSIC_PLAY {
+        @Override
+        String toStringWith(String... args) {
+            if (args.length == 1) {
+                return String.format("Home Music(id: %s) is playing.", args[0]);
+            } else if (args.length == 2) {
+                return String.format("Music(id: %s) starts at %sms.", args[0], args[1]);
+            } else {
+                throw new InvalidParameterException();
+            }
+        }
+    },
+    HOME_MUSIC_STOP {
+        @Override
+        String toStringWith(String... args) {
+            if (args.length == 1) {
+                return String.format("Home Music(id: %s) is stopped.", args[0]);
+            } else {
+                throw new InvalidParameterException();
+            }
+        }
+    },
     MUSIC_PAUSE {
         @Override
         String toStringWith(String... args) {
