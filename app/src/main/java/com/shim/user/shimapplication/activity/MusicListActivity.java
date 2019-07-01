@@ -5,13 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.shim.user.shimapplication.R;
@@ -78,7 +79,7 @@ public class MusicListActivity extends AppCompatActivity {
         musicListRecyclerview=(RecyclerView)findViewById(R.id.music_list_recycler_view);
         musicListAdapter=new AudioAdapter(this, musicPlayList);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false);
+                RecyclerView.VERTICAL, false);
         musicListRecyclerview.setLayoutManager(manager);
         musicListRecyclerview.setAdapter(musicListAdapter);
 

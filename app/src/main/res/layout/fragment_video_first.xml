@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".fragment.VideoFirstFragment">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/video_all_recycler_container">
-    </android.support.v7.widget.RecyclerView>
+        android:id="@+id/video_all_recycler_container"></androidx.recyclerview.widget.RecyclerView>
 
 
 </FrameLayout>
