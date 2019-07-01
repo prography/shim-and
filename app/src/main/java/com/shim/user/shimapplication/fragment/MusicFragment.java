@@ -37,7 +37,7 @@ public class MusicFragment extends Fragment {
 
         TabLayout musicTab = view.findViewById(R.id.music_tabs);
         musicTab.setupWithViewPager(viewPager);
-        musicTab.setSelectedTabIndicatorColor(getResources().getColor(R.color.white));
+//        musicTab.setSelectedTabIndicatorColor(getResources().getColor(R.color.white));
 
         LinearLayout tabOne = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
         TextView tabOneText = tabOne.findViewById(R.id.text_view);

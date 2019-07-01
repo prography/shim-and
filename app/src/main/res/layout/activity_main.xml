@@ -17,8 +17,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/vertical_black_gradient">
+        android:background="@drawable/vertical_black_gradient"
+        app:layout_constraintBottom_toBottomOf="parent">
 
     </View>
 
@@ -26,11 +26,11 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#00000000"
+        app:itemIconTint="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/transparent"
-        app:itemIconTint="@color/white"
         app:menu="@menu/navigation" />
 
 </android.support.constraint.ConstraintLayout>

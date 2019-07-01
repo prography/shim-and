@@ -30,8 +30,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:id="@+id/sleep_name"
-                android:text="Sleep Subject"
-                android:textColor="@color/white"/>
+                android:text="Sleep Subject"/>
 
             <LinearLayout
                 android:layout_alignParentRight="true"
@@ -47,7 +46,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
                     android:id="@+id/sleep_btn_play"
-                    android:background="@color/transparent"
+                    android:background="#00000000"
                     android:src="@drawable/ic_play_circle_outline"
                     />
 
@@ -64,7 +63,5 @@
         </View>
 
     </RelativeLayout>
-
-
 
 </FrameLayout>

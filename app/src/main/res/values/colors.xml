@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#ffffff</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="transparent">#000000ff</color>
-    <color name="white">#ffffff</color>
-    <color name="colorBlueDark">#ff000033</color>
+    <color name="colorPrimary">#000033</color>
+    <!--<color name="colorPrimaryVariant">#3700B3</color>-->
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <!--<color name="colorSecondary">#03DAC6</color>-->
+    <!--<color name="colorSecondaryVariant">#018786</color>-->
+    <!--<color name="colorOnSecondary">#000000</color>-->
 </resources>
 

@@ -12,7 +12,7 @@
                 android:topLeftRadius="5dp"
                 android:topRightRadius="5dp"/>
 
-            <solid android:color="@color/transparent" />
+            <solid android:color="#00000000" />
         </shape>
     </item>
 </layer-list>
