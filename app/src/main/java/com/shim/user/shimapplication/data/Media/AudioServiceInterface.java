@@ -101,4 +101,17 @@ public class AudioServiceInterface {
             mService.stop();
         }
     }
+
+    public boolean getIsHomePlayed() {
+        if (mService != null) {
+            return mService.getIsHomePlayed();
+        }
+        return false;
+    }
+
+    public void setIsHoemPlayed(boolean check) {
+        if (mService != null) {
+            mService.setIsHomePlayed(check);
+        }
+    }
 }

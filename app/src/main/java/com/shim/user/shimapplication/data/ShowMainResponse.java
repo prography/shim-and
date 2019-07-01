@@ -4,12 +4,12 @@ import java.util.List;
 
 public class ShowMainResponse {
     private int status;
-    private List<Music> arr;
+    private List<Main> arr;
 
     public ShowMainResponse() {
     }
 
-    public ShowMainResponse(int status, List<Music> arr) {
+    public ShowMainResponse(int status, List<Main> arr) {
         this.status = status;
         this.arr = arr;
     }
@@ -22,11 +22,11 @@ public class ShowMainResponse {
         this.status = status;
     }
 
-    public List<Music> getArr() {
+    public List<Main> getArr() {
         return arr;
     }
 
-    public void setArr(List<Music> arr) {
+    public void setArr(List<Main> arr) {
         this.arr = arr;
     }
 }

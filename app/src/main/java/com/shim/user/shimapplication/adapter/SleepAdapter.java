@@ -13,19 +13,23 @@ import com.bumptech.glide.Glide;
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.data.LogResponse;
 import com.shim.user.shimapplication.data.LogSleep;
+import com.shim.user.shimapplication.data.Media.AudioApplication;
 import com.shim.user.shimapplication.data.Music;
 import com.shim.user.shimapplication.data.Sleep;
 import com.shim.user.shimapplication.data.handler.LogSleepHandler;
 import com.shim.user.shimapplication.data.repository.LogRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.shim.user.shimapplication.activity.MainActivity.musicPlayList;
+import static com.shim.user.shimapplication.fragment.HomeFragment.isOtherMusicPlayed;
 
 public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> {
     private List<Sleep> sleepList;
     private Context context;
     private int category;
+    private List<Music> forHomeCheckList = new ArrayList<>();
 
     private LogSleep logSleep;
     LogRepo logSleepRepo;
@@ -66,10 +70,18 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
             @Override
             public void onClick(View v){
                 Music addingMusic = new Music(sleep.getSleep_id(), sleep.getSleep_name(),
-                        "https://s3.ap-northeast-2.amazonaws.com/shim-sleep/" + sleep.getSleep_music(), sleep.getSleep_picture(), false);
+                        "https://s3.ap-northeast-2.amazonaws.com/shim-sleep/" + sleep.getSleep_music(),
+                        null, sleep.getSleep_picture(), false);
                 musicPlayList.add(addingMusic);
+                if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed() == true) {
+                    AudioApplication.getInstance().getServiceInterface().stop();
+                    AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) forHomeCheckList);
+                    AudioApplication.getInstance().getServiceInterface().setIsHoemPlayed(false);
+                    isOtherMusicPlayed = true;
+                }
             }
         });
+
     }
 
     @Override

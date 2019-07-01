@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.shim.user.shimapplication.R;
+import com.shim.user.shimapplication.data.Main;
 import com.shim.user.shimapplication.data.Music;
 import com.shim.user.shimapplication.data.ShowMainResponse;
 import com.shim.user.shimapplication.data.repository.ShimRepo;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Music> musicPlayList = new ArrayList<>();
     // 재생목록 추가를 위한 Music Play List
 
-    public static final List<Music> mainList = new ArrayList<>();
+    public static final List<Main> mainList = new ArrayList<>();
     public static int playingPosition = -1;
     public static int playingIndex = -1;
 
@@ -85,27 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 .getContentResolver(), Settings.Secure.ANDROID_ID);
         setContentView(R.layout.activity_main);
 
-        //mp = MediaPlayer.create(getApplicationContext(), null);
-        //mp.setLooping(false);
-        // if true , 반복재생
-
-        /*
-        ShowMainHandler showMainHandler = new ShowMainHandler() {
-            @Override
-            public void onSuccessShowMain(List<Main> arr) {
-                for(int i=0;i<arr.size(); i++){
-                    mainList.add(new Main(arr.get(i)));
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-            }
-        };
-
-        shimRepo = new ShimRepo(showMainHandler);
-        shimRepo.showMain();
-        */
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://52.78.106.14/")

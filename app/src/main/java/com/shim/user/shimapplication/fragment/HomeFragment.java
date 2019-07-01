@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,10 @@ import static com.shim.user.shimapplication.activity.MainActivity.mainList;
 
 public class HomeFragment extends Fragment {
     private static List<Music> homeMusicList = new ArrayList<>();
+    public static boolean isFirstRunned = true;
+    public static boolean isOtherMusicPlayed = false;
+    private Music homeMusic;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -38,9 +43,15 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(final int position) {
-                if (mainList.size() != 0) {
+                if (mainList.size() != 0 && isOtherMusicPlayed == false) {
                     homeMusicList.clear();
-                    homeMusicList.add(mainList.get(position));
+                    homeMusic = new Music(mainList.get(position).getMain_id(),
+                            mainList.get(position).getMain_name(),
+                            mainList.get(position).getMain_music(),
+                            mainList.get(position).getMain_author(),
+                            mainList.get(position).getMain_picture(),
+                            false);
+                    homeMusicList.add(homeMusic);
                     AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
                     AudioApplication.getInstance().getServiceInterface().playOneMusic();
                 }
@@ -53,6 +64,7 @@ public class HomeFragment extends Fragment {
         });
         CircleIndicator indicator = view.findViewById(R.id.page_indicator);
         indicator.setViewPager(viewPager);
+
         return view;
     }
 
@@ -73,17 +85,25 @@ public class HomeFragment extends Fragment {
             ImageView imageView = view.findViewById(R.id.main_first_image);
             if (mainList.size() != 0) {
                 Glide.with(getContext())
-                        .load("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + mainList.get(position).getMusic_picture())
+                        .load("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + mainList.get(position).getMain_picture())
                         .into(imageView);
+                Log.d("tag :", mainList.get(position).getMain_picture());
             }
-            if (AudioApplication.getInstance().getServiceInterface().isPlaying()) {
-                if (mainList.size() != 0) {
-                    homeMusicList.clear();
-                    homeMusicList.add(mainList.get(position));
-                    AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
-                    AudioApplication.getInstance().getServiceInterface().playOneMusic();
-                }
+
+            if (position == 0 && isOtherMusicPlayed == false) {
+                homeMusicList.clear();
+                Music firstMusic = new Music(mainList.get(0).getMain_id(),
+                        mainList.get(0).getMain_name(),
+                        mainList.get(0).getMain_music(),
+                        mainList.get(0).getMain_author(),
+                        mainList.get(0).getMain_picture(),
+                        false);
+                homeMusicList.add(firstMusic);
+                AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
+                AudioApplication.getInstance().getServiceInterface().playOneMusic();
+                isFirstRunned = false;
             }
+
             return view;
         }
     }

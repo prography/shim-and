@@ -13,18 +13,22 @@ import com.bumptech.glide.Glide;
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.data.LogMusic;
 import com.shim.user.shimapplication.data.LogResponse;
+import com.shim.user.shimapplication.data.Media.AudioApplication;
 import com.shim.user.shimapplication.data.Music;
 import com.shim.user.shimapplication.data.handler.LogMusicHandler;
 import com.shim.user.shimapplication.data.repository.LogRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.shim.user.shimapplication.activity.MainActivity.musicPlayList;
+import static com.shim.user.shimapplication.fragment.HomeFragment.isOtherMusicPlayed;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
     private List<Music> musicList;
     private Context context;
     private int category;
+    private List<Music> forHomeCheckList = new ArrayList<>();
 
     private LogMusic logMusic;
     LogRepo logMusicRepo;
@@ -71,8 +75,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             public void onClick(View v) {
                 Music addingMusic = new Music(music.getMusic_id(), music.getMusic_name(),
                         "https://s3.ap-northeast-2.amazonaws.com/" +
-                                "shim-music/" + music.getMusic_music(), music.getMusic_picture(), music.isMusic_my());
+                                "shim-music/" + music.getMusic_music(),
+                        null, music.getMusic_picture(), music.isMusic_my());
                 musicPlayList.add(addingMusic);
+                if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed() == true) {
+                    AudioApplication.getInstance().getServiceInterface().stop();
+                    AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) forHomeCheckList);
+                    AudioApplication.getInstance().getServiceInterface().setIsHoemPlayed(false);
+                    isOtherMusicPlayed = true;
+                }
             }
         });
     }

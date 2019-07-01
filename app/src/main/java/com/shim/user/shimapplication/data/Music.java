@@ -4,16 +4,27 @@ public class Music {
     private int music_id;
     private String music_name;
     private String music_music;
+    private String music_author;
     private String music_picture;
     private boolean music_my;
 
 
-    public Music(int music_id, String music_name, String music_music, String music_picture, boolean music_my) {
+    public Music(int music_id, String music_name, String music_music, String music_author, String music_picture, boolean music_my) {
         this.music_id = music_id;
         this.music_name = music_name;
         this.music_music = music_music;
+        this.music_author = music_author;
         this.music_picture = music_picture;
         this.music_my = music_my;
+    }
+
+    public Music(int music_id, String music_name, String music_music, String music_author, String music_picture) {
+        this.music_id = music_id;
+        this.music_name = music_name;
+        this.music_music = music_music;
+        this.music_author = music_author;
+        this.music_picture = music_picture;
+        this.music_my = false;
     }
 
     public Music() {

@@ -4,9 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,9 +19,6 @@ import com.shim.user.shimapplication.adapter.AudioAdapter;
 import com.shim.user.shimapplication.data.Media.AudioApplication;
 import com.shim.user.shimapplication.data.Media.BroadcastActions;
 import com.shim.user.shimapplication.data.Music;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.shim.user.shimapplication.activity.MainActivity.musicPlayList;
 
@@ -107,13 +103,14 @@ public class MusicListActivity extends AppCompatActivity {
     }
 
     private void updateUI(){
-        if(AudioApplication.getInstance().getServiceInterface().isPlaying()){
+        if (AudioApplication.getInstance().getServiceInterface().isPlaying()
+                && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
             musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
         }else{
             musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
         }
         Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
-        if(music!=null){
+        if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
             Glide.with(this).load("https://s3.ap-northeast-2.amazonaws.com/shim-music/"
                     +music.getMusic_picture()).into(musicPlayerImage);
             musicPlayerTitle.setText(music.getMusic_name());

@@ -20,6 +20,7 @@ public class AudioService extends Service {
     private int mCurrentPosition=0;
     private List<Music> musicList = new ArrayList<>();
     private Music music;
+    private boolean isHomePlayed = true; // Home 음악이 재생 중인지 여부
 
     public class AudioServiceBinder extends Binder {
         AudioService getService(){
@@ -163,6 +164,10 @@ public class AudioService extends Service {
 
     public void playOneMusic() {
         try {
+            if (isPlaying()) {
+                mMediaPlayer.stop();
+                mMediaPlayer.reset();
+            }
             mMediaPlayer.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + musicList.get(0).getMusic_music());
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.prepareAsync();
@@ -178,5 +183,13 @@ public class AudioService extends Service {
 
     public void setmCurrentPosition(int position){
         mCurrentPosition=position;
+    }
+
+    public boolean getIsHomePlayed() {
+        return isHomePlayed;
+    }
+
+    public void setIsHomePlayed(boolean check) {
+        isHomePlayed = check;
     }
 }
