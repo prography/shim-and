@@ -36,7 +36,7 @@
 
         <activity
             android:name=".activity.MusicListActivity"
-            android:theme="@style/Theme.MyApp.NoActionBar.FullScreen" />
+            android:theme="@style/Theme.MyApp.NoActionBar" />
 
         <service
             android:name=".data.Media.AudioService"

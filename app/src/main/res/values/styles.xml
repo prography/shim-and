@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
@@ -15,11 +16,6 @@
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
-    </style>
-
-    <style name="Theme.MyApp.NoActionBar.FullScreen" parent="Theme.MyApp.NoActionBar">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="Theme.MyApp.Splash" parent="Theme.AppCompat.NoActionBar">
