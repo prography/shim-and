@@ -26,13 +26,12 @@ import static com.shim.user.shimapplication.activity.MainActivity.musicPlayList;
 import static com.shim.user.shimapplication.fragment.HomeFragment.isOtherMusicPlayed;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
+    LogRepo logMusicRepo;
     private List<Music> musicList;
     private Context context;
     private int category;
     private List<Music> forHomeCheckList = new ArrayList<>();
-
     private LogMusic logMusic;
-    LogRepo logMusicRepo;
 
     public MusicAdapter(Context context, List<Music> musicList, int category) {
         this.context = context;
@@ -42,8 +41,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
 
     @Override
-    public ViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.music_player_layout, viewGroup, false);
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_music_card, viewGroup, false);
 
         logMusic = new LogMusic();
         LogMusicHandler logMusicHandler = new LogMusicHandler() {
@@ -68,10 +67,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         viewHolder.musicName.setText(music.getMusic_name());
         Glide.with(viewHolder.itemView.getContext())
                 .load("https://s3.ap-northeast-2.amazonaws.com/shim-music/"
-                +music.getMusic_picture())
+                        + music.getMusic_picture())
                 .into(viewHolder.musicImage);
 
-        viewHolder.musicBtn.setOnClickListener(new View.OnClickListener(){
+        viewHolder.musicBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Music addingMusic = new Music(music.getMusic_id(), music.getMusic_name(),
@@ -91,30 +90,30 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if(musicList==null){
+        if (musicList == null) {
             return 0;
-        }
-        else{
+        } else {
             return musicList.size();
-        }
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView musicImage;
-        TextView musicName;
-        ImageButton musicBtn;
-
-        ViewHolder(View itemView){
-            super(itemView);
-            musicImage = (ImageView)itemView.findViewById(R.id.music_picture);
-            musicName = (TextView)itemView.findViewById(R.id.music_name);
-            musicBtn = (ImageButton)itemView.findViewById(R.id.music_btn_play);
         }
     }
 
     public void setItem(List<Music> List) {
         musicList = List;
         notifyDataSetChanged();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView musicImage;
+        TextView musicName;
+        ImageButton musicBtn;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            musicImage = itemView.findViewById(R.id.image_music_thumbnail);
+            musicName = itemView.findViewById(R.id.text_music_title);
+            musicName.setOnClickListener(view -> view.setSelected(!view.isSelected()));
+            musicBtn = itemView.findViewById(R.id.button_add_playlist);
+        }
     }
 
 }

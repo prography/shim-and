@@ -10,24 +10,12 @@
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/vertical_black_gradient"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-    </View>
+        android:layout_height="match_parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000"
-        app:itemIconTint="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -18,4 +18,12 @@
     <string name="content">내용</string>
     <string name="feedback">1:1 문의</string>
     <string name="app_info">어플리케이션 정보</string>
+    <string name="tab_music_all">All</string>
+    <string name="tab_music_my">My</string>
+    <string name="tab_music_relax">Relax</string>
+    <string name="tab_music_focus">Focus</string>
+    <string name="tab_music_classic">Classic</string>
+    <string name="thumbnail">Thumbnail</string>
+    <string name="add_playlist">Add Playlist</string>
+    <string name="current_music">Current Music</string>
 </resources>
