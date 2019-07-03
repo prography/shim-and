@@ -43,7 +43,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_music_card, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_music, viewGroup, false);
 
         logMusic = new LogMusic();
         LogMusicHandler logMusicHandler = new LogMusicHandler() {
@@ -114,7 +114,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             super(itemView);
             musicImage = itemView.findViewById(R.id.image_music_thumbnail);
             musicName = itemView.findViewById(R.id.text_music_title);
-            musicName.setOnClickListener(view -> view.setSelected(!view.isSelected()));
+            //musicName.setOnClickListener(view -> view.setSelected(!view.isSelected()));
             musicBtn = itemView.findViewById(R.id.button_add_playlist);
         }
     }

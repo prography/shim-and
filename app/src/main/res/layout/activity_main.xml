@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="bottom"
-        android:background="@drawable/vertical_black_gradient"
+        android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent">
 
     </View>

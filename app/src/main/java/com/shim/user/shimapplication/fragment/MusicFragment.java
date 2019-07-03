@@ -1,12 +1,9 @@
 package com.shim.user.shimapplication.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,8 +25,8 @@ public class MusicFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_music, container, false);
         ArrayList<Music> musicList = new ArrayList<>();
-        MusicAdapter musicAdapter = new MusicAdapter(getContext(), musicList, 1);
-        ShimRepo shimRepo = new ShimRepo(new ShowMusicHandler() {
+        final MusicAdapter musicAdapter = new MusicAdapter(getContext(), musicList, 1);
+        final ShimRepo shimRepo = new ShimRepo(new ShowMusicHandler() {
             @Override
             public void onSuccessShowMusic(List<Music> arr) {
                 musicAdapter.setItem(arr);
