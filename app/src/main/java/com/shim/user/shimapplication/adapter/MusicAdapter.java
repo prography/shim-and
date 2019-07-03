@@ -34,6 +34,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     private LogMusic logMusic;
     LogRepo logMusicRepo;
 
+
     public MusicAdapter(Context context, List<Music> musicList, int category) {
         this.context = context;
         this.musicList = musicList;
@@ -85,6 +86,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                     AudioApplication.getInstance().getServiceInterface().setIsHoemPlayed(false);
                     isOtherMusicPlayed = true;
                 }
+                AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+                AudioApplication.getInstance().getServiceInterface().play(musicPlayList.size() - 1);
             }
         });
     }

@@ -22,12 +22,4 @@
     </GridLayout>
 
 
-    <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="bottom|right"
-        android:id="@+id/player_call_button"
-        android:src="@drawable/ic_play"
-        android:layout_margin="20dp"/>
-
 </FrameLayout>

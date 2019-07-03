@@ -114,4 +114,8 @@ public class AudioServiceInterface {
             mService.setIsHomePlayed(check);
         }
     }
+
+    public void setmCurrentPosition(int position) {
+        mService.setmCurrentPosition(position);
+    }
 }

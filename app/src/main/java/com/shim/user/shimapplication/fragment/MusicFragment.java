@@ -1,11 +1,9 @@
 package com.shim.user.shimapplication.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,7 +17,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.shim.user.shimapplication.R;
-import com.shim.user.shimapplication.activity.MusicListActivity;
 import com.shim.user.shimapplication.adapter.MusicAdapter;
 import com.shim.user.shimapplication.data.Music;
 import com.shim.user.shimapplication.data.handler.ShowMusicHandler;
@@ -29,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicFragment extends Fragment {
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_music, container, false);
@@ -60,12 +58,12 @@ public class MusicFragment extends Fragment {
         tabFourText.setText("자연");
         musicTab.getTabAt(3).setCustomView(tabFour);
 
+
         return view;
     }
 
     public static class Page extends Fragment {
         public static List<Music> musicList = new ArrayList<>();
-        ImageButton playerCallButton;
 
         public static Page newInstance(int position) {
             Bundle args = new Bundle();
@@ -84,13 +82,6 @@ public class MusicFragment extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
             recyclerView.setAdapter(musicAdapter);
 
-            playerCallButton = view.findViewById(R.id.player_call_button);
-            playerCallButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), MusicListActivity.class);
-                    startActivity(intent);
-                }
-            });
 
             ShowMusicHandler showMusicHandler = new ShowMusicHandler() {
                 @Override
@@ -159,4 +150,24 @@ public class MusicFragment extends Fragment {
             }
         }
     }
+    /*
+
+    public void updateMusicUI(){
+        if (AudioApplication.getInstance().getServiceInterface().isPlaying()
+                && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+            musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
+        }else{
+            musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
+        }
+        Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
+        if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+            Glide.with(this).load("https://s3.ap-northeast-2.amazonaws.com/shim-music/"
+                    +music.getMusic_picture()).into(musicPlayerImage);
+            musicPlayerTitle.setText(music.getMusic_name());
+        }else{
+            musicPlayerImage.setImageResource(R.drawable.empty_albumart);
+            musicPlayerTitle.setText("재생중인 음악이 없습니다");
+        }
+    }
+    */
 }
