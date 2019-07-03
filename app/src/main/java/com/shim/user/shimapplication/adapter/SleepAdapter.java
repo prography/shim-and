@@ -80,6 +80,8 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
                     AudioApplication.getInstance().getServiceInterface().setIsHoemPlayed(false);
                     isOtherMusicPlayed = true;
                 }
+                AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+                AudioApplication.getInstance().getServiceInterface().play(musicPlayList.size() - 1);
             }
         });
 

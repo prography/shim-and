@@ -116,6 +116,12 @@ public class AudioService extends Service {
         stop();
         prepare();
         mMediaPlayer.start();
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
     }
 
     public void play(){
@@ -172,6 +178,7 @@ public class AudioService extends Service {
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.prepareAsync();
             mMediaPlayer.start();
+            sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
         } catch (Exception e) {
             e.printStackTrace();
         }

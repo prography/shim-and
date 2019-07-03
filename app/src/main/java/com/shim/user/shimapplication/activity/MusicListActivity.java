@@ -27,11 +27,11 @@ public class MusicListActivity extends AppCompatActivity {
     private RecyclerView musicListRecyclerview;
     private AudioAdapter musicListAdapter;
 
-    ImageView musicPlayerImage;
-    TextView musicPlayerTitle;
-    ImageButton musicPlayerPlayBtn;
-    ImageButton musicPlayerRewindBtn;
-    ImageButton musicPlayerForwardBtn;
+    public ImageView playerImage;
+    public TextView playerTitle;
+    public ImageButton playerPlayBtn;
+    public ImageButton playerRewindBtn;
+    public ImageButton playerForwardBtn;
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -45,14 +45,13 @@ public class MusicListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_list);
 
+        playerImage = (ImageView) findViewById(R.id.player_music_image);
+        playerTitle = (TextView) findViewById(R.id.player_music_title);
+        playerPlayBtn = (ImageButton) findViewById(R.id.player_btn_play_pause);
+        playerForwardBtn = (ImageButton) findViewById(R.id.player_btn_forward);
+        playerRewindBtn = (ImageButton) findViewById(R.id.player_btn_rewind);
 
-        musicPlayerImage = (ImageView)findViewById(R.id.player_music_image);
-        musicPlayerTitle = (TextView)findViewById(R.id.player_music_title);
-        musicPlayerPlayBtn = (ImageButton)findViewById(R.id.player_btn_play_pause);
-        musicPlayerForwardBtn = (ImageButton)findViewById(R.id.player_btn_forward);
-        musicPlayerRewindBtn = (ImageButton)findViewById(R.id.player_btn_rewind);
-
-        musicPlayerRewindBtn.setOnClickListener(new View.OnClickListener() {
+        playerRewindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
@@ -60,7 +59,7 @@ public class MusicListActivity extends AppCompatActivity {
             }
         });
 
-        musicPlayerPlayBtn.setOnClickListener(new View.OnClickListener() {
+        playerPlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
@@ -68,7 +67,7 @@ public class MusicListActivity extends AppCompatActivity {
             }
         });
 
-        musicPlayerForwardBtn.setOnClickListener(new View.OnClickListener() {
+        playerForwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
@@ -103,22 +102,22 @@ public class MusicListActivity extends AppCompatActivity {
         unregisterReceiver(mBroadcastReceiver);
     }
 
-    private void updateUI(){
-        if (AudioApplication.getInstance().getServiceInterface().isPlaying()
-                && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-            musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
-        }else{
-            musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
-        }
+    public void updateUI() {
         Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
         if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
             Glide.with(this).load("https://s3.ap-northeast-2.amazonaws.com/shim-music/"
-                    +music.getMusic_picture()).into(musicPlayerImage);
-            musicPlayerTitle.setText(music.getMusic_name());
+                    + music.getMusic_picture()).into(playerImage);
+            playerTitle.setText(music.getMusic_name());
         }else{
-            musicPlayerImage.setImageResource(R.drawable.empty_albumart);
-            musicPlayerTitle.setText("재생중인 음악이 없습니다");
+            playerImage.setImageResource(R.drawable.empty_albumart);
+            playerTitle.setText("재생중인 음악이 없습니다");
+        }
+
+        if (AudioApplication.getInstance().getServiceInterface().isPlaying()
+                && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+            playerPlayBtn.setImageResource(R.drawable.ic_pause);
+        } else {
+            playerPlayBtn.setImageResource(R.drawable.ic_play);
         }
     }
-
 }
