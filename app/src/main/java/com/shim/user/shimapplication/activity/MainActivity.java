@@ -275,19 +275,12 @@ public class MainActivity extends AppCompatActivity {
             musicPlayerImage.setImageResource(R.drawable.empty_albumart);
             musicPlayerTitle.setText("재생중인 음악이 없습니다");
         }
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                if (AudioApplication.getInstance().getServiceInterface().isPlaying()
-                        && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-                    musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
-                } else {
-                    musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
-                }
-            }
-        }, 1500);
+        if (AudioApplication.getInstance().getServiceInterface().isPlaying()
+                && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+            musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
+        } else {
+            musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
