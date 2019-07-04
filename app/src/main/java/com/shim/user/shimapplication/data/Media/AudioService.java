@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 
@@ -116,12 +117,14 @@ public class AudioService extends Service {
         stop();
         prepare();
         mMediaPlayer.start();
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
+            }
+        }, 300);
     }
 
     public void play(){
@@ -154,6 +157,19 @@ public class AudioService extends Service {
             mCurrentPosition=musicList.size()-1;
         }
         play(mCurrentPosition);
+    }
+
+    public void delete(int position, List<Music> list){
+        musicList.clear();
+        musicList.addAll(list);
+        if(mCurrentPosition>position){
+            mCurrentPosition=mCurrentPosition-1;
+        }
+        else if(mCurrentPosition==position){
+            stop();
+            mCurrentPosition=mCurrentPosition-1;
+            forward();
+        }
     }
 
     public boolean isPlaying(){

@@ -2,6 +2,7 @@ package com.shim.user.shimapplication.activity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.content.BroadcastReceiver;
@@ -274,12 +275,19 @@ public class MainActivity extends AppCompatActivity {
             musicPlayerImage.setImageResource(R.drawable.empty_albumart);
             musicPlayerTitle.setText("재생중인 음악이 없습니다");
         }
-        if (AudioApplication.getInstance().getServiceInterface().isPlaying()
-                && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-            musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
-        } else {
-            musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
-        }
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if (AudioApplication.getInstance().getServiceInterface().isPlaying()
+                        && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                    musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
+                } else {
+                    musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
+                }
+            }
+        }, 1500);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

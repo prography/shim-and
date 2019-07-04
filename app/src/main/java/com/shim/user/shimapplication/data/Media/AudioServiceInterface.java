@@ -9,6 +9,7 @@ import android.os.IBinder;
 import com.shim.user.shimapplication.data.Music;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AudioServiceInterface {
     private ServiceConnection mServiceConnection;
@@ -64,6 +65,12 @@ public class AudioServiceInterface {
     public void rewind() {
         if (mService != null) {
             mService.rewind();
+        }
+    }
+
+    public void delete(int position, List<Music> list){
+        if(mService !=null){
+            mService.delete(position, list);
         }
     }
 

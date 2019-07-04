@@ -21,4 +21,18 @@
         android:textSize="15sp"
         android:textColor="@android:color/black"/>
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"></View>
+
+    <ImageButton
+        android:id="@+id/music_item_delete"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="fitXY"
+        android:layout_margin="5dp"
+        android:background="@null"
+        android:src="@drawable/ic_close"/>
+
 </LinearLayout>
