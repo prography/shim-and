@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,9 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.shim.user.shimapplication.R;
-import com.shim.user.shimapplication.room.ShimDatabase;
 import com.shim.user.shimapplication.room.Music;
 import com.shim.user.shimapplication.room.MusicDao;
+import com.shim.user.shimapplication.room.ShimDatabase;
 
 import java.util.ArrayList;
 
@@ -116,7 +118,19 @@ public class MusicFragment extends Fragment {
                 new Thread(() -> ShimDatabase.getInstance(getContext()).getMusicDao().update(music)).start();
             });
             holder.actionClick.setOnClickListener(view -> {
-
+                PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+                MenuInflater inflater = popupMenu.getMenuInflater();
+                inflater.inflate(R.menu.options_music_play, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    switch (menuItem.getItemId()) {
+                        case R.id.option_play_now:
+                            return true;
+                        case R.id.option_add_playlist:
+                            return true;
+                    }
+                    return false;
+                });
+                popupMenu.show();
             });
         }
 

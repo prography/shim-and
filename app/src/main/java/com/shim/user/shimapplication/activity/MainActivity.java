@@ -1,17 +1,12 @@
 package com.shim.user.shimapplication.activity;
 
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.provider.Settings;
-import android.view.View;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -287,9 +282,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            hideSystemUI();
-        }
+        hideSystemUI();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

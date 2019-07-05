@@ -28,4 +28,6 @@
     <string name="current_music">Current Music</string>
     <string name="toggle_favorite">Toggle Favorite</string>
     <string name="show_play_options">Show Play Options</string>
+    <string name="option_play_now">Play Now</string>
+    <string name="option_add_playlist">Add Playlist</string>
 </resources>
