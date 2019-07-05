@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
 
         ShimService service = ServiceGenerator.create();
-        service.getMusicList().enqueue(new Callback<Map>() {
+        service.getMusicList(userID).enqueue(new Callback<Map>() {
             @Override
             public void onResponse(@NotNull Call<Map> call, @NotNull Response<Map> response) {
                 new Thread(() -> {

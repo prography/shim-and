@@ -2,8 +2,13 @@ package com.shim.user.shimapplication.retrofit;
 
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ShimService {
     @GET("sleep")
@@ -13,5 +18,12 @@ public interface ShimService {
     Call<Map> getHomeMusicList();
 
     @GET("music/all")
-    Call<Map> getMusicList();
+    Call<Map> getMusicList(@Query("id") String userId);
+
+//    @FormUrlEncoded
+//    @POST("music/my")
+//    Call<Map> setMusicFavorite(@Field("user_id") String userId, @Field("music_id") int musicId, @Field("my") boolean favorite);
+
+    @POST("music/my")
+    Call<Map> setMusicFavorite(@Body RequestBody body);
 }
