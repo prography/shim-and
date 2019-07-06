@@ -263,8 +263,7 @@ public class MainActivity extends AppCompatActivity {
     public void updateMusicUI() {
         Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
         if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-            Glide.with(this).load("https://s3.ap-northeast-2.amazonaws.com/shim-music/"
-                    + music.getMusic_picture()).into(musicPlayerImage);
+            Glide.with(this).load(music.getMusic_picture()).into(musicPlayerImage);
             musicPlayerTitle.setText(music.getMusic_name());
         } else {
             musicPlayerImage.setImageResource(R.drawable.empty_albumart);

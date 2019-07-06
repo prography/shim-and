@@ -1,7 +1,13 @@
 package com.shim.user.shimapplication.data.Media;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
@@ -9,6 +15,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 
+import androidx.annotation.NonNull;
+
+import com.shim.user.shimapplication.data.CommandActions;
 import com.shim.user.shimapplication.data.Music;
 
 import java.util.ArrayList;
@@ -22,6 +31,7 @@ public class AudioService extends Service {
     private List<Music> musicList = new ArrayList<>();
     private Music music;
     private boolean isHomePlayed = true; // Home 음악이 재생 중인지 여부
+    private NotificationPlayer mNotificationPlayer;
 
     public class AudioServiceBinder extends Binder {
         AudioService getService(){
@@ -40,6 +50,7 @@ public class AudioService extends Service {
                 isPrepared = true;
                 mp.start();
                 sendBroadcast(new Intent(BroadcastActions.PREPARED));
+                updateNotificationPlayer();
             }
         });
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -52,6 +63,7 @@ public class AudioService extends Service {
                     isPrepared = false;
                     sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
                 }
+                updateNotificationPlayer();
             }
         });
         mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -59,6 +71,7 @@ public class AudioService extends Service {
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 isPrepared = false;
                 sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
+                updateNotificationPlayer();
                 return false;
             }
         });
@@ -68,6 +81,19 @@ public class AudioService extends Service {
 
             }
         });
+        mNotificationPlayer = new NotificationPlayer(this);
+    }
+
+    private void updateNotificationPlayer() {
+        if (mNotificationPlayer != null) {
+            mNotificationPlayer.updateNotificationPlayer();
+        }
+    }
+
+    private void removeNotificationPlayer() {
+        if (mNotificationPlayer != null) {
+            mNotificationPlayer.removeNotificationPlayer();
+        }
     }
 
     @Override
@@ -123,6 +149,7 @@ public class AudioService extends Service {
             public void run()
             {
                 sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
+                updateNotificationPlayer();
             }
         }, 300);
     }
@@ -131,6 +158,7 @@ public class AudioService extends Service {
         if(isPrepared){
             mMediaPlayer.start();
             sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
+            updateNotificationPlayer();
         }
     }
 
@@ -138,6 +166,7 @@ public class AudioService extends Service {
         if(isPrepared){
             mMediaPlayer.pause();
             sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
+            updateNotificationPlayer();
         }
     }
 
@@ -214,5 +243,46 @@ public class AudioService extends Service {
 
     public void setIsHomePlayed(boolean check) {
         isHomePlayed = check;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId){
+        if(intent!=null){
+            String action = intent.getAction();
+            if(CommandActions.TOGGLE_PLAY.equals(action)){
+                if(isPlaying()){
+                    pause();
+                }else{
+                    play();
+                }
+            }else if(CommandActions.REWIND.equals(action)){
+                rewind();
+            }else if(CommandActions.FORWARD.equals(action)){
+                forward();
+            }else if(CommandActions.CLOSE.equals(action)){
+                pause();
+                removeNotificationPlayer();
+            }
+        }
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @NonNull
+    @TargetApi(26)
+    public synchronized String createChannel(){
+        NotificationManager mNotificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        String name = "background service";
+        int importance = NotificationManager.IMPORTANCE_MAX;
+
+        @SuppressLint("WrongConstant") NotificationChannel mChannel = new NotificationChannel("service channel", name, importance);
+
+        mChannel.enableLights(true);
+        mChannel.setLightColor(Color.BLUE);
+        if(mNotificationManager!=null){
+            mNotificationManager.createNotificationChannel(mChannel);
+        }else{
+            stopSelf();
+        }
+        return "service channel";
     }
 }

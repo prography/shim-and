@@ -72,7 +72,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
             public void onClick(View v){
                 Music addingMusic = new Music(sleep.getSleep_id(), sleep.getSleep_name(),
                         "https://s3.ap-northeast-2.amazonaws.com/shim-sleep/" + sleep.getSleep_music(),
-                        null, sleep.getSleep_picture(), false);
+                        null, "https://s3.ap-northeast-2.amazonaws.com/shim-sleep/"+sleep.getSleep_picture(), false);
                 musicPlayList.add(addingMusic);
                 if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed() == true) {
                     AudioApplication.getInstance().getServiceInterface().stop();
