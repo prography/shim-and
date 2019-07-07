@@ -107,21 +107,21 @@ public class NotificationPlayer {
         }
 
         private RemoteViews createRemoteView(int layoutId){
-            RemoteViews remoteView = new RemoteViews(mService.getPackageName(), layoutId);
-            Intent actionTogglePlay = new Intent(CommandActions.TOGGLE_PLAY);
-            Intent actionForward = new Intent(CommandActions.FORWARD);
-            Intent actionRewind = new Intent(CommandActions.REWIND);
-            Intent actionClose = new Intent(CommandActions.CLOSE);
-            PendingIntent togglePlay = PendingIntent.getService(mService, 0, actionTogglePlay, 0);
-            PendingIntent forward = PendingIntent.getService(mService, 0, actionForward, 0);
-            PendingIntent rewind = PendingIntent.getService(mService, 0, actionRewind, 0);
-            PendingIntent close = PendingIntent.getService(mService, 0, actionClose, 0);
+                RemoteViews remoteView = new RemoteViews(mService.getPackageName(), layoutId);
+                Intent actionTogglePlay = new Intent(CommandActions.TOGGLE_PLAY);
+                Intent actionForward = new Intent(CommandActions.FORWARD);
+                Intent actionRewind = new Intent(CommandActions.REWIND);
+                Intent actionClose = new Intent(CommandActions.CLOSE);
+                PendingIntent togglePlay = PendingIntent.getService(mService, 0, actionTogglePlay, 0);
+                PendingIntent forward = PendingIntent.getService(mService, 0, actionForward, 0);
+                PendingIntent rewind = PendingIntent.getService(mService, 0, actionRewind, 0);
+                PendingIntent close = PendingIntent.getService(mService, 0, actionClose, 0);
 
-            remoteView.setOnClickPendingIntent(R.id.noti_play_pause, togglePlay);
-            remoteView.setOnClickPendingIntent(R.id.noti_forward, forward);
-            remoteView.setOnClickPendingIntent(R.id.noti_rewind, rewind);
-            remoteView.setOnClickPendingIntent(R.id.noti_close, close);
-            return remoteView;
+                remoteView.setOnClickPendingIntent(R.id.noti_play_pause, togglePlay);
+                remoteView.setOnClickPendingIntent(R.id.noti_forward, forward);
+                remoteView.setOnClickPendingIntent(R.id.noti_rewind, rewind);
+                remoteView.setOnClickPendingIntent(R.id.noti_close, close);
+                return remoteView;
         }
 
         private void updateRemoteView(RemoteViews remoteViews, Notification notification){
@@ -133,7 +133,7 @@ public class NotificationPlayer {
             Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
             AppWidgetTarget target = new AppWidgetTarget(mService.getApplicationContext(), R.id.noti_img_albumart, remoteViews, R.layout.notification_player);
             if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-                Glide.with(mService.getApplicationContext()).asBitmap().centerCrop().load(music.getMusic_picture()).into(target);
+                Glide.with(mService.getApplicationContext()).asBitmap().centerCrop().load(music.getMusic_picture()).override(480,342).into(target);
                 remoteViews.setTextViewText(R.id.noti_title,music.getMusic_name());
             } else {
                 remoteViews.setImageViewResource(R.id.noti_img_albumart,R.drawable.empty_albumart);

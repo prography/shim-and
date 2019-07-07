@@ -85,7 +85,7 @@ public class AudioService extends Service {
     }
 
     private void updateNotificationPlayer() {
-        if (mNotificationPlayer != null) {
+        if (mNotificationPlayer != null&&isHomePlayed==false) {
             mNotificationPlayer.updateNotificationPlayer();
         }
     }
@@ -171,7 +171,9 @@ public class AudioService extends Service {
         }else{
             mCurrentPosition=0;
         }
-        play(mCurrentPosition);
+        if(musicList.size()!=0) {
+            play(mCurrentPosition);
+        }
     }
 
     public void rewind(){
@@ -180,7 +182,9 @@ public class AudioService extends Service {
         }else{
             mCurrentPosition=musicList.size()-1;
         }
-        play(mCurrentPosition);
+        if(musicList.size()!=0) {
+            play(mCurrentPosition);
+        }
     }
 
     public void delete(int position, List<Music> list){
@@ -273,7 +277,7 @@ public class AudioService extends Service {
 
         mChannel.enableLights(true);
         mChannel.setLightColor(Color.BLUE);
-        if(mNotificationManager!=null){
+        if(mNotificationManager!=null&&isHomePlayed==false){
             mNotificationManager.createNotificationChannel(mChannel);
         }else{
             stopSelf();

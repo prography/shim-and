@@ -1,9 +1,12 @@
 package com.shim.user.shimapplication.data.repository;
 
+import com.shim.user.shimapplication.data.FavoriteRequest;
+import com.shim.user.shimapplication.data.FavoriteResponse;
 import com.shim.user.shimapplication.data.ShowMainResponse;
 import com.shim.user.shimapplication.data.ShowMusicResponse;
 import com.shim.user.shimapplication.data.ShowSleepResponse;
 import com.shim.user.shimapplication.data.ShowVideoResponse;
+import com.shim.user.shimapplication.data.handler.FavoriteHandler;
 import com.shim.user.shimapplication.data.handler.ShowMainHandler;
 import com.shim.user.shimapplication.data.handler.ShowMusicHandler;
 import com.shim.user.shimapplication.data.handler.ShowSleepHandler;
@@ -23,6 +26,7 @@ public class ShimRepo {
     private ShowMusicHandler showMusicHandler;
     private ShowVideoHandler showVideoHandler;
     private ShowMainHandler showMainHandler;
+    private FavoriteHandler favoriteHandler;
 
     public ShimRepo(ShowSleepHandler showSleepHandler) {
         this.showSleepHandler = showSleepHandler;
@@ -38,6 +42,10 @@ public class ShimRepo {
 
     public ShimRepo(ShowMainHandler showMainHandler){
         this.showMainHandler = showMainHandler;
+    }
+
+    public ShimRepo(FavoriteHandler favoriteHandler) {
+        this.favoriteHandler = favoriteHandler;
     }
 
     public void showSleep(){
@@ -99,6 +107,21 @@ public class ShimRepo {
             @Override
             public void onFailure(Call<ShowVideoResponse> call, Throwable t) {
                 showVideoHandler.onFailure(t);
+            }
+        });
+    }
+
+    public void requestFavorite(FavoriteRequest request){
+        Call<FavoriteResponse> call = shimService.setMusicFavorite(request);
+        call.enqueue(new Callback<FavoriteResponse>() {
+            @Override
+            public void onResponse(Call<FavoriteResponse> call, Response<FavoriteResponse> response) {
+                favoriteHandler.onSuccessSendFavorite(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<FavoriteResponse> call, Throwable t) {
+                favoriteHandler.onFailure(t);
             }
         });
     }

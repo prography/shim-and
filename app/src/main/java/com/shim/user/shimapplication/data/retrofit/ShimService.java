@@ -1,6 +1,7 @@
 package com.shim.user.shimapplication.data.retrofit;
 
 import com.shim.user.shimapplication.data.FavoriteRequest;
+import com.shim.user.shimapplication.data.FavoriteResponse;
 import com.shim.user.shimapplication.data.Feedback;
 import com.shim.user.shimapplication.data.FeedbackResponse;
 import com.shim.user.shimapplication.data.LogMain;
@@ -48,4 +49,7 @@ public interface ShimService {
 
     @POST("etc/feedback")
     Call<FeedbackResponse> sendFeedback(@Body Feedback feedback);
+
+    @POST("music")
+    Call<FavoriteResponse> setMusicFavorite(@Body FavoriteRequest request);
 }

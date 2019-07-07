@@ -23,6 +23,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.data.FavoriteRequest;
+import com.shim.user.shimapplication.data.FavoriteResponse;
+import com.shim.user.shimapplication.data.handler.FavoriteHandler;
+import com.shim.user.shimapplication.data.repository.ShimRepo;
 import com.shim.user.shimapplication.retrofit.ServiceGenerator;
 import com.shim.user.shimapplication.retrofit.ShimService;
 import com.shim.user.shimapplication.room.Music;
@@ -106,6 +109,7 @@ public class MusicFragment extends Fragment {
 
     private class MusicCardAdapter extends RecyclerView.Adapter<MusicCardAdapter.ViewHolder> {
         private ArrayList<Music> musicList = new ArrayList<>();
+        ShimRepo shimRepo;
 
         @NonNull
         @Override
@@ -124,22 +128,28 @@ public class MusicFragment extends Fragment {
                     .into(holder.thumbnail);
             holder.title.setText(music.getTitle());
             holder.actionToggle.setBackgroundResource(music.isFavorite() ? R.drawable.ic_favorite : R.drawable.ic_favorite_border);
+
+            FavoriteHandler favoriteHandler = new FavoriteHandler() {
+                @Override
+                public void onSuccessSendFavorite(FavoriteResponse response) {
+
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            };
+            shimRepo = new ShimRepo(favoriteHandler);
+
             holder.actionToggle.setOnClickListener(view -> {
                 boolean favorite = music.isFavorite();
                 holder.actionToggle.setBackgroundResource(favorite ? R.drawable.ic_favorite_border : R.drawable.ic_favorite);
                 // service.setMusicFavorite(userId, music.getId(), favorite).enqueue(new Callback<Map>() {
                 FavoriteRequest request = new FavoriteRequest(userId, music.getId(), favorite);
-                service.setMusicFavorite(request).enqueue(new Callback<Map>() {
-                    @Override
-                    public void onResponse(@NotNull Call<Map> call, @NotNull Response<Map> response) {
-                        Log.d("Shim", userId + "   " + favorite);
-                    }
 
-                    @Override
-                    public void onFailure(@NotNull Call<Map> call, @NotNull Throwable t) {
-                        Log.d("Shim", "" + t.getMessage());
-                    }
-                });
+                shimRepo.requestFavorite(request);
+
                 music.setFavorite(!favorite);
                 new Thread(() -> ShimDatabase.getInstance(getContext()).getMusicDao().update(music)).start();
             });
