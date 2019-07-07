@@ -22,10 +22,10 @@ public interface MusicDao {
     @Query("SELECT * FROM music WHERE favorite = 1")
     List<Music> getFavorites();
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Music music);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Music> musicList);
 
     @Update

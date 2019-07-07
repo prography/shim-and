@@ -1,8 +1,11 @@
 package com.shim.user.shimapplication.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -19,11 +22,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.shim.user.shimapplication.R;
+import com.shim.user.shimapplication.retrofit.ServiceGenerator;
+import com.shim.user.shimapplication.retrofit.ShimService;
 import com.shim.user.shimapplication.room.Music;
 import com.shim.user.shimapplication.room.MusicDao;
 import com.shim.user.shimapplication.room.ShimDatabase;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
+
+import okhttp3.FormBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MusicFragment extends Fragment {
     @Override
@@ -101,6 +115,8 @@ public class MusicFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            @SuppressLint("HardwareIds") String userId = Settings.Secure.getString(Objects.requireNonNull(getContext()).getContentResolver(), Settings.Secure.ANDROID_ID);
+            ShimService service = ServiceGenerator.create();
             Music music = musicList.get(position);
             Glide.with(holder.itemView.getContext())
                     .load(music.getThumbnail())
@@ -108,13 +124,22 @@ public class MusicFragment extends Fragment {
             holder.title.setText(music.getTitle());
             holder.actionToggle.setBackgroundResource(music.isFavorite() ? R.drawable.ic_favorite : R.drawable.ic_favorite_border);
             holder.actionToggle.setOnClickListener(view -> {
-                if (music.isFavorite()) {
-                    view.setBackgroundResource(R.drawable.ic_favorite_border);
-                    music.setFavorite(false);
-                } else {
-                    view.setBackgroundResource(R.drawable.ic_favorite);
-                    music.setFavorite(true);
-                }
+                boolean favorite = music.isFavorite();
+                holder.actionToggle.setBackgroundResource(favorite ? R.drawable.ic_favorite_border : R.drawable.ic_favorite);
+                // service.setMusicFavorite(userId, music.getId(), favorite).enqueue(new Callback<Map>() {
+                service.setMusicFavorite(new FormBody.Builder().add("user_id", userId).add("music_id", music.getId() + "").add("my", favorite + "").build()).enqueue(new Callback<Map>() {
+                    @Override
+                    public void onResponse(@NotNull Call<Map> call, @NotNull Response<Map> response) {
+                        Log.d("Shim", userId + "   " + favorite);
+
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<Map> call, @NotNull Throwable t) {
+                        Log.d("Shim", "" + t.getMessage());
+                    }
+                });
+                music.setFavorite(!favorite);
                 new Thread(() -> ShimDatabase.getInstance(getContext()).getMusicDao().update(music)).start();
             });
             holder.actionClick.setOnClickListener(view -> {
