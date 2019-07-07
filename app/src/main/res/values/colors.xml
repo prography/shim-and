@@ -10,6 +10,7 @@
     <color name="colorOnError">#FFFFFF</color>
     <color name="colorSurface">#212121</color>
     <color name="colorOnSurface">#FFFFFF</color>
+    <color name="colorTransparent">#00000000</color>
     <color name="colorOnBackground">@color/colorPrimary</color>
 </resources>
 
