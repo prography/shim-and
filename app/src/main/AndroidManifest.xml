@@ -31,9 +31,13 @@
             android:name=".activity.MainActivity"
             android:theme="@style/Theme.MyApp.NoActionBar" />
 
-        <activity android:name=".activity.AppDetailActivity" />
+        <activity
+            android:name=".activity.AppDetailActivity"
+            android:theme="@style/Theme.MyApp.NoActionBar" />
 
-        <activity android:name=".activity.FeedbackActivity" />
+        <activity
+            android:name=".activity.FeedbackActivity"
+            android:theme="@style/Theme.MyApp.NoActionBar"/>
 
         <activity
             android:name=".activity.MusicListActivity"

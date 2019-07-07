@@ -19,9 +19,10 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:padding="3dp"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:background="?attr/scrimBackground">
 
             <TextView
                 android:layout_alignParentLeft="true"
@@ -30,7 +31,9 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:id="@+id/sleep_name"
-                android:text="Sleep Subject"/>
+                android:layout_centerVertical="true"
+                android:text="Sleep Subject"
+                android:textColor="@android:color/white"/>
 
             <LinearLayout
                 android:layout_alignParentRight="true"

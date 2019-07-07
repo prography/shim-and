@@ -1,5 +1,7 @@
 package com.shim.user.shimapplication.data.retrofit;
 
+import com.shim.user.shimapplication.BuildConfig;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -8,7 +10,7 @@ public class RetrofitClient {
 
     public static Retrofit create(){
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://52.78.106.14/")
+                .baseUrl(BuildConfig.SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.shim.user.shimapplication.BuildConfig;
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.data.Main;
 import com.shim.user.shimapplication.data.Media.AudioApplication;
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://52.78.106.14/")
+                .baseUrl(BuildConfig.SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         com.shim.user.shimapplication.data.retrofit.ShimService shimService = retrofit.create(com.shim.user.shimapplication.data.retrofit.ShimService.class);
