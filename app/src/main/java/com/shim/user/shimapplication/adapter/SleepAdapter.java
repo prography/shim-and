@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.shim.user.shimapplication.activity.MainActivity.musicPlayList;
+import static com.shim.user.shimapplication.activity.MainActivity.showPlayer;
 import static com.shim.user.shimapplication.fragment.HomeFragment.isOtherMusicPlayed;
 
 public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> {
@@ -77,8 +78,9 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
                 if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed() == true) {
                     AudioApplication.getInstance().getServiceInterface().stop();
                     AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) forHomeCheckList);
-                    AudioApplication.getInstance().getServiceInterface().setIsHoemPlayed(false);
+                    AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
                     isOtherMusicPlayed = true;
+                    showPlayer();
                 }
                 AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
                 AudioApplication.getInstance().getServiceInterface().play(musicPlayList.size() - 1);

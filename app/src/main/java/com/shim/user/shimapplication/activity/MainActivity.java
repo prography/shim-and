@@ -51,6 +51,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.view.View.VISIBLE;
+
 
 public class MainActivity extends AppCompatActivity {
     public static final List<Main> mainList = new ArrayList<>();
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton musicPlayerPlayBtn;
     ImageButton musicPlayerRewindBtn;
     ImageButton musicPlayerForwardBtn;
-    LinearLayout musicPlayerLayout;
+    static LinearLayout musicPlayerLayout;
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -94,15 +96,21 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.navigation_sleep:
                 transaction.replace(R.id.frame_layout, sleepFragment).commitAllowingStateLoss();
-                musicPlayerLayout.setVisibility(View.VISIBLE);
+                if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==false) {
+                    musicPlayerLayout.setVisibility(VISIBLE);
+                }
                 return true;
             case R.id.navigation_video:
                 transaction.replace(R.id.frame_layout, videoFragment).commitAllowingStateLoss();
-                musicPlayerLayout.setVisibility(View.VISIBLE);
+                if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==false) {
+                    musicPlayerLayout.setVisibility(VISIBLE);
+                }
                 return true;
             case R.id.navigation_music:
                 transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
-                musicPlayerLayout.setVisibility(View.VISIBLE);
+                if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==false) {
+                    musicPlayerLayout.setVisibility(VISIBLE);
+                }
                 return true;
             case R.id.navigation_etc:
                 transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
@@ -307,5 +315,9 @@ public class MainActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    public static void showPlayer(){
+        musicPlayerLayout.setVisibility(VISIBLE);
     }
 }

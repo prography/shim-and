@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -24,6 +23,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.data.FavoriteRequest;
 import com.shim.user.shimapplication.data.FavoriteResponse;
+import com.shim.user.shimapplication.data.Media.AudioApplication;
 import com.shim.user.shimapplication.data.handler.FavoriteHandler;
 import com.shim.user.shimapplication.data.repository.ShimRepo;
 import com.shim.user.shimapplication.retrofit.ServiceGenerator;
@@ -32,15 +32,13 @@ import com.shim.user.shimapplication.room.Music;
 import com.shim.user.shimapplication.room.MusicDao;
 import com.shim.user.shimapplication.room.ShimDatabase;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import static com.shim.user.shimapplication.activity.MainActivity.musicPlayList;
+import static com.shim.user.shimapplication.activity.MainActivity.showPlayer;
+import static com.shim.user.shimapplication.fragment.HomeFragment.isOtherMusicPlayed;
 
 public class MusicFragment extends Fragment {
     @Override
@@ -111,6 +109,7 @@ public class MusicFragment extends Fragment {
         private ArrayList<Music> musicList = new ArrayList<>();
         private int tabPosition;
         ShimRepo shimRepo;
+        private List<com.shim.user.shimapplication.data.Music> forHomeCheckList = new ArrayList<>();
 
         @NonNull
         @Override
@@ -161,11 +160,43 @@ public class MusicFragment extends Fragment {
                 PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
                 MenuInflater inflater = popupMenu.getMenuInflater();
                 inflater.inflate(R.menu.options_music_play, popupMenu.getMenu());
+                com.shim.user.shimapplication.data.Music addingMusic
+                        = new com.shim.user.shimapplication.data.Music();
                 popupMenu.setOnMenuItemClickListener(menuItem -> {
                     switch (menuItem.getItemId()) {
+
                         case R.id.option_play_now:
+                            addingMusic.setMusic_id(music.getId());
+                            addingMusic.setMusic_music("https://s3.ap-northeast-2.amazonaws.com/shim-music/"+music.getUrl());
+                            addingMusic.setMusic_my(music.isFavorite());
+                            addingMusic.setMusic_name(music.getTitle());
+                            addingMusic.setMusic_picture(music.getThumbnail());
+                            musicPlayList.add(addingMusic);
+                            if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==true){
+                                AudioApplication.getInstance().getServiceInterface().stop();
+                                AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<com.shim.user.shimapplication.data.Music>) forHomeCheckList);
+                                AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
+                                isOtherMusicPlayed = false;
+                                showPlayer();
+                            }
+                            AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+                            AudioApplication.getInstance().getServiceInterface().play(musicPlayList.size()-1);
                             return true;
                         case R.id.option_add_playlist:
+                            addingMusic.setMusic_id(music.getId());
+                            addingMusic.setMusic_music("https://s3.ap-northeast-2.amazonaws.com/shim-music/"+music.getUrl());
+                            addingMusic.setMusic_my(music.isFavorite());
+                            addingMusic.setMusic_name(music.getTitle());
+                            addingMusic.setMusic_picture(music.getThumbnail());
+                            musicPlayList.add(addingMusic);
+                            if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==true){
+
+                            }else {
+                                AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
+                                isOtherMusicPlayed = false;
+                                showPlayer();
+                                AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+                            }
                             return true;
                     }
                     return false;

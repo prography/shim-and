@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator {
     public static ShimService create() {
         return new Retrofit.Builder()
-                .baseUrl("http://13.124.230.126/")
+                .baseUrl("http://52.78.106.14/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ShimService.class);
