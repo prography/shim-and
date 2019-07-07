@@ -13,10 +13,12 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = '.dev'
+            buildConfigField "String", "SERVER_URL", "\"http://52.78.106.14/\""
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "SERVER_URL", "\"http;//13.124.230.126/\""
         }
     }
     compileOptions {

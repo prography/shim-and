@@ -26,6 +26,4 @@ public interface ShimService {
 //    @POST("music/my")
 //    Call<Map> setMusicFavorite(@Field("user_id") String userId, @Field("music_id") int musicId, @Field("my") boolean favorite);
 
-    @POST("music/my")
-    Call<Map> setMusicFavorite(@Body FavoriteRequest request);
 }

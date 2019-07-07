@@ -1,5 +1,7 @@
 package com.shim.user.shimapplication.util.logging;
 
+import com.shim.user.shimapplication.BuildConfig;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -14,7 +16,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LogSender {
-    public static final String SERVER_URL = "http://52.78.106.14/";
     public static String SSAID = "anonymous";
 
     public static void execute(LogEvent event, String... args) {
@@ -25,7 +26,7 @@ public class LogSender {
                 .add("params", Arrays.toString(args))
                 .build();
         Request request = new Request.Builder()
-                .url(SERVER_URL)
+                .url(BuildConfig.SERVER_URL)
                 .post(body)
                 .build();
         Call call = client.newCall(request);
