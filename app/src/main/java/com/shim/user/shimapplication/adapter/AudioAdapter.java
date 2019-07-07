@@ -39,8 +39,7 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.ViewHolder>{
     public void onBindViewHolder(AudioAdapter.ViewHolder viewHolder, int position) {
         final Music music = musicList.get(position);
         Glide.with(viewHolder.itemView.getContext())
-                .load("https://s3.ap-northeast-2.amazonaws.com/shim-music/"
-                        +music.getMusic_picture())
+                .load(music.getMusic_picture())
                 .into(viewHolder.musicItemImage);
         viewHolder.musicItemTitle.setText(music.getMusic_name());
         viewHolder.musicItemDeleteButton.setOnClickListener(new View.OnClickListener() {

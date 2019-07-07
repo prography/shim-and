@@ -105,8 +105,7 @@ public class MusicListActivity extends AppCompatActivity {
     public void updateUI() {
         Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
         if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-            Glide.with(this).load("https://s3.ap-northeast-2.amazonaws.com/shim-music/"
-                    + music.getMusic_picture()).into(playerImage);
+            Glide.with(this).load(music.getMusic_picture()).into(playerImage);
             playerTitle.setText(music.getMusic_name());
         }else{
             playerImage.setImageResource(R.drawable.empty_albumart);
