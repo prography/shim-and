@@ -32,7 +32,7 @@ import com.shim.user.shimapplication.data.repository.ShimRepo;
 import com.shim.user.shimapplication.fragment.EtcFragment;
 import com.shim.user.shimapplication.fragment.HomeFragment;
 import com.shim.user.shimapplication.fragment.MusicFragment;
-import com.shim.user.shimapplication.fragment.SleepFragment;
+import com.shim.user.shimapplication.fragment.AsmrFragment;
 import com.shim.user.shimapplication.fragment.BreathFragment;
 import com.shim.user.shimapplication.retrofit.ServiceGenerator;
 import com.shim.user.shimapplication.retrofit.ShimService;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
     private HomeFragment homeFragment = new HomeFragment();
-    private SleepFragment sleepFragment = new SleepFragment();
+    private AsmrFragment asmrFragment = new AsmrFragment();
     private BreathFragment breathFragment = new BreathFragment();
     private MusicFragment musicFragment = new MusicFragment();
     private EtcFragment etcFragment = new EtcFragment();
@@ -95,16 +95,21 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
                 musicPlayerLayout.setVisibility(View.INVISIBLE);
                 return true;
-            case R.id.navigation_sleep:
-                transaction.replace(R.id.frame_layout, sleepFragment).commitAllowingStateLoss();
+            case R.id.navigation_asmr:
+                transaction.replace(R.id.frame_layout, asmrFragment).commitAllowingStateLoss();
                 if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==false) {
                     musicPlayerLayout.setVisibility(VISIBLE);
                 }
                 return true;
-            case R.id.navigation_video:
+            case R.id.navigation_breath:
+                transaction.replace(R.id.frame_layout, breathFragment).commitAllowingStateLoss();
                 if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==false) {
                     musicPlayerLayout.setVisibility(VISIBLE);
                 }
+                return true;
+            case R.id.navigation_music:
+                transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
+                musicPlayerLayout.setVisibility(View.VISIBLE);
                 return true;
             case R.id.navigation_etc:
                 transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();

@@ -1,48 +1,34 @@
 <?xml version="1.0"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".fragment.EtcFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            style="@style/Widget.MaterialComponents.Toolbar.Surface"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="@string/shim_logo"
-                android:foreground="@drawable/ic_logo"
-                android:foregroundGravity="center"
-                android:foregroundTint="?attr/colorOnSurface" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
+        <include layout="@layout/toolbar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <Button
         android:id="@+id/button_show_feedback_input"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:backgroundTint="@color/colorTransparent"
-        android:textColor="@color/colorPrimary"
-        android:text="@string/feedback"
-        android:gravity="left|center_vertical"/>
+        android:gravity="start|center_vertical"
+        android:text="@string/feedback" />
 
     <Button
         android:id="@+id/button_show_app_info"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorTransparent"
-        android:textColor="@color/colorPrimary"
-        android:text="@string/app_info"
-        android:gravity="left|center_vertical"/>
+        android:gravity="start|center_vertical"
+        android:text="@string/app_info" />
 
 </LinearLayout>

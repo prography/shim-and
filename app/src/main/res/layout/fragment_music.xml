@@ -2,29 +2,17 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".fragment.MusicFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            style="@style/Widget.MaterialComponents.Toolbar.Surface"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="@string/shim_logo"
-                android:foreground="@drawable/ic_logo"
-                android:foregroundGravity="center"
-                android:foregroundTint="?attr/colorOnSurface" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
+        <include layout="@layout/toolbar" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs_music"
@@ -65,9 +53,9 @@
         android:id="@+id/list_music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
         android:clipToPadding="false"
-        android:paddingBottom="130dp" />
+        android:paddingBottom="130dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2" />
 
 </LinearLayout>

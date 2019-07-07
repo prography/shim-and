@@ -7,12 +7,12 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_sleep"
-        android:icon="@drawable/ic_sleep"
-        android:title="@string/title_sleep" />
+        android:id="@+id/navigation_asmr"
+        android:icon="@drawable/ic_asmr"
+        android:title="@string/title_asmr" />
 
     <item
-        android:id="@+id/navigation_video"
+        android:id="@+id/navigation_breath"
         android:icon="@drawable/ic_breath"
         android:title="@string/title_breath" />
 

@@ -27,7 +27,7 @@ import static com.shim.user.shimapplication.activity.MainActivity.musicPlayList;
 import static com.shim.user.shimapplication.activity.MainActivity.showPlayer;
 import static com.shim.user.shimapplication.fragment.HomeFragment.isOtherMusicPlayed;
 
-public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> {
+public class AsmrAdapter extends RecyclerView.Adapter<AsmrAdapter.ViewHolder> {
     private List<Sleep> sleepList;
     private Context context;
     private int category;
@@ -36,14 +36,14 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
     private LogSleep logSleep;
     LogRepo logSleepRepo;
 
-    public SleepAdapter(Context context, List<Sleep> sleepList) {
+    public AsmrAdapter(Context context, List<Sleep> sleepList) {
         this.context = context;
         this.sleepList = sleepList;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i){
-        View view = LayoutInflater.from(context).inflate(R.layout.sleep_player_layout, viewGroup,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_asmr, viewGroup,false);
 
         logSleep = new LogSleep();
         LogSleepHandler logSleepHandler = new LogSleepHandler() {
@@ -104,9 +104,9 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.ViewHolder> 
 
         ViewHolder(View itemView){
             super(itemView);
-            sleepImage = (ImageView)itemView.findViewById(R.id.sleep_picture);
-            sleepPlayBtn = (ImageButton)itemView.findViewById(R.id.sleep_btn_play);
-            sleepName = (TextView)itemView.findViewById(R.id.sleep_name);
+            sleepImage = (ImageView)itemView.findViewById(R.id.image_asmr_thumbnail);
+            sleepPlayBtn = (ImageButton)itemView.findViewById(R.id.button_play_asmr);
+            sleepName = (TextView)itemView.findViewById(R.id.text_asmr_title);
         }
     }
 

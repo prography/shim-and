@@ -9,21 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            style="@style/Widget.MaterialComponents.Toolbar.Surface"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="@string/shim_logo"
-                android:foreground="@drawable/ic_logo"
-                android:foregroundGravity="center"
-                android:foregroundTint="?attr/colorOnSurface" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
+        <include layout="@layout/toolbar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
