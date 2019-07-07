@@ -1,5 +1,7 @@
 package com.shim.user.shimapplication.retrofit;
 
+import com.shim.user.shimapplication.data.FavoriteRequest;
+
 import java.util.Map;
 
 import okhttp3.RequestBody;
@@ -25,5 +27,5 @@ public interface ShimService {
 //    Call<Map> setMusicFavorite(@Field("user_id") String userId, @Field("music_id") int musicId, @Field("my") boolean favorite);
 
     @POST("music/my")
-    Call<Map> setMusicFavorite(@Body RequestBody body);
+    Call<Map> setMusicFavorite(@Body FavoriteRequest request);
 }

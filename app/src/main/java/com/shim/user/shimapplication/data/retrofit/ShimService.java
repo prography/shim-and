@@ -1,5 +1,6 @@
 package com.shim.user.shimapplication.data.retrofit;
 
+import com.shim.user.shimapplication.data.FavoriteRequest;
 import com.shim.user.shimapplication.data.Feedback;
 import com.shim.user.shimapplication.data.FeedbackResponse;
 import com.shim.user.shimapplication.data.LogMain;
@@ -11,6 +12,8 @@ import com.shim.user.shimapplication.data.ShowMainResponse;
 import com.shim.user.shimapplication.data.ShowMusicResponse;
 import com.shim.user.shimapplication.data.ShowSleepResponse;
 import com.shim.user.shimapplication.data.ShowVideoResponse;
+
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -45,5 +48,4 @@ public interface ShimService {
 
     @POST("etc/feedback")
     Call<FeedbackResponse> sendFeedback(@Body Feedback feedback);
-
 }

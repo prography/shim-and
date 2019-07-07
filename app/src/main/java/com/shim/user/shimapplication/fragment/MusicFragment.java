@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.shim.user.shimapplication.R;
+import com.shim.user.shimapplication.data.FavoriteRequest;
 import com.shim.user.shimapplication.retrofit.ServiceGenerator;
 import com.shim.user.shimapplication.retrofit.ShimService;
 import com.shim.user.shimapplication.room.Music;
@@ -127,11 +128,11 @@ public class MusicFragment extends Fragment {
                 boolean favorite = music.isFavorite();
                 holder.actionToggle.setBackgroundResource(favorite ? R.drawable.ic_favorite_border : R.drawable.ic_favorite);
                 // service.setMusicFavorite(userId, music.getId(), favorite).enqueue(new Callback<Map>() {
-                service.setMusicFavorite(new FormBody.Builder().add("user_id", userId).add("music_id", music.getId() + "").add("my", favorite + "").build()).enqueue(new Callback<Map>() {
+                FavoriteRequest request = new FavoriteRequest(userId, music.getId(), favorite);
+                service.setMusicFavorite(request).enqueue(new Callback<Map>() {
                     @Override
                     public void onResponse(@NotNull Call<Map> call, @NotNull Response<Map> response) {
                         Log.d("Shim", userId + "   " + favorite);
-
                     }
 
                     @Override

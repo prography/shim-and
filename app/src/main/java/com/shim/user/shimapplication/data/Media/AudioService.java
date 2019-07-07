@@ -143,14 +143,9 @@ public class AudioService extends Service {
         stop();
         prepare();
         mMediaPlayer.start();
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
-                updateNotificationPlayer();
-            }
+        new Handler().postDelayed(() -> {
+            sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED)); // MusicPlayer
+            updateNotificationPlayer(); // NoticationPlayer
         }, 300);
     }
 
