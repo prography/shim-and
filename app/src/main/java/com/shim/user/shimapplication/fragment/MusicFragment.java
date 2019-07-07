@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
-import okhttp3.FormBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -95,6 +94,7 @@ public class MusicFragment extends Fragment {
                 case 4:
                     adapter.setItem((ArrayList<Music>) dao.findByCategory("classic"));
             }
+            adapter.setTabPosition(position);
             return null;
         }
 
@@ -106,6 +106,7 @@ public class MusicFragment extends Fragment {
 
     private class MusicCardAdapter extends RecyclerView.Adapter<MusicCardAdapter.ViewHolder> {
         private ArrayList<Music> musicList = new ArrayList<>();
+        private int tabPosition;
 
         @NonNull
         @Override
@@ -127,7 +128,6 @@ public class MusicFragment extends Fragment {
             holder.actionToggle.setOnClickListener(view -> {
                 boolean favorite = music.isFavorite();
                 holder.actionToggle.setBackgroundResource(favorite ? R.drawable.ic_favorite_border : R.drawable.ic_favorite);
-                // service.setMusicFavorite(userId, music.getId(), favorite).enqueue(new Callback<Map>() {
                 FavoriteRequest request = new FavoriteRequest(userId, music.getId(), favorite);
                 service.setMusicFavorite(request).enqueue(new Callback<Map>() {
                     @Override
@@ -141,7 +141,11 @@ public class MusicFragment extends Fragment {
                     }
                 });
                 music.setFavorite(!favorite);
-                new Thread(() -> ShimDatabase.getInstance(getContext()).getMusicDao().update(music)).start();
+                new Thread(() -> {
+                    ShimDatabase.getInstance(getContext()).getMusicDao().update(music);
+                    // noinspection unchecked
+                    new RecycleViewUpdater(this).execute(getContext(), tabPosition);
+                }).start();
             });
             holder.actionClick.setOnClickListener(view -> {
                 PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
@@ -167,6 +171,10 @@ public class MusicFragment extends Fragment {
 
         void setItem(ArrayList<Music> musicList) {
             this.musicList = musicList;
+        }
+
+        public void setTabPosition(int tabPosition) {
+            this.tabPosition = tabPosition;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
