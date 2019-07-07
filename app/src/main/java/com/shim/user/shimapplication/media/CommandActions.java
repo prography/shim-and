@@ -1,4 +1,4 @@
-package com.shim.user.shimapplication.data;
+package com.shim.user.shimapplication.media;
 
 public class CommandActions {
     public final static String REWIND = "REWIND";

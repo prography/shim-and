@@ -1,7 +1,6 @@
 package com.shim.user.shimapplication.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +14,21 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.shim.user.shimapplication.R;
-import com.shim.user.shimapplication.data.Media.AudioApplication;
-import com.shim.user.shimapplication.data.Music;
+import com.shim.user.shimapplication.media.AudioApplication;
+import com.shim.user.shimapplication.room.Music;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator;
 
 import static com.shim.user.shimapplication.activity.MainActivity.mainList;
 
 public class HomeFragment extends Fragment {
-    private static List<Music> homeMusicList = new ArrayList<>();
     public static boolean isFirstRunned = true;
     public static boolean isOtherMusicPlayed = false;
+    private static List<Music> homeMusicList = new ArrayList<>();
     private Music homeMusic;
 
     @Override
@@ -44,15 +44,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(final int position) {
-                if (mainList.size() != 0 && isOtherMusicPlayed == false) {
+                if (mainList.size() != 0 && !isOtherMusicPlayed) {
                     homeMusicList.clear();
-                    homeMusic = new Music(mainList.get(position).getMain_id(),
-                            mainList.get(position).getMain_name(),
-                            mainList.get(position).getMain_music(),
-                            mainList.get(position).getMain_author(),
-                            mainList.get(position).getMain_picture(),
-                            false);
-                    homeMusicList.add(homeMusic);
+                    homeMusicList.add(mainList.get(position));
                     AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
                     AudioApplication.getInstance().getServiceInterface().playOneMusic();
                 }
@@ -70,8 +64,7 @@ public class HomeFragment extends Fragment {
     }
 
     public static class Page extends Fragment {
-
-        public static Page newInstance(int position) {
+        static Page newInstance(int position) {
             Bundle args = new Bundle();
             args.putInt("position", position);
             Page page = new Page();
@@ -85,21 +78,14 @@ public class HomeFragment extends Fragment {
             View view = inflater.inflate(R.layout.fragment_home_page, container, false);
             ImageView imageView = view.findViewById(R.id.main_first_image);
             if (mainList.size() != 0) {
-                Glide.with(getContext())
-                        .load("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + mainList.get(position).getMain_picture())
+                Glide.with(Objects.requireNonNull(getContext()))
+                        .load("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + mainList.get(position).getThumbnail())
                         .into(imageView);
-                Log.d("tag :", mainList.get(position).getMain_picture());
             }
 
-            if (position == 0 && isOtherMusicPlayed == false) {
+            if (position == 0 && !isOtherMusicPlayed) {
                 homeMusicList.clear();
-                Music firstMusic = new Music(mainList.get(0).getMain_id(),
-                        mainList.get(0).getMain_name(),
-                        mainList.get(0).getMain_music(),
-                        mainList.get(0).getMain_author(),
-                        mainList.get(0).getMain_picture(),
-                        false);
-                homeMusicList.add(firstMusic);
+                homeMusicList.add(mainList.get(0));
                 AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
                 AudioApplication.getInstance().getServiceInterface().playOneMusic();
                 isFirstRunned = false;

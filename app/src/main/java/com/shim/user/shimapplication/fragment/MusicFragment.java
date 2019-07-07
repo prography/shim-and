@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -23,20 +21,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.shim.user.shimapplication.R;
-import com.shim.user.shimapplication.data.FavoriteRequest;
-import com.shim.user.shimapplication.data.FavoriteResponse;
-import com.shim.user.shimapplication.data.Media.AudioApplication;
-import com.shim.user.shimapplication.data.handler.FavoriteHandler;
-import com.shim.user.shimapplication.data.repository.ShimRepo;
+import com.shim.user.shimapplication.media.AudioApplication;
 import com.shim.user.shimapplication.retrofit.ServiceGenerator;
 import com.shim.user.shimapplication.retrofit.ShimService;
+import com.shim.user.shimapplication.retrofit.request.MusicFavoriteRequest;
+import com.shim.user.shimapplication.retrofit.response.BaseResponse;
 import com.shim.user.shimapplication.room.Music;
 import com.shim.user.shimapplication.room.MusicDao;
 import com.shim.user.shimapplication.room.ShimDatabase;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.shim.user.shimapplication.activity.MainActivity.musicPlayList;
 import static com.shim.user.shimapplication.activity.MainActivity.showPlayer;
@@ -110,8 +111,6 @@ public class MusicFragment extends Fragment {
     private class MusicCardAdapter extends RecyclerView.Adapter<MusicCardAdapter.ViewHolder> {
         private ArrayList<Music> musicList = new ArrayList<>();
         private int tabPosition;
-        ShimRepo shimRepo;
-        private List<com.shim.user.shimapplication.data.Music> forHomeCheckList = new ArrayList<>();
 
         @NonNull
         @Override
@@ -130,27 +129,18 @@ public class MusicFragment extends Fragment {
                     .into(holder.thumbnail);
             holder.title.setText(music.getTitle());
             holder.actionToggle.setBackgroundResource(music.isFavorite() ? R.drawable.ic_favorite : R.drawable.ic_favorite_border);
-
-            FavoriteHandler favoriteHandler = new FavoriteHandler() {
-                @Override
-                public void onSuccessSendFavorite(FavoriteResponse response) {
-
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-
-                }
-            };
-            shimRepo = new ShimRepo(favoriteHandler);
-
             holder.actionToggle.setOnClickListener(view -> {
                 boolean favorite = music.isFavorite();
+                service.setMusicFavorite(new MusicFavoriteRequest(userId, music.getId(), favorite)).enqueue(new Callback<BaseResponse>() {
+                    @Override
+                    public void onResponse(@NotNull Call<BaseResponse> call, @NotNull Response<BaseResponse> response) {
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<BaseResponse> call, @NotNull Throwable t) {
+                    }
+                });
                 holder.actionToggle.setBackgroundResource(favorite ? R.drawable.ic_favorite_border : R.drawable.ic_favorite);
-                FavoriteRequest request = new FavoriteRequest(userId, music.getId(), favorite);
-
-                shimRepo.requestFavorite(request);
-
                 music.setFavorite(!favorite);
                 new Thread(() -> {
                     ShimDatabase.getInstance(getContext()).getMusicDao().update(music);
@@ -162,38 +152,24 @@ public class MusicFragment extends Fragment {
                 PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
                 MenuInflater inflater = popupMenu.getMenuInflater();
                 inflater.inflate(R.menu.options_music_play, popupMenu.getMenu());
-                com.shim.user.shimapplication.data.Music addingMusic
-                        = new com.shim.user.shimapplication.data.Music();
                 popupMenu.setOnMenuItemClickListener(menuItem -> {
                     switch (menuItem.getItemId()) {
-
                         case R.id.option_play_now:
-                            addingMusic.setMusic_id(music.getId());
-                            addingMusic.setMusic_music("https://s3.ap-northeast-2.amazonaws.com/shim-music/"+music.getUrl());
-                            addingMusic.setMusic_my(music.isFavorite());
-                            addingMusic.setMusic_name(music.getTitle());
-                            addingMusic.setMusic_picture(music.getThumbnail());
-                            musicPlayList.add(addingMusic);
-                            if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==true){
+                            musicPlayList.add(music);
+                            if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
                                 AudioApplication.getInstance().getServiceInterface().stop();
-                                AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<com.shim.user.shimapplication.data.Music>) forHomeCheckList);
                                 AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
                                 isOtherMusicPlayed = false;
                                 showPlayer();
                             }
                             AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
-                            AudioApplication.getInstance().getServiceInterface().play(musicPlayList.size()-1);
+                            AudioApplication.getInstance().getServiceInterface().play(musicPlayList.size() - 1);
                             return true;
                         case R.id.option_add_playlist:
-                            addingMusic.setMusic_id(music.getId());
-                            addingMusic.setMusic_music("https://s3.ap-northeast-2.amazonaws.com/shim-music/"+music.getUrl());
-                            addingMusic.setMusic_my(music.isFavorite());
-                            addingMusic.setMusic_name(music.getTitle());
-                            addingMusic.setMusic_picture(music.getThumbnail());
-                            musicPlayList.add(addingMusic);
-                            if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==true){
+                            musicPlayList.add(music);
+                            if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
 
-                            }else {
+                            } else {
                                 AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
                                 isOtherMusicPlayed = false;
                                 showPlayer();
@@ -216,7 +192,7 @@ public class MusicFragment extends Fragment {
             this.musicList = musicList;
         }
 
-        public void setTabPosition(int tabPosition) {
+        void setTabPosition(int tabPosition) {
             this.tabPosition = tabPosition;
         }
 

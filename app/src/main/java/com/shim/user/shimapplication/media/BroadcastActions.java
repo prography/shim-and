@@ -1,4 +1,4 @@
-package com.shim.user.shimapplication.data.Media;
+package com.shim.user.shimapplication.media;
 
 public class BroadcastActions {
     public final static String PREPARED = "PREPARED";

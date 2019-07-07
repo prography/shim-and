@@ -1,4 +1,4 @@
-package com.shim.user.shimapplication.data.Media;
+package com.shim.user.shimapplication.media;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -17,8 +17,7 @@ import android.os.PowerManager;
 
 import androidx.annotation.NonNull;
 
-import com.shim.user.shimapplication.data.CommandActions;
-import com.shim.user.shimapplication.data.Music;
+import com.shim.user.shimapplication.room.Music;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,21 +26,15 @@ public class AudioService extends Service {
     private final IBinder mBinder = new AudioServiceBinder();
     private MediaPlayer mMediaPlayer;
     private boolean isPrepared;
-    private int mCurrentPosition=0;
+    private int mCurrentPosition = 0;
     private List<Music> musicList = new ArrayList<>();
     private Music music;
     private boolean isHomePlayed = true; // Home 음악이 재생 중인지 여부
     private NotificationPlayer mNotificationPlayer;
 
-    public class AudioServiceBinder extends Binder {
-        AudioService getService(){
-            return AudioService.this;
-        }
-    }
-
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
-        isPrepared=true;
+        isPrepared = true;
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -56,10 +49,10 @@ public class AudioService extends Service {
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                if(isPrepared){
+                if (isPrepared) {
                     forward();
-                    isPrepared=false;
-                }else {
+                    isPrepared = false;
+                } else {
                     isPrepared = false;
                     sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
                 }
@@ -85,7 +78,7 @@ public class AudioService extends Service {
     }
 
     private void updateNotificationPlayer() {
-        if (mNotificationPlayer != null&&isHomePlayed==false) {
+        if (mNotificationPlayer != null && isHomePlayed == false) {
             mNotificationPlayer.updateNotificationPlayer();
         }
     }
@@ -102,26 +95,26 @@ public class AudioService extends Service {
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if(mMediaPlayer!=null){
+        if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
-            mMediaPlayer=null;
+            mMediaPlayer = null;
         }
     }
 
-    private void queryAudioItem(int position){
+    private void queryAudioItem(int position) {
         mCurrentPosition = position;
     }
 
-    public void prepare(){
-        try{
-            mMediaPlayer.setDataSource(musicList.get(mCurrentPosition).getMusic_music());
+    public void prepare() {
+        try {
+            mMediaPlayer.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + musicList.get(mCurrentPosition).getUrl());
             // 초기화 필요
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.prepareAsync();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -131,14 +124,14 @@ public class AudioService extends Service {
         mMediaPlayer.reset();
     }
 
-    public void setPlayList(List<Music> list){
-        if(!musicList.equals(list)){
+    public void setPlayList(List<Music> list) {
+        if (!musicList.equals(list)) {
             musicList.clear();
             musicList.addAll(list);
         }
     }
 
-    public void play(int position){
+    public void play(int position) {
         queryAudioItem(position);
         stop();
         prepare();
@@ -149,63 +142,62 @@ public class AudioService extends Service {
         }, 300);
     }
 
-    public void play(){
-        if(isPrepared){
+    public void play() {
+        if (isPrepared) {
             mMediaPlayer.start();
             sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
             updateNotificationPlayer();
         }
     }
 
-    public void pause(){
-        if(isPrepared){
+    public void pause() {
+        if (isPrepared) {
             mMediaPlayer.pause();
             sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
             updateNotificationPlayer();
         }
     }
 
-    public void forward(){
-        if(musicList.size()-1>mCurrentPosition){
+    public void forward() {
+        if (musicList.size() - 1 > mCurrentPosition) {
             mCurrentPosition++;
-        }else{
-            mCurrentPosition=0;
+        } else {
+            mCurrentPosition = 0;
         }
-        if(musicList.size()!=0) {
+        if (musicList.size() != 0) {
             play(mCurrentPosition);
         }
     }
 
-    public void rewind(){
-        if(mCurrentPosition>0){
+    public void rewind() {
+        if (mCurrentPosition > 0) {
             mCurrentPosition--;
-        }else{
-            mCurrentPosition=musicList.size()-1;
+        } else {
+            mCurrentPosition = musicList.size() - 1;
         }
-        if(musicList.size()!=0) {
+        if (musicList.size() != 0) {
             play(mCurrentPosition);
         }
     }
 
-    public void delete(int position, List<Music> list){
+    public void delete(int position, List<Music> list) {
         musicList.clear();
         musicList.addAll(list);
-        if(mCurrentPosition>position){
-            mCurrentPosition=mCurrentPosition-1;
-        }
-        else if(mCurrentPosition==position){
+        if (mCurrentPosition > position) {
+            mCurrentPosition = mCurrentPosition - 1;
+        } else if (mCurrentPosition == position) {
             stop();
-            mCurrentPosition=mCurrentPosition-1;
+            mCurrentPosition = mCurrentPosition - 1;
             forward();
         }
     }
 
-    public boolean isPlaying(){
+    public boolean isPlaying() {
         return mMediaPlayer.isPlaying();
     }
 
-    public Music getMusic(){
-        if(musicList.size()==0){
+    public Music getMusic() {
+        if (musicList.size() == 0) {
             return null;
         }
         music = musicList.get(mCurrentPosition);
@@ -218,7 +210,7 @@ public class AudioService extends Service {
                 mMediaPlayer.stop();
                 mMediaPlayer.reset();
             }
-            mMediaPlayer.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + musicList.get(0).getMusic_music());
+            mMediaPlayer.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + musicList.get(0).getUrl());
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.prepareAsync();
             mMediaPlayer.start();
@@ -228,12 +220,12 @@ public class AudioService extends Service {
         }
     }
 
-    public int getmCurrentPosition(){
+    public int getmCurrentPosition() {
         return mCurrentPosition;
     }
 
-    public void setmCurrentPosition(int position){
-        mCurrentPosition=position;
+    public void setmCurrentPosition(int position) {
+        mCurrentPosition = position;
     }
 
     public boolean getIsHomePlayed() {
@@ -245,20 +237,20 @@ public class AudioService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId){
-        if(intent!=null){
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null) {
             String action = intent.getAction();
-            if(CommandActions.TOGGLE_PLAY.equals(action)){
-                if(isPlaying()){
+            if (CommandActions.TOGGLE_PLAY.equals(action)) {
+                if (isPlaying()) {
                     pause();
-                }else{
+                } else {
                     play();
                 }
-            }else if(CommandActions.REWIND.equals(action)){
+            } else if (CommandActions.REWIND.equals(action)) {
                 rewind();
-            }else if(CommandActions.FORWARD.equals(action)){
+            } else if (CommandActions.FORWARD.equals(action)) {
                 forward();
-            }else if(CommandActions.CLOSE.equals(action)){
+            } else if (CommandActions.CLOSE.equals(action)) {
                 pause();
                 removeNotificationPlayer();
             }
@@ -268,8 +260,8 @@ public class AudioService extends Service {
 
     @NonNull
     @TargetApi(26)
-    public synchronized String createChannel(){
-        NotificationManager mNotificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+    public synchronized String createChannel() {
+        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         String name = "background service";
         int importance = NotificationManager.IMPORTANCE_MAX;
 
@@ -277,11 +269,17 @@ public class AudioService extends Service {
 
         mChannel.enableLights(true);
         mChannel.setLightColor(Color.BLUE);
-        if(mNotificationManager!=null&&isHomePlayed==false){
+        if (mNotificationManager != null && isHomePlayed == false) {
             mNotificationManager.createNotificationChannel(mChannel);
-        }else{
+        } else {
             stopSelf();
         }
         return "service channel";
+    }
+
+    public class AudioServiceBinder extends Binder {
+        AudioService getService() {
+            return AudioService.this;
+        }
     }
 }

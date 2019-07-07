@@ -1,4 +1,4 @@
-package com.shim.user.shimapplication.data.Media;
+package com.shim.user.shimapplication.media;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import com.shim.user.shimapplication.data.Music;
+import com.shim.user.shimapplication.room.Music;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,30 +68,30 @@ public class AudioServiceInterface {
         }
     }
 
-    public void delete(int position, List<Music> list){
-        if(mService !=null){
+    public void delete(int position, List<Music> list) {
+        if (mService != null) {
             mService.delete(position, list);
         }
     }
 
-    public boolean isPlaying(){
-        if(mService!=null){
+    public boolean isPlaying() {
+        if (mService != null) {
             return mService.isPlaying();
         }
         return false;
     }
 
-    public void togglePlay(){
-        if(isPlaying()){
+    public void togglePlay() {
+        if (isPlaying()) {
             mService.pause();
-        }else{
+        } else {
             mService.prepare();
             mService.play();
         }
     }
 
-    public Music getMusic(){
-        if(mService!=null){
+    public Music getMusic() {
+        if (mService != null) {
             return mService.getMusic();
         }
         return null;

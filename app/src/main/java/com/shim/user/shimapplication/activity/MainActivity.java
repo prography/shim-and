@@ -21,58 +21,46 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.shim.user.shimapplication.BuildConfig;
 import com.shim.user.shimapplication.R;
-import com.shim.user.shimapplication.data.Main;
-import com.shim.user.shimapplication.data.Media.AudioApplication;
-import com.shim.user.shimapplication.data.Media.BroadcastActions;
-import com.shim.user.shimapplication.data.Music;
-import com.shim.user.shimapplication.data.ShowMainResponse;
-import com.shim.user.shimapplication.data.repository.ShimRepo;
+import com.shim.user.shimapplication.fragment.AsmrFragment;
+import com.shim.user.shimapplication.fragment.BreathFragment;
 import com.shim.user.shimapplication.fragment.EtcFragment;
 import com.shim.user.shimapplication.fragment.HomeFragment;
 import com.shim.user.shimapplication.fragment.MusicFragment;
-import com.shim.user.shimapplication.fragment.AsmrFragment;
-import com.shim.user.shimapplication.fragment.BreathFragment;
+import com.shim.user.shimapplication.media.AudioApplication;
+import com.shim.user.shimapplication.media.BroadcastActions;
 import com.shim.user.shimapplication.retrofit.ServiceGenerator;
 import com.shim.user.shimapplication.retrofit.ShimService;
-import com.shim.user.shimapplication.room.MusicDao;
+import com.shim.user.shimapplication.retrofit.response.AsmrListResponse;
+import com.shim.user.shimapplication.retrofit.response.MusicListResponse;
+import com.shim.user.shimapplication.room.Music;
 import com.shim.user.shimapplication.room.ShimDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.view.View.VISIBLE;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static final List<Main> mainList = new ArrayList<>();
+    public static final List<com.shim.user.shimapplication.room.Music> mainList = new ArrayList<>();
     // 재생목록 추가를 위한 Music Play List
     public static ArrayList<Music> musicPlayList = new ArrayList<>();
-    public static int playingPosition = -1;
-    public static int playingIndex = -1;
 
     public static String userID;
-    int pos;
-    ShimRepo shimRepo;
-
+    static LinearLayout musicPlayerLayout;
     ImageView musicPlayerImage;
     TextView musicPlayerTitle;
     ImageButton musicPlayerPlayBtn;
     ImageButton musicPlayerRewindBtn;
     ImageButton musicPlayerForwardBtn;
-    static LinearLayout musicPlayerLayout;
-
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -88,36 +76,9 @@ public class MainActivity extends AppCompatActivity {
     private MusicFragment musicFragment = new MusicFragment();
     private EtcFragment etcFragment = new EtcFragment();
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        switch (item.getItemId()) {
-            case R.id.navigation_home:
-                transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
-                musicPlayerLayout.setVisibility(View.INVISIBLE);
-                return true;
-            case R.id.navigation_asmr:
-                transaction.replace(R.id.frame_layout, asmrFragment).commitAllowingStateLoss();
-                if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==false) {
-                    musicPlayerLayout.setVisibility(VISIBLE);
-                }
-                return true;
-            case R.id.navigation_breath:
-                transaction.replace(R.id.frame_layout, breathFragment).commitAllowingStateLoss();
-                if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==false) {
-                    musicPlayerLayout.setVisibility(VISIBLE);
-                }
-                return true;
-            case R.id.navigation_music:
-                transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
-                musicPlayerLayout.setVisibility(View.VISIBLE);
-                return true;
-            case R.id.navigation_etc:
-                transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
-                musicPlayerLayout.setVisibility(View.INVISIBLE);
-                return true;
-        }
-        return false;
-    };
+    public static void showPlayer() {
+        musicPlayerLayout.setVisibility(VISIBLE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,124 +88,100 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
 
+        ShimDatabase database = ShimDatabase.getInstance(getApplicationContext());
         ShimService service = ServiceGenerator.create();
-        service.getMusicList(userID).enqueue(new Callback<Map>() {
+        service.getAsmrList().enqueue(new Callback<AsmrListResponse>() {
             @Override
-            public void onResponse(@NotNull Call<Map> call, @NotNull Response<Map> response) {
-                new Thread(() -> {
-                    MusicDao dao = ShimDatabase.getInstance(getApplicationContext()).getMusicDao();
-                    // noinspection unchecked
-                    List<Map> propsList = (List) Objects.requireNonNull(response.body()).get("arr");
-                    for (Map props : propsList) {
-                        int id = (int) ((double) props.get("music_id")); // DO NOT FIX THE TYPE CASTING
-                        String title = (String) props.get("music_name");
-                        String artist = (String) props.get("music_author");
-                        String category = (String) props.get("music_category");
-                        boolean favorite = (boolean) props.get("my");
-                        String thumbnail = "https://s3.ap-northeast-2.amazonaws.com/shim-music/" + props.get("music_picture");
-                        String url = (String) props.get("music_music");
-                        dao.insert(new com.shim.user.shimapplication.room.Music(id, title, artist, category, favorite, thumbnail, url));
-                    }
-                }).start();
+            public void onResponse(@NotNull Call<AsmrListResponse> call, @NotNull Response<AsmrListResponse> response) {
+                new Thread(() -> database.getAsmrDao().insertAll(Objects.requireNonNull(response.body()).getData())).start();
             }
 
             @Override
-            public void onFailure(@NotNull Call<Map> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<AsmrListResponse> call, @NotNull Throwable t) {
             }
         });
-//        service.getHomeMusicList().enqueue(new Callback<Map>() {
-//            @Override
-//            public void onResponse(@NotNull Call<Map> call, @NotNull Response<Map> response) {
-//                ArrayList<com.shim.user.shimapplication.room.Music> musicList = new ArrayList<>();
-//                // noinspection unchecked
-//                List<Map> propsList = (List) Objects.requireNonNull(response.body()).get("arr");
-//                for (Map props : propsList) {
-//                    int id = (int) ((double) props.get("main_id")); // DO NOT FIX THE TYPE CASTING
-//                    String title = (String) props.get("main_name");
-//                    String artist = (String) props.get("main_author");
-//                    String category = (String) props.get("main_category");
-//                    boolean favorite = false;
-//                    String thumbnail = "https://s3.ap-northeast-2.amazonaws.com/shim-music/" + props.get("music_picture");
-//                    String url = (String) props.get("main_music");
-//                    musicList.add(new com.shim.user.shimapplication.room.Music(id, title, artist, category, favorite, thumbnail, url));
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NotNull Call<Map> call, @NotNull Throwable t) {
-//            }
-//        });
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BuildConfig.SERVER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        com.shim.user.shimapplication.data.retrofit.ShimService shimService = retrofit.create(com.shim.user.shimapplication.data.retrofit.ShimService.class);
-        shimService.showMain().enqueue(new Callback<ShowMainResponse>() {
+        service.getHomeMusicList().enqueue(new Callback<MusicListResponse>() {
             @Override
-            public void onResponse(Call<ShowMainResponse> call, Response<ShowMainResponse> response) {
-                for (int i = 0; i < response.body().getArr().size(); i++) {
-                    mainList.add(response.body().getArr().get(i));
-                }
+            public void onResponse(@NotNull Call<MusicListResponse> call, @NotNull Response<MusicListResponse> response) {
+                mainList.addAll(Objects.requireNonNull(response.body()).getData());
             }
 
             @Override
-            public void onFailure(Call<ShowMainResponse> call, Throwable t) {
-
+            public void onFailure(@NotNull Call<MusicListResponse> call, @NotNull Throwable t) {
             }
         });
-        shimService.showMain();
+        service.getMusicList(userID).enqueue(new Callback<MusicListResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<MusicListResponse> call, @NotNull Response<MusicListResponse> response) {
+                new Thread(() -> database.getMusicDao().insertAll(Objects.requireNonNull(response.body()).getData())).start();
+            }
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void onFailure(@NotNull Call<MusicListResponse> call, @NotNull Throwable t) {
+            }
+        });
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, homeFragment)
+                .commitAllowingStateLoss();
 
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
-
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        musicPlayerImage = (ImageView) findViewById(R.id.music_player_music_image);
-        musicPlayerTitle = (TextView) findViewById(R.id.music_player_music_title);
-        musicPlayerPlayBtn = (ImageButton) findViewById(R.id.music_player_btn_play_pause);
-        musicPlayerForwardBtn = (ImageButton) findViewById(R.id.music_player_btn_forward);
-        musicPlayerRewindBtn = (ImageButton) findViewById(R.id.music_player_btn_rewind);
-        musicPlayerLayout = (LinearLayout) findViewById(R.id.music_player_layout);
-
-        musicPlayerRewindBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
-                AudioApplication.getInstance().getServiceInterface().rewind();
+        navigation.setOnNavigationItemSelectedListener(item -> {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
+                    musicPlayerLayout.setVisibility(View.INVISIBLE);
+                    return true;
+                case R.id.navigation_asmr:
+                    transaction.replace(R.id.frame_layout, asmrFragment).commitAllowingStateLoss();
+                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                        musicPlayerLayout.setVisibility(VISIBLE);
+                    }
+                    return true;
+                case R.id.navigation_breath:
+                    transaction.replace(R.id.frame_layout, breathFragment).commitAllowingStateLoss();
+                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                        musicPlayerLayout.setVisibility(VISIBLE);
+                    }
+                    return true;
+                case R.id.navigation_music:
+                    transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
+                    musicPlayerLayout.setVisibility(View.VISIBLE);
+                    return true;
+                case R.id.navigation_etc:
+                    transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
+                    musicPlayerLayout.setVisibility(View.INVISIBLE);
+                    return true;
             }
+            return false;
         });
 
-        musicPlayerPlayBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
-                AudioApplication.getInstance().getServiceInterface().togglePlay();
-            }
+        musicPlayerImage = findViewById(R.id.music_player_music_image);
+        musicPlayerTitle = findViewById(R.id.music_player_music_title);
+        musicPlayerPlayBtn = findViewById(R.id.music_player_btn_play_pause);
+        musicPlayerForwardBtn = findViewById(R.id.music_player_btn_forward);
+        musicPlayerRewindBtn = findViewById(R.id.music_player_btn_rewind);
+        musicPlayerLayout = findViewById(R.id.music_player_layout);
+
+        musicPlayerRewindBtn.setOnClickListener(v -> {
+            AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+            AudioApplication.getInstance().getServiceInterface().rewind();
         });
 
-        musicPlayerForwardBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
-                AudioApplication.getInstance().getServiceInterface().forward();
-            }
+        musicPlayerPlayBtn.setOnClickListener(v -> {
+            AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+            AudioApplication.getInstance().getServiceInterface().togglePlay();
         });
 
-        musicPlayerLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MusicListActivity.class);
-                startActivity(intent);
-            }
+        musicPlayerForwardBtn.setOnClickListener(v -> {
+            AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+            AudioApplication.getInstance().getServiceInterface().forward();
+        });
+
+        musicPlayerLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), PlaylistActivity.class);
+            startActivity(intent);
         });
 
         registerBroadcast();
@@ -270,8 +207,10 @@ public class MainActivity extends AppCompatActivity {
     public void updateMusicUI() {
         Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
         if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-            Glide.with(this).load(music.getMusic_picture()).into(musicPlayerImage);
-            musicPlayerTitle.setText(music.getMusic_name());
+            Glide.with(this)
+                    .load("https://s3.ap-northeast-2.amazonaws.com/shim-music/" + music.getThumbnail())
+                    .into(musicPlayerImage);
+            musicPlayerTitle.setText(music.getTitle());
         } else {
             musicPlayerImage.setImageResource(R.drawable.empty_albumart);
             musicPlayerTitle.setText("재생중인 음악이 없습니다");
@@ -314,9 +253,5 @@ public class MainActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-    }
-
-    public static void showPlayer(){
-        musicPlayerLayout.setVisibility(VISIBLE);
     }
 }

@@ -1,29 +1,30 @@
 package com.shim.user.shimapplication.retrofit;
 
-import com.shim.user.shimapplication.data.FavoriteRequest;
+import com.shim.user.shimapplication.retrofit.request.FeedbackRequest;
+import com.shim.user.shimapplication.retrofit.request.MusicFavoriteRequest;
+import com.shim.user.shimapplication.retrofit.response.AsmrListResponse;
+import com.shim.user.shimapplication.retrofit.response.BaseResponse;
+import com.shim.user.shimapplication.retrofit.response.MusicListResponse;
 
-import java.util.Map;
-
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ShimService {
     @GET("sleep")
-    Call<Map> getAsmrList();
+    Call<AsmrListResponse> getAsmrList();
 
     @GET("main")
-    Call<Map> getHomeMusicList();
+    Call<MusicListResponse> getHomeMusicList();
 
     @GET("music/all")
-    Call<Map> getMusicList(@Query("id") String userId);
+    Call<MusicListResponse> getMusicList(@Query("id") String userId);
 
-//    @FormUrlEncoded
-//    @POST("music/my")
-//    Call<Map> setMusicFavorite(@Field("user_id") String userId, @Field("music_id") int musicId, @Field("my") boolean favorite);
+    @POST("etc/feedback")
+    Call<BaseResponse> sendFeedback(@Body FeedbackRequest request);
 
+    @POST("music")
+    Call<BaseResponse> setMusicFavorite(@Body MusicFavoriteRequest request);
 }
