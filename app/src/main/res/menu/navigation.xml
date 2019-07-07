@@ -13,8 +13,8 @@
 
     <item
         android:id="@+id/navigation_video"
-        android:icon="@drawable/ic_video"
-        android:title="@string/title_video" />
+        android:icon="@drawable/ic_breath"
+        android:title="@string/title_breath" />
 
     <item
         android:id="@+id/navigation_music"

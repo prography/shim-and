@@ -33,7 +33,7 @@ import com.shim.user.shimapplication.fragment.EtcFragment;
 import com.shim.user.shimapplication.fragment.HomeFragment;
 import com.shim.user.shimapplication.fragment.MusicFragment;
 import com.shim.user.shimapplication.fragment.SleepFragment;
-import com.shim.user.shimapplication.fragment.VideoFragment;
+import com.shim.user.shimapplication.fragment.BreathFragment;
 import com.shim.user.shimapplication.retrofit.ServiceGenerator;
 import com.shim.user.shimapplication.retrofit.ShimService;
 import com.shim.user.shimapplication.room.MusicDao;
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     private HomeFragment homeFragment = new HomeFragment();
     private SleepFragment sleepFragment = new SleepFragment();
-    private VideoFragment videoFragment = new VideoFragment();
+    private BreathFragment breathFragment = new BreathFragment();
     private MusicFragment musicFragment = new MusicFragment();
     private EtcFragment etcFragment = new EtcFragment();
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 musicPlayerLayout.setVisibility(View.VISIBLE);
                 return true;
             case R.id.navigation_video:
-                transaction.replace(R.id.frame_layout, videoFragment).commitAllowingStateLoss();
+                transaction.replace(R.id.frame_layout, breathFragment).commitAllowingStateLoss();
                 musicPlayerLayout.setVisibility(View.VISIBLE);
                 return true;
             case R.id.navigation_music:
