@@ -10,6 +10,7 @@
     </style>
 
     <style name="Theme.MyApp.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>

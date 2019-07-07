@@ -116,7 +116,7 @@ public class AudioServiceInterface {
         return false;
     }
 
-    public void setIsHoemPlayed(boolean check) {
+    public void setIsHomePlayed(boolean check) {
         if (mService != null) {
             mService.setIsHomePlayed(check);
         }

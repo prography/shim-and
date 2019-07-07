@@ -17,14 +17,14 @@
         android:id="@+id/page_indicator"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:ci_drawable="@drawable/black_radius"
+        app:ci_drawable="@drawable/white_radius"
         app:ci_height="7dp"
         app:ci_margin="4dp"
         app:ci_width="7dp" />
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="70dp"
         android:contentDescription="@string/shim_logo"
