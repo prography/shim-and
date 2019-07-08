@@ -33,6 +33,7 @@ import com.shim.user.shimapplication.retrofit.ServiceGenerator;
 import com.shim.user.shimapplication.retrofit.ShimService;
 import com.shim.user.shimapplication.retrofit.response.AsmrListResponse;
 import com.shim.user.shimapplication.retrofit.response.MusicListResponse;
+import com.shim.user.shimapplication.room.Asmr;
 import com.shim.user.shimapplication.room.Music;
 import com.shim.user.shimapplication.room.ShimDatabase;
 
@@ -88,38 +89,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
 
-        ShimDatabase database = ShimDatabase.getInstance(getApplicationContext());
-        ShimService service = ServiceGenerator.create();
-        service.getAsmrList().enqueue(new Callback<AsmrListResponse>() {
-            @Override
-            public void onResponse(@NotNull Call<AsmrListResponse> call, @NotNull Response<AsmrListResponse> response) {
-                new Thread(() -> database.getAsmrDao().insertAll(Objects.requireNonNull(response.body()).getData())).start();
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<AsmrListResponse> call, @NotNull Throwable t) {
-            }
-        });
-        service.getHomeMusicList().enqueue(new Callback<MusicListResponse>() {
-            @Override
-            public void onResponse(@NotNull Call<MusicListResponse> call, @NotNull Response<MusicListResponse> response) {
-                mainList.addAll(Objects.requireNonNull(response.body()).getData());
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<MusicListResponse> call, @NotNull Throwable t) {
-            }
-        });
-        service.getMusicList(userID).enqueue(new Callback<MusicListResponse>() {
-            @Override
-            public void onResponse(@NotNull Call<MusicListResponse> call, @NotNull Response<MusicListResponse> response) {
-                new Thread(() -> database.getMusicDao().insertAll(Objects.requireNonNull(response.body()).getData())).start();
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<MusicListResponse> call, @NotNull Throwable t) {
-            }
-        });
+        fetchMusicList();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         fragmentManager.beginTransaction()
@@ -221,6 +191,57 @@ public class MainActivity extends AppCompatActivity {
         } else {
             musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
         }
+    }
+
+    public void fetchMusicList() {
+        ShimDatabase database = ShimDatabase.getInstance(getApplicationContext());
+        ShimService service = ServiceGenerator.create();
+        service.getAsmrList().enqueue(new Callback<AsmrListResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<AsmrListResponse> call, @NotNull Response<AsmrListResponse> response) {
+                List<Asmr> asmrList = Objects.requireNonNull(response.body()).getData();
+                for (Asmr asmr : asmrList) {
+                    asmr.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + asmr.getThumbnail());
+                    asmr.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + asmr.getUrl());
+                }
+                new Thread(() -> database.getAsmrDao().insertAll(asmrList)).start();
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<AsmrListResponse> call, @NotNull Throwable t) {
+            }
+        });
+        service.getHomeMusicList().enqueue(new Callback<MusicListResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<MusicListResponse> call, @NotNull Response<MusicListResponse> response) {
+                ArrayList<Music> musicList = (ArrayList<Music>) Objects.requireNonNull(response.body()).getData();
+                for (Music music : musicList) {
+                    music.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getThumbnail());
+                    music.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getUrl());
+                }
+                mainList.addAll(musicList);
+                homeFragment.notifyMusicListChanged();
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<MusicListResponse> call, @NotNull Throwable t) {
+            }
+        });
+        service.getMusicList(userID).enqueue(new Callback<MusicListResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<MusicListResponse> call, @NotNull Response<MusicListResponse> response) {
+                List<Music> musicList = Objects.requireNonNull(response.body()).getData();
+                for (Music music : musicList) {
+                    music.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getThumbnail());
+                    music.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getUrl());
+                }
+                new Thread(() -> database.getMusicDao().insertAll(musicList)).start();
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<MusicListResponse> call, @NotNull Throwable t) {
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

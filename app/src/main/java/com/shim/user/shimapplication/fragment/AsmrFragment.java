@@ -59,13 +59,13 @@ public class AsmrFragment extends Fragment {
                     .into(holder.thumbnail);
             holder.title.setText(asmr.getTitle());
             holder.action.setOnClickListener(view -> {
-                Music asmrLike = new Music.Builder()
+                Music musicLike = new Music.Builder()
                         .setTitle(asmr.getTitle())
                         .setDuration(asmr.getDuration())
                         .setThumbnail(asmr.getThumbnail())
                         .setUrl(asmr.getUrl())
                         .build();
-                musicPlayList.add(asmrLike);
+                musicPlayList.add(musicLike);
                 AudioServiceInterface audioServiceInterface = AudioApplication.getInstance().getServiceInterface();
                 if (audioServiceInterface.getIsHomePlayed()) {
                     audioServiceInterface.stop();
