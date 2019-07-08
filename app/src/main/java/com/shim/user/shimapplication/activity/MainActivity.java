@@ -159,6 +159,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+            AudioApplication.getInstance().getServiceInterface().play();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+            AudioApplication.getInstance().getServiceInterface().pause();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterBroadcast();

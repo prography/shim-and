@@ -29,6 +29,7 @@ import me.relex.circleindicator.CircleIndicator;
 import static com.shim.user.shimapplication.activity.MainActivity.mainList;
 
 public class HomeFragment extends Fragment {
+    public static boolean isFirstRunned = true;
     public static boolean isOtherMusicPlayed = false;
     private static List<Music> homeMusicList = new ArrayList<>();
 
@@ -47,7 +48,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(final int position) {
-                if (mainList.size() != 0 && !isOtherMusicPlayed) {
+                if (mainList.size() != 0 && isOtherMusicPlayed == false && !isFirstRunned) {
                     homeMusicList.clear();
                     homeMusicList.add(mainList.get(position));
                     AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
@@ -93,6 +94,7 @@ public class HomeFragment extends Fragment {
                     homeMusicList.add(mainList.get(0));
                     AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
                     AudioApplication.getInstance().getServiceInterface().playOneMusic();
+                    isFirstRunned = false;
                 }
             }
             return view;

@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -159,7 +160,7 @@ public class MusicFragment extends Fragment {
                             if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
                                 AudioApplication.getInstance().getServiceInterface().stop();
                                 AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
-                                isOtherMusicPlayed = false;
+                                isOtherMusicPlayed = true;
                                 showPlayer();
                             }
                             AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
@@ -168,10 +169,11 @@ public class MusicFragment extends Fragment {
                         case R.id.option_add_playlist:
                             musicPlayList.add(music);
                             if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-
+                                Toast toast = Toast.makeText(getContext(), "재생목록에 추가되었습니다.", Toast.LENGTH_SHORT);
+                                toast.show();
                             } else {
                                 AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
-                                isOtherMusicPlayed = false;
+                                isOtherMusicPlayed = true;
                                 showPlayer();
                                 AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
                             }
