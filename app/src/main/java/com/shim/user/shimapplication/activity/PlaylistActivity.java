@@ -94,7 +94,7 @@ public class PlaylistActivity extends AppCompatActivity {
         Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
         if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
             Glide.with(this)
-                    .load("https://s3.ap-northeast-2.amazonaws.com/shim-music/" + music.getThumbnail())
+                    .load(music.getThumbnail())
                     .into(playerImage);
             playerTitle.setText(music.getTitle());
         } else {
@@ -124,7 +124,7 @@ public class PlaylistActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             final Music music = musicList.get(position);
             Glide.with(holder.itemView.getContext())
-                    .load("https://s3.ap-northeast-2.amazonaws.com/shim-music/" + music.getThumbnail())
+                    .load(music.getThumbnail())
                     .into(holder.thumbnail);
             holder.title.setText(music.getTitle());
             holder.action.setOnClickListener(view -> {

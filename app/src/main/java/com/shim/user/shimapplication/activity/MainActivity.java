@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
         if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
             Glide.with(this)
-                    .load("https://s3.ap-northeast-2.amazonaws.com/shim-music/" + music.getThumbnail())
+                    .load(music.getThumbnail())
                     .into(musicPlayerImage);
             musicPlayerTitle.setText(music.getTitle());
         } else {

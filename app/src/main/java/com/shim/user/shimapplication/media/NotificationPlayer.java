@@ -129,7 +129,7 @@ public class NotificationPlayer {
             Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
             AppWidgetTarget target = new AppWidgetTarget(mService.getApplicationContext(), R.id.noti_img_albumart, remoteViews, R.layout.notification_player);
             if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-                Glide.with(mService.getApplicationContext()).asBitmap().centerCrop().load("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getThumbnail()).override(480, 342).into(target);
+                Glide.with(mService.getApplicationContext()).asBitmap().centerCrop().load(music.getThumbnail()).override(480, 342).into(target);
                 remoteViews.setTextViewText(R.id.noti_title, music.getTitle());
             } else {
                 remoteViews.setImageViewResource(R.id.noti_img_albumart, R.drawable.empty_albumart);

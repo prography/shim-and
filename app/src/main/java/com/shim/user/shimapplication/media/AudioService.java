@@ -110,7 +110,7 @@ public class AudioService extends Service {
 
     public void prepare() {
         try {
-            mMediaPlayer.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + musicList.get(mCurrentPosition).getUrl());
+            mMediaPlayer.setDataSource(musicList.get(mCurrentPosition).getUrl());
             // 초기화 필요
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.prepareAsync();
@@ -210,7 +210,7 @@ public class AudioService extends Service {
                 mMediaPlayer.stop();
                 mMediaPlayer.reset();
             }
-            mMediaPlayer.setDataSource("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + musicList.get(0).getUrl());
+            mMediaPlayer.setDataSource(musicList.get(0).getUrl());
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.prepareAsync();
             mMediaPlayer.start();
