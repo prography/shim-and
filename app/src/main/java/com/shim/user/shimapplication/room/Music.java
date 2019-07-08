@@ -18,7 +18,7 @@ public class Music {
     private String category;
     @SerializedName("my")
     private boolean favorite;
-    @SerializedName(value = "music_time", alternate = {"main_time"})
+    @SerializedName("music_msec")
     private int duration;
     @SerializedName(value = "music_picture", alternate = {"main_picture"})
     private String thumbnail;
