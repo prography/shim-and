@@ -9,7 +9,7 @@ public class FeedbackRequest {
     private String contact;
     @SerializedName("feedback_title")
     private String title;
-    @SerializedName("feedback_content")
+    @SerializedName("feedback_contents")
     private String content;
 
     public FeedbackRequest(String userId, String contact, String title, String content) {
