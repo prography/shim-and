@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(final int position) {
-                if (mainList.size() != 0 && isOtherMusicPlayed == false) {
+                if (mainList.size() != 0 && isOtherMusicPlayed == false && !isFirstRunned) {
                     homeMusicList.clear();
                     homeMusic = new Music(mainList.get(position).getMain_id(),
                             mainList.get(position).getMain_name(),
