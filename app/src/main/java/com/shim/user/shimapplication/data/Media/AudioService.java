@@ -271,12 +271,14 @@ public class AudioService extends Service {
     public synchronized String createChannel(){
         NotificationManager mNotificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
         String name = "background service";
-        int importance = NotificationManager.IMPORTANCE_MAX;
+        int importance = NotificationManager.IMPORTANCE_LOW;
 
         @SuppressLint("WrongConstant") NotificationChannel mChannel = new NotificationChannel("service channel", name, importance);
 
         mChannel.enableLights(true);
         mChannel.setLightColor(Color.BLUE);
+        mChannel.setVibrationPattern(new long[]{0});
+        mChannel.enableVibration(true);
         if(mNotificationManager!=null&&isHomePlayed==false){
             mNotificationManager.createNotificationChannel(mChannel);
         }else{

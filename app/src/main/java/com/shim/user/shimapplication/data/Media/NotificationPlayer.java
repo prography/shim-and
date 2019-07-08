@@ -77,6 +77,8 @@ public class NotificationPlayer {
             mNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher).setOngoing(true)
                     .setContentIntent(mMainPendingIntent).setContent(mRemoteViews);
 
+            mNotificationBuilder.setVibrate(new long[]{-1});
+
             Notification notification = mNotificationBuilder.build();
             notification.priority=Notification.PRIORITY_MAX;
             notification.contentIntent = mMainPendingIntent;
@@ -91,6 +93,7 @@ public class NotificationPlayer {
             mNotificationBuilder.setContent(mRemoteViews);
             mNotificationBuilder.setContentIntent(mMainPendingIntent);
             mNotificationBuilder.setPriority(Notification.PRIORITY_MAX);
+            mNotificationBuilder.setVibrate(new long[]{-1});
             Notification notification = mNotificationBuilder.build();
             updateRemoteView(mRemoteViews, notification);
             return notification;

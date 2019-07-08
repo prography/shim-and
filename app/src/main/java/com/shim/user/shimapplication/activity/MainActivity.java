@@ -109,7 +109,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.navigation_music:
                 transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
-                musicPlayerLayout.setVisibility(View.VISIBLE);
+                if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()==false) {
+                    musicPlayerLayout.setVisibility(VISIBLE);
+                }
                 return true;
             case R.id.navigation_etc:
                 transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
@@ -249,6 +251,22 @@ public class MainActivity extends AppCompatActivity {
 
         registerBroadcast();
         updateMusicUI();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()){
+            AudioApplication.getInstance().getServiceInterface().play();
+        }
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        if(AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+            AudioApplication.getInstance().getServiceInterface().pause();
+        }
     }
 
     @Override
