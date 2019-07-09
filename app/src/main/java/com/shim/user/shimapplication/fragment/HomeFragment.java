@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private static class PagerAdapter extends FragmentPagerAdapter {
+    private static class PagerAdapter extends FragmentStatePagerAdapter {
         private static int ITEM_COUNT = 3;
 
         PagerAdapter(FragmentManager fm) {
@@ -121,6 +121,11 @@ public class HomeFragment extends Fragment {
             } else {
                 return null;
             }
+        }
+
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            return POSITION_NONE;
         }
     }
 }
