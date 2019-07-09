@@ -133,7 +133,7 @@ public class MusicFragment extends Fragment {
                     .into(holder.thumbnail);
             holder.title.setText(music.getTitle());
             if (music.isFavorite()) {
-                ImageViewCompat.setImageTintList(holder.actionToggle, ColorStateList.valueOf(Color.parseColor("FF7B7B")));
+                ImageViewCompat.setImageTintList(holder.actionToggle, ColorStateList.valueOf(Color.parseColor("#FF7B7B")));
                 holder.actionToggle.setImageResource(R.drawable.ic_favorite);
             } else {
                 ImageViewCompat.setImageTintList(holder.actionToggle, ColorStateList.valueOf(Color.parseColor("#FFFFFF")));

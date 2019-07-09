@@ -22,7 +22,7 @@ import androidx.preference.PreferenceManager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shim.user.shimapplication.R;
-import com.shim.user.shimapplication.dev.MusicPlayerNotification;
+//import com.shim.user.shimapplication.dev.MusicPlayerNotification;
 import com.shim.user.shimapplication.fragment.AsmrFragment;
 import com.shim.user.shimapplication.fragment.BreathFragment;
 import com.shim.user.shimapplication.fragment.EtcFragment;
@@ -48,6 +48,8 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.shim.user.shimapplication.fragment.HomeFragment.isFirstRunned;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         registerBroadcast();
         updateMusicUI();
 
-        MusicPlayerNotification.notify(getApplicationContext(), "asdfg", 1);
+        //MusicPlayerNotification.notify(getApplicationContext(), "asdfg", 1);
     }
 
     @Override
@@ -238,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
                     music.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getThumbnail());
                     music.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getUrl());
                 }
+                mainList.clear();
                 mainList.addAll(musicList);
                 homeFragment.notifyMusicListChanged();
             }

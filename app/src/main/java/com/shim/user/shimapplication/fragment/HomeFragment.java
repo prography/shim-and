@@ -33,6 +33,7 @@ public class HomeFragment extends Fragment {
     public static boolean isFirstRunned = true;
     public static boolean isOtherMusicPlayed = false;
     private static List<Music> homeMusicList = new ArrayList<>();
+    public int currentPlayingPosition=-1;
 
     private PagerAdapter viewPagerAdapter;
 
@@ -50,10 +51,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onPageSelected(final int position) {
                 if (mainList.size() != 0 && isOtherMusicPlayed == false && !isFirstRunned) {
-                    homeMusicList.clear();
-                    homeMusicList.add(mainList.get(position));
-                    AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
-                    AudioApplication.getInstance().getServiceInterface().playOneMusic();
+                    if(currentPlayingPosition!=position) {
+                        homeMusicList.clear();
+                        homeMusicList.add(mainList.get(position));
+                        AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
+                        AudioApplication.getInstance().getServiceInterface().playOneMusic();
+                        currentPlayingPosition=position;
+                    }
                 }
             }
 
@@ -90,7 +94,7 @@ public class HomeFragment extends Fragment {
                 Glide.with(Objects.requireNonNull(getContext()))
                         .load(mainList.get(position).getThumbnail())
                         .into(thumbnail);
-                if (position == 0 && !isOtherMusicPlayed) {
+                if (position == 0 && !isOtherMusicPlayed && isFirstRunned) {
                     homeMusicList.clear();
                     homeMusicList.add(mainList.get(0));
                     AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
