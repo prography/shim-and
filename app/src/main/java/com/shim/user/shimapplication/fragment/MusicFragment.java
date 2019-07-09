@@ -2,6 +2,8 @@ package com.shim.user.shimapplication.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -129,7 +132,13 @@ public class MusicFragment extends Fragment {
                     .load(music.getThumbnail())
                     .into(holder.thumbnail);
             holder.title.setText(music.getTitle());
-            holder.actionToggle.setBackgroundResource(music.isFavorite() ? R.drawable.ic_favorite : R.drawable.ic_favorite_border);
+            if (music.isFavorite()) {
+                ImageViewCompat.setImageTintList(holder.actionToggle, ColorStateList.valueOf(Color.parseColor("FF7B7B")));
+                holder.actionToggle.setImageResource(R.drawable.ic_favorite);
+            } else {
+                ImageViewCompat.setImageTintList(holder.actionToggle, ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+                holder.actionToggle.setImageResource(R.drawable.ic_favorite_border);
+            }
             holder.actionToggle.setOnClickListener(view -> {
                 boolean favorite = music.isFavorite();
                 service.setMusicFavorite(new MusicFavoriteRequest(userId, music.getId(), favorite)).enqueue(new Callback<BaseResponse>() {
@@ -141,7 +150,6 @@ public class MusicFragment extends Fragment {
                     public void onFailure(@NotNull Call<BaseResponse> call, @NotNull Throwable t) {
                     }
                 });
-                holder.actionToggle.setBackgroundResource(favorite ? R.drawable.ic_favorite_border : R.drawable.ic_favorite);
                 music.setFavorite(!favorite);
                 new Thread(() -> {
                     ShimDatabase.getInstance(getContext()).getMusicDao().update(music);

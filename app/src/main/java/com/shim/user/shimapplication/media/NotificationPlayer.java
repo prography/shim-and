@@ -125,9 +125,9 @@ public class NotificationPlayer {
 
         private void updateRemoteView(RemoteViews remoteViews, Notification notification) {
             if (mService.isPlaying()) {
-                remoteViews.setImageViewResource(R.id.noti_play_pause, R.drawable.ic_pause_black);
+                remoteViews.setImageViewResource(R.id.noti_play_pause, R.drawable.ic_pause);
             } else {
-                remoteViews.setImageViewResource(R.id.noti_play_pause, R.drawable.ic_play_black);
+                remoteViews.setImageViewResource(R.id.noti_play_pause, R.drawable.ic_play);
             }
             Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
             AppWidgetTarget target = new AppWidgetTarget(mService.getApplicationContext(), R.id.noti_img_albumart, remoteViews, R.layout.notification_player);
@@ -135,7 +135,7 @@ public class NotificationPlayer {
                 Glide.with(mService.getApplicationContext()).asBitmap().centerCrop().load(music.getThumbnail()).override(480, 342).into(target);
                 remoteViews.setTextViewText(R.id.noti_title, music.getTitle());
             } else {
-                remoteViews.setImageViewResource(R.id.noti_img_albumart, R.drawable.empty_albumart);
+                remoteViews.setImageViewResource(R.id.noti_img_albumart, R.drawable.img_music);
                 remoteViews.setTextViewText(R.id.noti_title, music.getTitle());
             }
         }

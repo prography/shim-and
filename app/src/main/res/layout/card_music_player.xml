@@ -2,14 +2,15 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:elevation="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ProgressBar
-            android:id="@+id/progess_music_play"
+            android:id="@+id/progress_music_play"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="4dp"
@@ -24,9 +25,9 @@
             android:layout_height="72dp"
             android:contentDescription="@string/thumbnail"
             android:scaleType="centerCrop"
-            android:src="@drawable/empty_albumart"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progess_music_play" />
+            app:layout_constraintTop_toBottomOf="@+id/progress_music_play"
+            app:srcCompat="@drawable/img_music" />
 
         <TextView
             android:id="@+id/text_music_title"
@@ -43,7 +44,7 @@
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toRightOf="@+id/image_music_thumbnail"
             app:layout_constraintRight_toLeftOf="@+id/button_rewind"
-            app:layout_constraintTop_toBottomOf="@+id/progess_music_play" />
+            app:layout_constraintTop_toBottomOf="@+id/progress_music_play" />
 
         <TextView
             android:id="@+id/text_music_artist"
@@ -68,11 +69,10 @@
             android:layout_margin="24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/rewind"
-            android:src="@drawable/ic_fast_rewind"
-            android:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/button_play_pause"
-            app:layout_constraintTop_toBottomOf="@+id/progess_music_play" />
+            app:layout_constraintTop_toBottomOf="@+id/progress_music_play"
+            app:srcCompat="@drawable/ic_fast_rewind" />
 
         <ImageButton
             android:id="@+id/button_play_pause"
@@ -81,11 +81,10 @@
             android:layout_margin="24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/play_pause"
-            android:src="@drawable/ic_play"
-            android:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/button_forward"
-            app:layout_constraintTop_toBottomOf="@+id/progess_music_play" />
+            app:layout_constraintTop_toBottomOf="@+id/progress_music_play"
+            app:srcCompat="@drawable/ic_play" />
 
         <ImageButton
             android:id="@+id/button_forward"
@@ -94,11 +93,10 @@
             android:layout_margin="24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/forward"
-            android:src="@drawable/ic_fast_forward"
-            android:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progess_music_play" />
+            app:layout_constraintTop_toBottomOf="@+id/progress_music_play"
+            app:srcCompat="@drawable/ic_fast_forward" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

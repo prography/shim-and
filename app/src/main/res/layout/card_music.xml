@@ -44,20 +44,23 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_margin="12dp"
-            android:background="@drawable/ic_favorite_border"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/toggle_favorite"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_favorite_border" />
 
         <ImageButton
             android:id="@+id/button_show_play_options"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_margin="12dp"
-            android:background="@drawable/ic_play_circle_outline"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/show_play_options"
+            android:tint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:srcCompat="@drawable/ic_play_circle_outline" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

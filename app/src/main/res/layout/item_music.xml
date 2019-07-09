@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -9,7 +10,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="fitXY"
-        android:src="@drawable/empty_albumart"/>
+        app:srcCompat="@drawable/img_music" />
 
     <TextView
         android:id="@+id/music_item_title"
@@ -18,8 +19,8 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="Sample Title"
-        android:textSize="15sp"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
 
     <View
         android:layout_width="0dp"
@@ -30,9 +31,9 @@
         android:id="@+id/music_item_delete"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:scaleType="fitXY"
         android:layout_margin="5dp"
         android:background="@null"
-        android:src="@drawable/ic_close"/>
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/ic_close" />
 
 </LinearLayout>

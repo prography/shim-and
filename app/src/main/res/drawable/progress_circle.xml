@@ -4,14 +4,10 @@
     android:pivotX="50%"
     android:pivotY="50%"
     android:toDegrees="-90">
-
     <shape
         android:shape="ring"
         android:thickness="12dp"
         android:useLevel="true">
-
         <solid android:color="@color/colorSecondary" />
-
     </shape>
-
 </rotate>

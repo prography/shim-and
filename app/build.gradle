@@ -8,6 +8,7 @@ android {
         targetSdkVersion 29
         versionCode 2
         versionName "1.0.1"
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -36,9 +37,11 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-beta01'
     implementation 'androidx.room:room-runtime:2.1.0'
     implementation 'androidx.preference:preference:1.1.0-rc01'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0-rc01'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'com.google.android.material:material:1.1.0-alpha07'
     implementation 'com.squareup.okhttp3:okhttp:4.0.0'

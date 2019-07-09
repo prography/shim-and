@@ -28,7 +28,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="5dp"
             android:scaleType="fitXY"
-            android:src="@drawable/empty_albumart" />
+            app:srcCompat="@drawable/img_music" />
 
         <TextView
             android:id="@+id/player_music_title"
@@ -45,21 +45,21 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_fast_rewind" />
+            app:srcCompat="@drawable/ic_fast_rewind" />
 
         <ImageButton
             android:id="@+id/player_btn_play_pause"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_play" />
+            app:srcCompat="@drawable/ic_play" />
 
         <ImageButton
             android:id="@+id/player_btn_forward"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_fast_forward" />
+            app:srcCompat="@drawable/ic_fast_forward" />
 
     </LinearLayout>
 

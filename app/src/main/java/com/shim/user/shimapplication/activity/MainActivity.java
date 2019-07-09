@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,6 +22,7 @@ import androidx.preference.PreferenceManager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shim.user.shimapplication.R;
+import com.shim.user.shimapplication.dev.MusicPlayerNotification;
 import com.shim.user.shimapplication.fragment.AsmrFragment;
 import com.shim.user.shimapplication.fragment.BreathFragment;
 import com.shim.user.shimapplication.fragment.EtcFragment;
@@ -38,6 +37,7 @@ import com.shim.user.shimapplication.retrofit.response.MusicListResponse;
 import com.shim.user.shimapplication.room.Asmr;
 import com.shim.user.shimapplication.room.Music;
 import com.shim.user.shimapplication.room.ShimDatabase;
+import com.shim.user.shimapplication.util.Theme;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -88,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 .getContentResolver(), Settings.Secure.ANDROID_ID);
         setContentView(R.layout.activity_main);
 
-        applyTheme();
+        Theme.apply(PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                .getString("theme", "system"));
         fetchMusicList();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -156,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
 
         registerBroadcast();
         updateMusicUI();
+
+        MusicPlayerNotification.notify(getApplicationContext(), "asdfg", 1);
     }
 
     @Override
@@ -198,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                     .into(musicPlayerImage);
             musicPlayerTitle.setText(music.getTitle());
         } else {
-            musicPlayerImage.setImageResource(R.drawable.empty_albumart);
+            musicPlayerImage.setImageResource(R.drawable.img_music);
             musicPlayerTitle.setText("재생중인 음악이 없습니다");
         }
         if (AudioApplication.getInstance().getServiceInterface().isPlaying()
@@ -206,25 +209,6 @@ public class MainActivity extends AppCompatActivity {
             musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
         } else {
             musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
-        }
-    }
-
-    public void applyTheme() {
-        String theme = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                .getString("theme", "system");
-        switch (theme) {
-            case "day":
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-            case "night":
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            case "night_owl":
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            case "system":
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                break;
         }
     }
 

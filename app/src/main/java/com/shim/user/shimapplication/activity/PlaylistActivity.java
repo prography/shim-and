@@ -98,7 +98,7 @@ public class PlaylistActivity extends AppCompatActivity {
                     .into(playerImage);
             playerTitle.setText(music.getTitle());
         } else {
-            playerImage.setImageResource(R.drawable.empty_albumart);
+            playerImage.setImageResource(R.drawable.img_music);
             playerTitle.setText("재생중인 음악이 없습니다");
         }
 
