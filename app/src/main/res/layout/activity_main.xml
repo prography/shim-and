@@ -12,61 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:id="@+id/music_player_layout"
+    <include
+        android:id="@+id/card_music_player"
+        layout="@layout/card_music_player"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@android:color/darker_gray"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:layout_height="72dp"
+        android:layout_margin="4dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <ImageView
-            android:id="@+id/music_player_music_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/empty_albumart" />
-
-        <TextView
-            android:id="@+id/music_player_music_title"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Sample Title"
-            android:textColor="@android:color/black" />
-
-        <ImageButton
-            android:id="@+id/music_player_btn_rewind"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_fast_rewind" />
-
-        <ImageButton
-            android:id="@+id/music_player_btn_play_pause"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_play" />
-
-        <ImageButton
-            android:id="@+id/music_player_btn_forward"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_fast_forward" />
-
-    </LinearLayout>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"

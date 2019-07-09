@@ -10,12 +10,12 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -47,8 +47,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.view.View.VISIBLE;
-
 
 public class MainActivity extends AppCompatActivity {
     public static final List<com.shim.user.shimapplication.room.Music> mainList = new ArrayList<>();
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Music> musicPlayList = new ArrayList<>();
 
     public static String userID;
-    static LinearLayout musicPlayerLayout;
+    static CardView musicPlayerCard;
     ImageView musicPlayerImage;
     TextView musicPlayerTitle;
     ImageButton musicPlayerPlayBtn;
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private EtcFragment etcFragment = new EtcFragment();
 
     public static void showPlayer() {
-        musicPlayerLayout.setVisibility(VISIBLE);
+        musicPlayerCard.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -101,38 +99,38 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
-                    musicPlayerLayout.setVisibility(View.INVISIBLE);
+                    musicPlayerCard.setVisibility(View.INVISIBLE);
                     return true;
                 case R.id.navigation_asmr:
                     transaction.replace(R.id.frame_layout, asmrFragment).commitAllowingStateLoss();
                     if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-                        musicPlayerLayout.setVisibility(VISIBLE);
+                        musicPlayerCard.setVisibility(View.VISIBLE);
                     }
                     return true;
                 case R.id.navigation_breath:
                     transaction.replace(R.id.frame_layout, breathFragment).commitAllowingStateLoss();
                     if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-                        musicPlayerLayout.setVisibility(VISIBLE);
+                        musicPlayerCard.setVisibility(View.VISIBLE);
                     }
                     return true;
                 case R.id.navigation_music:
                     transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
-                    musicPlayerLayout.setVisibility(View.VISIBLE);
+                    musicPlayerCard.setVisibility(View.VISIBLE);
                     return true;
                 case R.id.navigation_etc:
                     transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
-                    musicPlayerLayout.setVisibility(View.INVISIBLE);
+                    musicPlayerCard.setVisibility(View.INVISIBLE);
                     return true;
             }
             return false;
         });
 
-        musicPlayerImage = findViewById(R.id.music_player_music_image);
-        musicPlayerTitle = findViewById(R.id.music_player_music_title);
-        musicPlayerPlayBtn = findViewById(R.id.music_player_btn_play_pause);
-        musicPlayerForwardBtn = findViewById(R.id.music_player_btn_forward);
-        musicPlayerRewindBtn = findViewById(R.id.music_player_btn_rewind);
-        musicPlayerLayout = findViewById(R.id.music_player_layout);
+        musicPlayerImage = findViewById(R.id.image_music_thumbnail);
+        musicPlayerTitle = findViewById(R.id.text_music_title);
+        musicPlayerPlayBtn = findViewById(R.id.button_play_pause);
+        musicPlayerForwardBtn = findViewById(R.id.button_forward);
+        musicPlayerRewindBtn = findViewById(R.id.button_rewind);
+        musicPlayerCard = findViewById(R.id.card_music_player);
 
         musicPlayerRewindBtn.setOnClickListener(v -> {
             AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
@@ -149,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             AudioApplication.getInstance().getServiceInterface().forward();
         });
 
-        musicPlayerLayout.setOnClickListener(v -> {
+        musicPlayerCard.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), PlaylistActivity.class);
             startActivity(intent);
         });
