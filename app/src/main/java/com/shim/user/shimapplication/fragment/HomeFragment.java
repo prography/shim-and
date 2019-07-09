@@ -1,6 +1,7 @@
 package com.shim.user.shimapplication.fragment;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,6 +127,11 @@ public class HomeFragment extends Fragment {
         @Override
         public int getItemPosition(@NonNull Object object) {
             return POSITION_NONE;
+        }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
         }
     }
 }
