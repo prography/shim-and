@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -18,28 +18,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/title_activity_settings" />
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/Theme.MyApp.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/Theme.MyApp.NoActionBar" />
-
         <activity
             android:name=".activity.AppDetailActivity"
             android:theme="@style/Theme.MyApp.NoActionBar" />
-
         <activity
             android:name=".activity.FeedbackActivity"
-            android:theme="@style/Theme.MyApp.NoActionBar"/>
-
+            android:theme="@style/Theme.MyApp.NoActionBar" />
         <activity
             android:name=".activity.PlaylistActivity"
             android:theme="@style/Theme.MyApp.NoActionBar" />
@@ -49,10 +48,10 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="REWIND"/>
-                <action android:name="TOGGLE_PLAY"/>
-                <action android:name="FORWARD"/>
-                <action android:name="CLOSE"/>
+                <action android:name="REWIND" />
+                <action android:name="TOGGLE_PLAY" />
+                <action android:name="FORWARD" />
+                <action android:name="CLOSE" />
             </intent-filter>
         </service>
     </application>

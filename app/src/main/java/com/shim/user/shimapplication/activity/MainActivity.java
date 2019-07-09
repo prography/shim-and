@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -85,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         userID = Settings.Secure.getString(getApplicationContext()
                 .getContentResolver(), Settings.Secure.ANDROID_ID);
         setContentView(R.layout.activity_main);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
 
+        applyTheme();
         fetchMusicList();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -204,6 +206,25 @@ public class MainActivity extends AppCompatActivity {
             musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
         } else {
             musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
+        }
+    }
+
+    public void applyTheme() {
+        String theme = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                .getString("theme", "system");
+        switch (theme) {
+            case "day":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case "night":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case "night_owl":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case "system":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
         }
     }
 

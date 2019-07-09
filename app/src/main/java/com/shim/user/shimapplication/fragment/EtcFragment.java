@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.activity.AppDetailActivity;
 import com.shim.user.shimapplication.activity.FeedbackActivity;
+import com.shim.user.shimapplication.activity.SettingsActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,6 +24,8 @@ public class EtcFragment extends Fragment {
                 .setOnClickListener(v -> startActivity(new Intent(getActivity(), FeedbackActivity.class)));
         view.findViewById(R.id.button_show_app_info)
                 .setOnClickListener(v -> startActivity(new Intent(getActivity(), AppDetailActivity.class)));
+        view.findViewById(R.id.button_show_settings)
+                .setOnClickListener(v -> startActivity(new Intent(getActivity(), SettingsActivity.class)));
         return view;
     }
 }
