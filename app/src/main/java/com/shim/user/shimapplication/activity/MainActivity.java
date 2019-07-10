@@ -22,7 +22,6 @@ import androidx.preference.PreferenceManager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shim.user.shimapplication.R;
-//import com.shim.user.shimapplication.dev.MusicPlayerNotification;
 import com.shim.user.shimapplication.fragment.AsmrFragment;
 import com.shim.user.shimapplication.fragment.BreathFragment;
 import com.shim.user.shimapplication.fragment.EtcFragment;
@@ -49,7 +48,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.shim.user.shimapplication.fragment.HomeFragment.isFirstRunned;
+//import com.shim.user.shimapplication.dev.MusicPlayerNotification;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -221,7 +220,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<AsmrListResponse> call, @NotNull Response<AsmrListResponse> response) {
                 List<Asmr> asmrList = Objects.requireNonNull(response.body()).getData();
+                int index = 0;
                 for (Asmr asmr : asmrList) {
+                    asmr.setOrder(index++);
                     asmr.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-sleep/" + asmr.getThumbnail());
                     asmr.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-sleep/" + asmr.getUrl());
                 }
@@ -253,7 +254,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<MusicListResponse> call, @NotNull Response<MusicListResponse> response) {
                 List<Music> musicList = Objects.requireNonNull(response.body()).getData();
+                int index = 0;
                 for (Music music : musicList) {
+                    music.setOrder(index++);
                     music.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-music/" + music.getThumbnail());
                     music.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-music/" + music.getUrl());
                 }

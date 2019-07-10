@@ -13,7 +13,7 @@ public interface AsmrDao {
     @Query("SELECT * FROM asmr WHERE id = (:id)")
     List<Asmr> findById(int id);
 
-    @Query("SELECT * FROM asmr")
+    @Query("SELECT * FROM asmr ORDER BY `order`")
     List<Asmr> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

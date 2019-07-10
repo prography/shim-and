@@ -18,13 +18,15 @@ public class Asmr {
     private String thumbnail;
     @SerializedName("sleep_music")
     private String url;
+    private int order;
 
-    public Asmr(int id, String title, int duration, String thumbnail, String url) {
+    public Asmr(int id, String title, int duration, String thumbnail, String url, int order) {
         this.id = id;
         this.title = title;
         this.duration = duration;
         this.thumbnail = thumbnail;
         this.url = url;
+        this.order = order;
     }
 
     public int getDuration() {
@@ -41,6 +43,14 @@ public class Asmr {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public String getTitle() {

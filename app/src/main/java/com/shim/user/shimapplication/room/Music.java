@@ -24,8 +24,9 @@ public class Music {
     private String thumbnail;
     @SerializedName(value = "music_music", alternate = {"main_music"})
     private String url;
+    private int order;
 
-    public Music(int id, String title, String artist, String category, boolean favorite, int duration, String thumbnail, String url) {
+    public Music(int id, String title, String artist, String category, boolean favorite, int duration, String thumbnail, String url, int order) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -34,6 +35,7 @@ public class Music {
         this.duration = duration;
         this.thumbnail = thumbnail;
         this.url = url;
+        this.order = order;
     }
 
     public String getArtist() {
@@ -76,6 +78,14 @@ public class Music {
         this.id = id;
     }
 
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -109,12 +119,13 @@ public class Music {
         private int duration = 0;
         private String thumbnail = null;
         private String url = null;
+        private int order = 0;
 
         public Builder() {
         }
 
         public Music build() {
-            return new Music(id, title, artist, category, favorite, duration, thumbnail, url);
+            return new Music(id, title, artist, category, favorite, duration, thumbnail, url, order);
         }
 
         public Builder setArtist(String artist) {
@@ -139,6 +150,11 @@ public class Music {
 
         public Builder setId(int id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder setOrder(int order) {
+            this.order = order;
             return this;
         }
 

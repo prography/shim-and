@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Asmr.class, Music.class}, version = 2)
+@Database(entities = {Asmr.class, Music.class}, version = 4)
 public abstract class ShimDatabase extends RoomDatabase {
     private static ShimDatabase instance;
 
