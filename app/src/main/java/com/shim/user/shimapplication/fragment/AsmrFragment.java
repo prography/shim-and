@@ -1,5 +1,7 @@
 package com.shim.user.shimapplication.fragment;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,9 +38,28 @@ public class AsmrFragment extends Fragment {
         AsmrCardAdapter recyclerViewAdapter = new AsmrCardAdapter();
         RecyclerView recyclerView = view.findViewById(R.id.list_asmr);
         recyclerView.setAdapter(recyclerViewAdapter);
-        AsmrDao dao = ShimDatabase.getInstance(getContext()).getAsmrDao();
-        new Thread(() -> recyclerViewAdapter.setItem((ArrayList<Asmr>) dao.getAll())).start();
+        new RecycleViewUpdater(recyclerViewAdapter).execute(getContext());
         return view;
+    }
+
+    private static class RecycleViewUpdater extends AsyncTask<Context, Void, Void> {
+        private final AsmrCardAdapter adapter;
+
+        RecycleViewUpdater(AsmrCardAdapter adapter) {
+            this.adapter = adapter;
+        }
+
+        @Override
+        protected Void doInBackground(Context... params) {
+            AsmrDao dao = ShimDatabase.getInstance(params[0]).getAsmrDao();
+            adapter.setItem((ArrayList<Asmr>) dao.getAll());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private class AsmrCardAdapter extends RecyclerView.Adapter<AsmrCardAdapter.ViewHolder> {
