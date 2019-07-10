@@ -70,7 +70,7 @@ public class NotificationPlayer {
 
             mNotificationBuilder = new NotificationCompat.Builder(mService, channel);
 
-            mNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher).setOngoing(true)
+            mNotificationBuilder.setSmallIcon(R.drawable.ic_logo_notification).setOngoing(true)
                     .setContentIntent(mMainPendingIntent).setContent(mRemoteViews);
 
             mNotificationBuilder.setVibrate(new long[]{-1});
