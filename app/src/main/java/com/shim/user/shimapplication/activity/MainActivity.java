@@ -222,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NotNull Call<AsmrListResponse> call, @NotNull Response<AsmrListResponse> response) {
                 List<Asmr> asmrList = Objects.requireNonNull(response.body()).getData();
                 for (Asmr asmr : asmrList) {
-                    asmr.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + asmr.getThumbnail());
-                    asmr.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + asmr.getUrl());
+                    asmr.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-sleep/" + asmr.getThumbnail());
+                    asmr.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-sleep/" + asmr.getUrl());
                 }
                 new Thread(() -> database.getAsmrDao().insertAll(asmrList)).start();
             }
@@ -254,8 +254,8 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NotNull Call<MusicListResponse> call, @NotNull Response<MusicListResponse> response) {
                 List<Music> musicList = Objects.requireNonNull(response.body()).getData();
                 for (Music music : musicList) {
-                    music.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getThumbnail());
-                    music.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getUrl());
+                    music.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-music/" + music.getThumbnail());
+                    music.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-music/" + music.getUrl());
                 }
                 new Thread(() -> database.getMusicDao().insertAll(musicList)).start();
             }
