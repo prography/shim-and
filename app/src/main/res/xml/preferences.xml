@@ -12,6 +12,13 @@
             app:title="@string/title_theme"
             app:useSimpleSummaryProvider="true" />
 
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_fullscreen"
+            app:defaultValue="false"
+            app:key="fullscreen"
+            app:title="@string/title_fullscreen"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
