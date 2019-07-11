@@ -5,7 +5,7 @@
 
         <ListPreference
             android:icon="@drawable/ic_color_lens"
-            app:defaultValue="system"
+            app:defaultValue="night_owl"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
             app:key="theme"
