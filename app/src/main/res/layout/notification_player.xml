@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="64dp"
     android:gravity="center_horizontal"
@@ -29,27 +30,31 @@
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:background="@null"
-        app:srcCompat="@drawable/ic_fast_rewind" />
+        android:src="@drawable/ic_fast_rewind"
+        tools:ignore="VectorDrawableCompat" />
 
     <ImageButton
         android:id="@+id/noti_play_pause"
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:background="@null"
-        app:srcCompat="@drawable/ic_play" />
+        android:src="@drawable/ic_play"
+        tools:ignore="VectorDrawableCompat" />
 
     <ImageButton
         android:id="@+id/noti_forward"
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:background="@null"
-        app:srcCompat="@drawable/ic_fast_forward" />
+        android:src="@drawable/ic_fast_forward"
+        tools:ignore="VectorDrawableCompat" />
 
     <ImageButton
         android:id="@+id/noti_close"
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:background="@null"
-        app:srcCompat="@drawable/ic_close" />
+        android:src="@drawable/ic_close"
+        tools:ignore="VectorDrawableCompat" />
 
 </LinearLayout>
