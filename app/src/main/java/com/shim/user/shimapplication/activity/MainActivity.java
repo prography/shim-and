@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private EtcFragment etcFragment = new EtcFragment();
 
     private boolean isPreviousBreath = false;
+    public static boolean isCurrentEtc = false;
 
     public static void showPlayer() {
         musicPlayerCard.setVisibility(View.VISIBLE);
@@ -184,12 +186,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+    protected void onPause() {
+        super.onPause();
+        if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()&&!isCurrentEtc) {
             AudioApplication.getInstance().getServiceInterface().pause();
         }
     }
+
 
     @Override
     protected void onDestroy() {

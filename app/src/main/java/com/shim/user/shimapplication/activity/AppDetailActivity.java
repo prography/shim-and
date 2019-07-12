@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.shim.user.shimapplication.BuildConfig;
 import com.shim.user.shimapplication.R;
 
+import static com.shim.user.shimapplication.activity.MainActivity.isCurrentEtc;
+
 public class AppDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,5 +17,7 @@ public class AppDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app_detail);
         TextView versionText = findViewById(R.id.text_app_version);
         versionText.setText("App Version : " + BuildConfig.VERSION_NAME);
+
+        isCurrentEtc = false;
     }
 }

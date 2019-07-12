@@ -12,6 +12,8 @@ import com.shim.user.shimapplication.util.Theme;
 
 import java.util.Objects;
 
+import static com.shim.user.shimapplication.activity.MainActivity.isCurrentEtc;
+
 public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,8 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        isCurrentEtc = false;
     }
 
     @Override

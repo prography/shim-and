@@ -19,6 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.shim.user.shimapplication.activity.MainActivity.isCurrentEtc;
 import static com.shim.user.shimapplication.activity.MainActivity.userID;
 
 public class FeedbackActivity extends AppCompatActivity {
@@ -48,5 +49,8 @@ public class FeedbackActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "모든 항목을 입력해주세요", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        isCurrentEtc = false;
     }
 }
