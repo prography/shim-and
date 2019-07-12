@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private MusicFragment musicFragment = new MusicFragment();
     private EtcFragment etcFragment = new EtcFragment();
 
+    private boolean isBreath = false;
+
     public static void showPlayer() {
         musicPlayerCard.setVisibility(View.VISIBLE);
     }
@@ -119,7 +121,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_music:
                     transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
-                    musicPlayerCard.setVisibility(View.VISIBLE);
+                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                        musicPlayerCard.setVisibility(View.VISIBLE);
+                    }
                     return true;
                 case R.id.navigation_etc:
                     transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
