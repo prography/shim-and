@@ -13,13 +13,28 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_breath"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
-        android:layout_gravity="center"
-        android:max="100"
-        android:progressDrawable="@drawable/progress_circle" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="56dp">
+
+        <ProgressBar
+            android:id="@+id/progress_breath"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="center"
+            android:background="@drawable/background_circle"
+            android:max="1000"
+            android:progressDrawable="@drawable/progress_circle" />
+
+        <TextView
+            android:id="@+id/text_breathe_manual"
+            style="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
 
 </LinearLayout>

@@ -4,11 +4,13 @@ package com.shim.user.shimapplication.fragment;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -21,11 +23,30 @@ public class BreathFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_breath, container, false);
         ProgressBar progressBar = view.findViewById(R.id.progress_breath);
-        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
-        animation.setDuration(5000);
+        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 1000);
+        animation.setDuration(9000);
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatCount(ValueAnimator.INFINITE);
         animation.start();
+        TextView manual = view.findViewById(R.id.text_breathe_manual);
+        Handler textHandler = new Handler(message -> {
+            manual.setText(message.obj.toString());
+            return true;
+        });
+        new Thread(() -> {
+            try {
+                while (true) {
+                    textHandler.sendMessage(textHandler.obtainMessage(1, "Breath In"));
+                    Thread.sleep(3750);
+                    textHandler.sendMessage(textHandler.obtainMessage(1, "Hold"));
+                    Thread.sleep(1500);
+                    textHandler.sendMessage(textHandler.obtainMessage(1, "Breath Out"));
+                    Thread.sleep(3750);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
         return view;
     }
 }
