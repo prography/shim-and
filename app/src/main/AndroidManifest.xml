@@ -20,7 +20,8 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activity.SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:theme="@style/Theme.MyApp.NoActionBar"/>
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/Theme.MyApp.Splash">
