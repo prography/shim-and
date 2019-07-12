@@ -7,6 +7,7 @@
     tools:context=".activity.FeedbackActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -21,49 +22,51 @@
         android:id="@+id/text_feedback_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="15dp"
         android:hint="@string/title"
         android:importantForAutofill="no"
         android:inputType="text"
+        android:textSize="14dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:targetApi="o" />
+        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
 
     <EditText
         android:id="@+id/text_feedback_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="15dp"
         android:autofillHints="no"
         android:hint="@string/contact"
         android:inputType="text"
+        android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/text_feedback_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_feedback_title"
-        tools:targetApi="o" />
+        app:layout_constraintTop_toBottomOf="@+id/text_feedback_title" />
 
     <EditText
         android:id="@+id/text_feedback_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="300dp"
+        android:padding="15dp"
         android:autofillHints="no"
         android:hint="@string/content"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/button_feedback_send"
+        android:textSize="14dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_feedback_contact"
-        app:layout_constraintVertical_weight="1"
-        tools:targetApi="o" />
+        app:layout_constraintTop_toBottomOf="@+id/text_feedback_contact" />
 
     <Button
         android:id="@+id/button_feedback_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="@string/send_feedback"
+        android:textSize="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_feedback_content" />
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
