@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home"
-        android:title="@string/title_home" />
+        android:id="@+id/navigation_breath"
+        android:icon="@drawable/ic_breath"
+        android:title="@string/title_breath" />
 
     <item
         android:id="@+id/navigation_asmr"
@@ -12,9 +12,9 @@
         android:title="@string/title_asmr" />
 
     <item
-        android:id="@+id/navigation_breath"
-        android:icon="@drawable/ic_breath"
-        android:title="@string/title_breath" />
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_music"

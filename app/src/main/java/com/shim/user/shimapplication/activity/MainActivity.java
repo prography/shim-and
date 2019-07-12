@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -78,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
     private MusicFragment musicFragment = new MusicFragment();
     private EtcFragment etcFragment = new EtcFragment();
 
+    private boolean isPreviousBreath = false;
+    public static boolean isCurrentEtc = false;
+
     public static void showPlayer() {
         musicPlayerCard.setVisibility(View.VISIBLE);
     }
@@ -97,29 +101,40 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, homeFragment)
                 .commitAllowingStateLoss();
+        navigation.setSelectedItemId(R.id.navigation_home); // Default Position Setting
 
         navigation.setOnNavigationItemSelectedListener(item -> {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
-                    musicPlayerCard.setVisibility(View.INVISIBLE);
+                case R.id.navigation_breath:
+                    transaction.replace(R.id.frame_layout, breathFragment).commitAllowingStateLoss();
+                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                        musicPlayerCard.setVisibility(View.VISIBLE);
+                    }
+                    if(AudioApplication.getInstance().getServiceInterface().isPlaying()){
+                        AudioApplication.getInstance().getServiceInterface().pause();
+                    }
+                    isPreviousBreath=true;
                     return true;
                 case R.id.navigation_asmr:
                     transaction.replace(R.id.frame_layout, asmrFragment).commitAllowingStateLoss();
                     if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
                         musicPlayerCard.setVisibility(View.VISIBLE);
                     }
-                    return true;
-                case R.id.navigation_breath:
-                    transaction.replace(R.id.frame_layout, breathFragment).commitAllowingStateLoss();
-                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-                        musicPlayerCard.setVisibility(View.VISIBLE);
+                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                        AudioApplication.getInstance().getServiceInterface().play();
+                        isPreviousBreath=false;
                     }
+                    return true;
+                case R.id.navigation_home:
+                    transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
+                    musicPlayerCard.setVisibility(View.INVISIBLE);
                     return true;
                 case R.id.navigation_music:
                     transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
-                    musicPlayerCard.setVisibility(View.VISIBLE);
+                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                        musicPlayerCard.setVisibility(View.VISIBLE);
+                    }
                     return true;
                 case R.id.navigation_etc:
                     transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
@@ -171,12 +186,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+    protected void onPause() {
+        super.onPause();
+        if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()&&!isCurrentEtc) {
             AudioApplication.getInstance().getServiceInterface().pause();
         }
     }
+
 
     @Override
     protected void onDestroy() {
