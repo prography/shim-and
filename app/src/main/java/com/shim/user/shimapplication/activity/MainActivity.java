@@ -136,16 +136,28 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
                     musicPlayerCard.setVisibility(View.INVISIBLE);
+                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                        AudioApplication.getInstance().getServiceInterface().play();
+                        isPreviousBreath=false;
+                    }
                     return true;
                 case R.id.navigation_music:
                     transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
                     if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
                         musicPlayerCard.setVisibility(View.VISIBLE);
                     }
+                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                        AudioApplication.getInstance().getServiceInterface().play();
+                        isPreviousBreath=false;
+                    }
                     return true;
                 case R.id.navigation_etc:
                     transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
                     musicPlayerCard.setVisibility(View.INVISIBLE);
+                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                        AudioApplication.getInstance().getServiceInterface().play();
+                        isPreviousBreath=false;
+                    }
                     return true;
             }
             return false;
