@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isPreviousBreath = false;
     public static boolean isCurrentEtc = false;
+    public static boolean isChangedTheme = false;
 
     public static void showPlayer() {
         musicPlayerCard.setVisibility(View.VISIBLE);
@@ -101,7 +102,13 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, homeFragment)
                 .commitAllowingStateLoss();
-        navigation.setSelectedItemId(R.id.navigation_home); // Default Position Setting
+        if(isChangedTheme){
+            navigation.setSelectedItemId(R.id.navigation_etc);
+            fragmentManager.beginTransaction().replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
+            isChangedTheme=false;
+        }else {
+            navigation.setSelectedItemId(R.id.navigation_home);
+        }// Default Position Setting
 
         navigation.setOnNavigationItemSelectedListener(item -> {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
