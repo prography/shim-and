@@ -136,7 +136,7 @@ public class NotificationPlayer {
                 remoteViews.setTextViewText(R.id.noti_title, music.getTitle());
             } else {
                 remoteViews.setImageViewResource(R.id.noti_img_albumart, R.drawable.img_music);
-                remoteViews.setTextViewText(R.id.noti_title, music.getTitle());
+                remoteViews.setTextViewText(R.id.noti_title, "재생중인 음악이 없습니다");
             }
         }
     }
