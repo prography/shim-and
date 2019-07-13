@@ -131,6 +131,7 @@ public class PlaylistActivity extends AppCompatActivity {
                 musicPlayList.remove(position);
                 notifyDataSetChanged();
                 AudioApplication.getInstance().getServiceInterface().delete(position, musicPlayList);
+                updateUI();
             });
         }
 
