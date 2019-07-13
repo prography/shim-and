@@ -190,8 +190,14 @@ public class AudioService extends Service {
             mCurrentPosition = mCurrentPosition - 1;
             forward();
         }
-        sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
-        updateNotificationPlayer();
+        if(musicList.size()==0){
+            sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
+            removeNotificationPlayer();
+        }
+        else {
+            sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
+            updateNotificationPlayer();
+        }
     }
 
     public boolean isPlaying() {
