@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.shim.user.shimapplication.R;
 import com.shim.user.shimapplication.media.AudioApplication;
-import com.shim.user.shimapplication.media.AudioServiceInterface;
 import com.shim.user.shimapplication.room.Asmr;
 import com.shim.user.shimapplication.room.AsmrDao;
 import com.shim.user.shimapplication.room.Music;
@@ -80,22 +82,44 @@ public class AsmrFragment extends Fragment {
                     .into(holder.thumbnail);
             holder.title.setText(asmr.getTitle());
             holder.action.setOnClickListener(view -> {
-                Music musicLike = new Music.Builder()
-                        .setTitle(asmr.getTitle())
-                        .setDuration(asmr.getDuration())
-                        .setThumbnail(asmr.getThumbnail())
-                        .setUrl(asmr.getUrl())
-                        .build();
-                musicPlayList.add(musicLike);
-                AudioServiceInterface audioServiceInterface = AudioApplication.getInstance().getServiceInterface();
-                if (audioServiceInterface.getIsHomePlayed()) {
-                    audioServiceInterface.stop();
-                    audioServiceInterface.setIsHomePlayed(false);
-                    isOtherMusicPlayed = true;
-                    showPlayer();
-                }
-                audioServiceInterface.setPlayList(musicPlayList);
-                audioServiceInterface.play(musicPlayList.size() - 1);
+                PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+                MenuInflater inflater = popupMenu.getMenuInflater();
+                inflater.inflate(R.menu.options_music_play, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    Music musicLike = new Music.Builder()
+                            .setTitle(asmr.getTitle())
+                            .setDuration(asmr.getDuration())
+                            .setThumbnail(asmr.getThumbnail())
+                            .setUrl(asmr.getUrl())
+                            .build();
+                    switch (menuItem.getItemId()) {
+                        case R.id.option_play_now:
+                            musicPlayList.add(musicLike);
+                            if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                                AudioApplication.getInstance().getServiceInterface().stop();
+                                AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
+                                isOtherMusicPlayed = true;
+                                showPlayer();
+                            }
+                            AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+                            AudioApplication.getInstance().getServiceInterface().play(musicPlayList.size() - 1);
+                            return true;
+                        case R.id.option_add_playlist:
+                            musicPlayList.add(musicLike);
+                            if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                                Toast toast = Toast.makeText(getContext(), "재생목록에 추가되었습니다.", Toast.LENGTH_SHORT);
+                                toast.show();
+                            } else {
+                                AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
+                                isOtherMusicPlayed = true;
+                                showPlayer();
+                                AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+                            }
+                            return true;
+                    }
+                    return false;
+                });
+                popupMenu.show();
             });
         }
 
