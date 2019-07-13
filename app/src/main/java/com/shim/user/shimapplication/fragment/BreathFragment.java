@@ -24,7 +24,7 @@ public class BreathFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_breath, container, false);
         ProgressBar progressBar = view.findViewById(R.id.progress_breath);
         ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 1000);
-        animation.setDuration(9000);
+        animation.setDuration(8000);
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatCount(ValueAnimator.INFINITE);
         animation.start();
@@ -37,11 +37,11 @@ public class BreathFragment extends Fragment {
             try {
                 while (true) {
                     textHandler.sendMessage(textHandler.obtainMessage(1, "Breath In"));
-                    Thread.sleep(3750);
+                    Thread.sleep(3333);
                     textHandler.sendMessage(textHandler.obtainMessage(1, "Hold"));
-                    Thread.sleep(1500);
+                    Thread.sleep(1334);
                     textHandler.sendMessage(textHandler.obtainMessage(1, "Breath Out"));
-                    Thread.sleep(3750);
+                    Thread.sleep(3333);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
