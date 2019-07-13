@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -39,8 +40,8 @@
                 android:text="@string/title"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintLeft_toRightOf="@+id/music_item_image"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/music_item_delete"/>
+                app:layout_constraintRight_toLeftOf="@id/music_item_delete"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_music_artist"
@@ -50,8 +51,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="15dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginBottom="15dp"
                 android:ellipsize="end"
                 android:gravity="bottom"
                 android:maxLines="1"
@@ -59,7 +60,7 @@
                 android:textSize="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/music_item_image"
-                app:layout_constraintRight_toLeftOf="@id/music_item_delete"/>
+                app:layout_constraintRight_toLeftOf="@id/music_item_delete" />
 
             <ImageButton
                 android:id="@+id/music_item_delete"
@@ -67,9 +68,10 @@
                 android:layout_height="40dp"
                 android:layout_margin="12dp"
                 android:background="@null"
+                android:src="@drawable/ic_close"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/ic_close" />
+                tools:ignore="VectorDrawableCompat" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
