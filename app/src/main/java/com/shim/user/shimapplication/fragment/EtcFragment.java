@@ -27,29 +27,20 @@ public class EtcFragment extends Fragment {
         Button appInfoButton = (Button)view.findViewById(R.id.button_show_app_info);
         Button settingButton = (Button)view.findViewById(R.id.button_show_settings);
 
-        feedbackButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isCurrentEtc = true;
-                Intent intent = new Intent(getActivity(),FeedbackActivity.class);
-                startActivity(intent);
-            }
+        feedbackButton.setOnClickListener(view1 -> {
+            isCurrentEtc = true;
+            Intent intent = new Intent(getActivity(),FeedbackActivity.class);
+            startActivity(intent);
         });
-        appInfoButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isCurrentEtc = true;
-                Intent intent = new Intent(getActivity(),AppDetailActivity.class);
-                startActivity(intent);
-            }
+        appInfoButton.setOnClickListener(view2 -> {
+            isCurrentEtc = true;
+            Intent intent = new Intent(getActivity(),AppDetailActivity.class);
+            startActivity(intent);
         });
-        settingButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isCurrentEtc = true;
-                Intent intent = new Intent(getActivity(),SettingsActivity.class);
-                startActivity(intent);
-            }
+        settingButton.setOnClickListener(view3 -> {
+            isCurrentEtc = true;
+            Intent intent = new Intent(getActivity(),SettingsActivity.class);
+            startActivity(intent);
         });
         return view;
     }

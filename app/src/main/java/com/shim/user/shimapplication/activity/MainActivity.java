@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isPreviousBreath = false;
     public static boolean isCurrentEtc = false;
+    public static boolean isChangedTheme = false;
 
     public static void showPlayer() {
         musicPlayerCard.setVisibility(View.VISIBLE);
@@ -101,7 +102,13 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, homeFragment)
                 .commitAllowingStateLoss();
-        navigation.setSelectedItemId(R.id.navigation_home); // Default Position Setting
+        if(isChangedTheme){
+            navigation.setSelectedItemId(R.id.navigation_etc);
+            fragmentManager.beginTransaction().replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
+            isChangedTheme=false;
+        }else {
+            navigation.setSelectedItemId(R.id.navigation_home);
+        }// Default Position Setting
 
         navigation.setOnNavigationItemSelectedListener(item -> {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -129,16 +136,28 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
                     musicPlayerCard.setVisibility(View.INVISIBLE);
+                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                        AudioApplication.getInstance().getServiceInterface().play();
+                        isPreviousBreath=false;
+                    }
                     return true;
                 case R.id.navigation_music:
                     transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
                     if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
                         musicPlayerCard.setVisibility(View.VISIBLE);
                     }
+                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                        AudioApplication.getInstance().getServiceInterface().play();
+                        isPreviousBreath=false;
+                    }
                     return true;
                 case R.id.navigation_etc:
                     transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
                     musicPlayerCard.setVisibility(View.INVISIBLE);
+                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                        AudioApplication.getInstance().getServiceInterface().play();
+                        isPreviousBreath=false;
+                    }
                     return true;
             }
             return false;

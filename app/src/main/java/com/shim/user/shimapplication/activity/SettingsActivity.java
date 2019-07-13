@@ -12,6 +12,7 @@ import com.shim.user.shimapplication.util.Theme;
 
 import java.util.Objects;
 
+import static com.shim.user.shimapplication.activity.MainActivity.isChangedTheme;
 import static com.shim.user.shimapplication.activity.MainActivity.isCurrentEtc;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -49,6 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
             Objects.requireNonNull(themePreference)
                     .setOnPreferenceChangeListener((preference, newValue) -> {
                         Theme.apply(newValue.toString());
+                        isChangedTheme=true;
                         return true;
                     });
         }
