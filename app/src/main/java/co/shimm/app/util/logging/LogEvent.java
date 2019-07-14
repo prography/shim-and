@@ -7,7 +7,7 @@ public enum LogEvent {
         @Override
         String toStringWith(String... args) {
             if (args.length == 1) {
-                return String.format("ASMR Music(id: %s) is paused.", args[0]);
+                return String.format("ASMR(id: %s) is paused.", args[0]);
             } else {
                 throw new InvalidParameterException();
             }
@@ -17,9 +17,9 @@ public enum LogEvent {
         @Override
         String toStringWith(String... args) {
             if (args.length == 1) {
-                return String.format("ASMR Music(id: %s) is playing.", args[0]);
+                return String.format("ASMR(id: %s) is playing.", args[0]);
             } else if (args.length == 2) {
-                return String.format("ASMR Music(id: %s) starts at %sms.", args[0], args[1]);
+                return String.format("ASMR(id: %s) starts at %sms.", args[0], args[1]);
             } else {
                 throw new InvalidParameterException();
             }
@@ -29,7 +29,7 @@ public enum LogEvent {
         @Override
         String toStringWith(String... args) {
             if (args.length == 1) {
-                return String.format("ASMR Music(id: %s) is stopped.", args[0]);
+                return String.format("ASMR(id: %s) is stopped.", args[0]);
             } else {
                 throw new InvalidParameterException();
             }
@@ -40,8 +40,6 @@ public enum LogEvent {
         String toStringWith(String... args) {
             if (args.length == 1) {
                 return String.format("Home Music(id: %s) is playing.", args[0]);
-            } else if (args.length == 2) {
-                return String.format("Music(id: %s) starts at %sms.", args[0], args[1]);
             } else {
                 throw new InvalidParameterException();
             }
@@ -99,7 +97,17 @@ public enum LogEvent {
             }
         }
     },
-    PLAYLIST_ADD {
+    PLAYLIST_ADD_ASMR {
+        @Override
+        String toStringWith(String... args) {
+            if (args.length == 1) {
+                return String.format("ASMR(id: %s) is added to the playlist.", args[0]);
+            } else {
+                throw new InvalidParameterException();
+            }
+        }
+    },
+    PLAYLIST_ADD_MUSIC {
         @Override
         String toStringWith(String... args) {
             if (args.length == 1) {
@@ -109,7 +117,17 @@ public enum LogEvent {
             }
         }
     },
-    PLAYLIST_REMOVE {
+    PLAYLIST_REMOVE_ASMR {
+        @Override
+        String toStringWith(String... args) {
+            if (args.length == 1) {
+                return String.format("ASMR(id: %s) is removed from the playlist.", args[0]);
+            } else {
+                throw new InvalidParameterException();
+            }
+        }
+    },
+    PLAYLIST_REMOVE_MUSIC {
         @Override
         String toStringWith(String... args) {
             if (args.length == 1) {
