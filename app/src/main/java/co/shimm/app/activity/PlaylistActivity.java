@@ -17,14 +17,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import co.shimm.app.R;
-import co.shimm.app.media.AudioApplication;
-import co.shimm.app.media.BroadcastActions;
-import co.shimm.app.room.Music;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+
+import co.shimm.app.R;
+import co.shimm.app.media.AudioApplication;
+import co.shimm.app.media.BroadcastActions;
+import co.shimm.app.room.Music;
+import co.shimm.app.util.logging.Log;
+import co.shimm.app.util.logging.LogEvent;
 
 import static co.shimm.app.activity.MainActivity.musicPlayList;
 
@@ -128,6 +131,7 @@ public class PlaylistActivity extends AppCompatActivity {
                     .into(holder.thumbnail);
             holder.title.setText(music.getTitle());
             holder.action.setOnClickListener(view -> {
+                Log.i(music.getTitle().contains("(ASMR)") ? LogEvent.PLAYLIST_REMOVE_ASMR : LogEvent.PLAYLIST_REMOVE_MUSIC, String.valueOf(music.getId()));
                 musicPlayList.remove(position);
                 notifyDataSetChanged();
                 AudioApplication.getInstance().getServiceInterface().delete(position, musicPlayList);

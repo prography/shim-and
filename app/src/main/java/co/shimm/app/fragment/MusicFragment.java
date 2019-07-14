@@ -24,6 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
 import co.shimm.app.R;
 import co.shimm.app.media.AudioApplication;
 import co.shimm.app.retrofit.ServiceGenerator;
@@ -33,12 +39,8 @@ import co.shimm.app.retrofit.response.BaseResponse;
 import co.shimm.app.room.Music;
 import co.shimm.app.room.MusicDao;
 import co.shimm.app.room.ShimDatabase;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Objects;
-
+import co.shimm.app.util.logging.Log;
+import co.shimm.app.util.logging.LogEvent;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,18 +91,23 @@ public class MusicFragment extends Fragment {
             switch (position) {
                 case 0:
                     adapter.setItem((ArrayList<Music>) dao.getAll());
+                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_MUSIC_ALL");
                     break;
                 case 1:
                     adapter.setItem((ArrayList<Music>) dao.getFavorites());
+                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_MUSIC_FAVORITE");
                     break;
                 case 2:
                     adapter.setItem((ArrayList<Music>) dao.findByCategory("relax"));
+                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_MUSIC_RELAX");
                     break;
                 case 3:
                     adapter.setItem((ArrayList<Music>) dao.findByCategory("focus"));
+                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_MUSIC_FOCUS");
                     break;
                 case 4:
                     adapter.setItem((ArrayList<Music>) dao.findByCategory("classic"));
+                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_MUSIC_CLASSIC");
             }
             adapter.setTabPosition(position);
             return null;
@@ -162,9 +169,10 @@ public class MusicFragment extends Fragment {
                 MenuInflater inflater = popupMenu.getMenuInflater();
                 inflater.inflate(R.menu.options_music_play, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    musicPlayList.add(music);
+                    Log.i(LogEvent.PLAYLIST_ADD_MUSIC, String.valueOf(music.getId()));
                     switch (menuItem.getItemId()) {
                         case R.id.option_play_now:
-                            musicPlayList.add(music);
                             if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
                                 AudioApplication.getInstance().getServiceInterface().stop();
                                 AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
@@ -173,9 +181,9 @@ public class MusicFragment extends Fragment {
                             }
                             AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
                             AudioApplication.getInstance().getServiceInterface().play(musicPlayList.size() - 1);
+                            Log.i(LogEvent.MUSIC_PLAY, String.valueOf(music.getId()));
                             return true;
                         case R.id.option_add_playlist:
-                            musicPlayList.add(music);
                             if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
                                 Toast toast = Toast.makeText(getContext(), "재생목록에 추가되었습니다.", Toast.LENGTH_SHORT);
                                 toast.show();

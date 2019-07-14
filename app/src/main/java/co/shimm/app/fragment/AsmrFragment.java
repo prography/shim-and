@@ -18,16 +18,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+
 import co.shimm.app.R;
 import co.shimm.app.media.AudioApplication;
 import co.shimm.app.room.Asmr;
 import co.shimm.app.room.AsmrDao;
 import co.shimm.app.room.Music;
 import co.shimm.app.room.ShimDatabase;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
+import co.shimm.app.util.logging.Log;
+import co.shimm.app.util.logging.LogEvent;
 
 import static co.shimm.app.activity.MainActivity.musicPlayList;
 import static co.shimm.app.activity.MainActivity.showPlayer;
@@ -87,14 +90,16 @@ public class AsmrFragment extends Fragment {
                 inflater.inflate(R.menu.options_music_play, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(menuItem -> {
                     Music musicLike = new Music.Builder()
-                            .setTitle(asmr.getTitle())
+                            .setId(asmr.getId())
+                            .setTitle("(ASMR) " + asmr.getTitle())
                             .setDuration(asmr.getDuration())
                             .setThumbnail(asmr.getThumbnail())
                             .setUrl(asmr.getUrl())
                             .build();
+                    musicPlayList.add(musicLike);
+                    Log.i(LogEvent.PLAYLIST_ADD_ASMR, String.valueOf(musicLike.getId()));
                     switch (menuItem.getItemId()) {
                         case R.id.option_play_now:
-                            musicPlayList.add(musicLike);
                             if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
                                 AudioApplication.getInstance().getServiceInterface().stop();
                                 AudioApplication.getInstance().getServiceInterface().setIsHomePlayed(false);
@@ -103,9 +108,9 @@ public class AsmrFragment extends Fragment {
                             }
                             AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
                             AudioApplication.getInstance().getServiceInterface().play(musicPlayList.size() - 1);
+                            Log.i(LogEvent.ASMR_PLAY, String.valueOf(musicLike.getId()));
                             return true;
                         case R.id.option_add_playlist:
-                            musicPlayList.add(musicLike);
                             if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
                                 Toast toast = Toast.makeText(getContext(), "재생목록에 추가되었습니다.", Toast.LENGTH_SHORT);
                                 toast.show();

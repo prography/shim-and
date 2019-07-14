@@ -44,6 +44,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import co.shimm.app.util.logging.Log;
+import co.shimm.app.util.logging.LogEvent;
+import co.shimm.app.util.logging.LogSender;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 .getContentResolver(), Settings.Secure.ANDROID_ID);
         setContentView(R.layout.activity_main);
 
+        LogSender.SSAID = userID;
         Theme.apply(PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
                 .getString("theme", "night_owl"));
         fetchMusicList();
@@ -121,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         AudioApplication.getInstance().getServiceInterface().pause();
                     }
                     isPreviousBreath=true;
+                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_BREATHE");
                     return true;
                 case R.id.navigation_asmr:
                     transaction.replace(R.id.frame_layout, asmrFragment).commitAllowingStateLoss();
@@ -131,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         AudioApplication.getInstance().getServiceInterface().play();
                         isPreviousBreath=false;
                     }
+                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_ASMR");
                     return true;
                 case R.id.navigation_home:
                     transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
@@ -139,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                         AudioApplication.getInstance().getServiceInterface().play();
                         isPreviousBreath=false;
                     }
+                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_HOME");
                     return true;
                 case R.id.navigation_music:
                     transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
@@ -157,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
                         AudioApplication.getInstance().getServiceInterface().play();
                         isPreviousBreath=false;
                     }
+                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_ETC");
                     return true;
             }
             return false;
