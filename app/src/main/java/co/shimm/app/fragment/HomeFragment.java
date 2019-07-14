@@ -59,7 +59,6 @@ public class HomeFragment extends Fragment {
                         AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
                         AudioApplication.getInstance().getServiceInterface().playOneMusic();
                         currentPlayingPosition=position;
-                        Log.i(LogEvent.HOME_MUSIC_PLAY, String.valueOf(mainList.get(position).getId()));
                     }
                 }
             }
@@ -102,7 +101,6 @@ public class HomeFragment extends Fragment {
                     homeMusicList.add(mainList.get(0));
                     AudioApplication.getInstance().getServiceInterface().setPlayList((ArrayList<Music>) homeMusicList);
                     AudioApplication.getInstance().getServiceInterface().playOneMusic();
-                    Log.i(LogEvent.HOME_MUSIC_PLAY, String.valueOf(mainList.get(0).getId()));
                     isFirstRunned = false;
                 }
             }

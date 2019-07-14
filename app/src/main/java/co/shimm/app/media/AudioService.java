@@ -18,6 +18,8 @@ import android.os.PowerManager;
 import androidx.annotation.NonNull;
 
 import co.shimm.app.room.Music;
+import co.shimm.app.util.logging.Log;
+import co.shimm.app.util.logging.LogEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +121,21 @@ public class AudioService extends Service {
         }
     }
 
+    public void stopWithNoLog(){
+        mMediaPlayer.stop();
+        mMediaPlayer.reset();
+    }
+
     public void stop() {
+        if(musicList.size()!=0&&mCurrentPosition<musicList.size()) {
+            if (musicList.get(mCurrentPosition).getTitle().contains("(HOME)")) {
+                Log.i(LogEvent.HOME_MUSIC_STOP, String.valueOf(musicList.get(mCurrentPosition).getId()));
+            } else if (musicList.get(mCurrentPosition).getTitle().contains("(ASMR)")) {
+                Log.i(LogEvent.ASMR_STOP, String.valueOf(musicList.get(mCurrentPosition).getId()));
+            } else {
+                Log.i(LogEvent.MUSIC_STOP, String.valueOf(musicList.get(mCurrentPosition).getId()));
+            }
+        }
         mMediaPlayer.stop();
         mMediaPlayer.reset();
     }
@@ -133,17 +149,35 @@ public class AudioService extends Service {
 
     public void play(int position) {
         queryAudioItem(position);
-        stop();
+        stopWithNoLog();
         prepare();
         mMediaPlayer.start();
         new Handler().postDelayed(() -> {
             sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED)); // MusicPlayer
             updateNotificationPlayer(); // NoticationPlayer
         }, 300);
+        if (musicList.size() != 0) {
+            if (musicList.get(mCurrentPosition).getTitle().contains("(HOME)")) {
+                Log.i(LogEvent.HOME_MUSIC_PLAY, String.valueOf(musicList.get(mCurrentPosition).getId()));
+            } else if (musicList.get(mCurrentPosition).getTitle().contains("(ASMR)")) {
+                Log.i(LogEvent.ASMR_PLAY, String.valueOf(musicList.get(mCurrentPosition).getId()));
+            } else {
+                Log.i(LogEvent.MUSIC_PLAY, String.valueOf(musicList.get(mCurrentPosition).getId()));
+            }
+        }
     }
 
     public void play() {
         if (isPrepared) {
+            if(musicList.size()!=0) {
+                if (musicList.get(mCurrentPosition).getTitle().contains("(HOME)")) {
+                    Log.i(LogEvent.HOME_MUSIC_PLAY, String.valueOf(musicList.get(mCurrentPosition).getId()));
+                } else if (musicList.get(mCurrentPosition).getTitle().contains("(ASMR)")) {
+                    Log.i(LogEvent.ASMR_PLAY, String.valueOf(musicList.get(mCurrentPosition).getId()));
+                } else {
+                    Log.i(LogEvent.MUSIC_PLAY, String.valueOf(musicList.get(mCurrentPosition).getId()));
+                }
+            }
             mMediaPlayer.start();
             sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
             updateNotificationPlayer();
@@ -152,6 +186,15 @@ public class AudioService extends Service {
 
     public void pause() {
         if (isPrepared) {
+            if (musicList.size() != 0) {
+                if (musicList.get(mCurrentPosition).getTitle().contains("(HOME)")) {
+                    // There's no event when home music is paused
+                } else if (musicList.get(mCurrentPosition).getTitle().contains("(ASMR)")) {
+                    Log.i(LogEvent.ASMR_PAUSE, String.valueOf(musicList.get(mCurrentPosition).getId()));
+                } else {
+                    Log.i(LogEvent.MUSIC_PAUSE, String.valueOf(musicList.get(mCurrentPosition).getId()));
+                }
+            }
             mMediaPlayer.pause();
             sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
             updateNotificationPlayer();
@@ -217,6 +260,15 @@ public class AudioService extends Service {
             if (isPlaying()) {
                 mMediaPlayer.stop();
                 mMediaPlayer.reset();
+            }
+            if(musicList.size()!=0) {
+                if (musicList.get(mCurrentPosition).getTitle().contains("(HOME)")) {
+                    Log.i(LogEvent.HOME_MUSIC_PLAY, String.valueOf(musicList.get(mCurrentPosition).getId()));
+                } else if (musicList.get(mCurrentPosition).getTitle().contains("(ASMR)")) {
+                    Log.i(LogEvent.ASMR_PLAY, String.valueOf(musicList.get(mCurrentPosition).getId()));
+                } else {
+                    Log.i(LogEvent.MUSIC_PLAY, String.valueOf(musicList.get(mCurrentPosition).getId()));
+                }
             }
             mMediaPlayer.setDataSource(musicList.get(0).getUrl());
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NotNull Call<MusicListResponse> call, @NotNull Response<MusicListResponse> response) {
                 ArrayList<Music> musicList = (ArrayList<Music>) Objects.requireNonNull(response.body()).getData();
                 for (Music music : musicList) {
+                    music.setTitle("(HOME)"+music.getTitle());
                     music.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getThumbnail());
                     music.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getUrl());
                 }

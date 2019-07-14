@@ -108,7 +108,6 @@ public class AsmrFragment extends Fragment {
                             }
                             AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
                             AudioApplication.getInstance().getServiceInterface().play(musicPlayList.size() - 1);
-                            Log.i(LogEvent.ASMR_PLAY, String.valueOf(musicLike.getId()));
                             return true;
                         case R.id.option_add_playlist:
                             if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
