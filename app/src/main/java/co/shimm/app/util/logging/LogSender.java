@@ -1,7 +1,5 @@
 package co.shimm.app.util.logging;
 
-import android.util.Log;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -26,7 +24,7 @@ public class LogSender {
                     }
 
                     @Override
-                    public void onFailure(@NotNull Call<BaseResponse> call, Throwable t) {
+                    public void onFailure(@NotNull Call<BaseResponse> call, @NotNull Throwable t) {
                     }
                 });
     }

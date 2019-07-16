@@ -31,19 +31,19 @@ public class EtcFragment extends Fragment {
 
         feedbackButton.setOnClickListener(view1 -> {
             isCurrentEtc = true;
-            Log.i(LogEvent.PAGE_MOVE, "ACTIVITY_FEEDBACK");
+            Log.i(LogEvent.PAGE_CHANGE, "ACTIVITY_FEEDBACK");
             Intent intent = new Intent(getActivity(), FeedbackActivity.class);
             startActivity(intent);
         });
         appInfoButton.setOnClickListener(view2 -> {
             isCurrentEtc = true;
-            Log.i(LogEvent.PAGE_MOVE, "ACTIVITY_APP_INFO");
+            Log.i(LogEvent.PAGE_CHANGE, "ACTIVITY_APP_INFO");
             Intent intent = new Intent(getActivity(), AppDetailActivity.class);
             startActivity(intent);
         });
         settingButton.setOnClickListener(view3 -> {
             isCurrentEtc = true;
-            Log.i(LogEvent.PAGE_MOVE, "ACTIVITY_SETTINGS");
+            Log.i(LogEvent.PAGE_CHANGE, "ACTIVITY_SETTINGS");
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
         });

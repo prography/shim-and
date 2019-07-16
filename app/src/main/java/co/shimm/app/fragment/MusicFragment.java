@@ -91,23 +91,23 @@ public class MusicFragment extends Fragment {
             switch (position) {
                 case 0:
                     adapter.setItem((ArrayList<Music>) dao.getAll());
-                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_MUSIC_ALL");
+                    Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_MUSIC_ALL");
                     break;
                 case 1:
                     adapter.setItem((ArrayList<Music>) dao.getFavorites());
-                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_MUSIC_FAVORITE");
+                    Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_MUSIC_FAVORITE");
                     break;
                 case 2:
                     adapter.setItem((ArrayList<Music>) dao.findByCategory("relax"));
-                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_MUSIC_RELAX");
+                    Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_MUSIC_RELAX");
                     break;
                 case 3:
                     adapter.setItem((ArrayList<Music>) dao.findByCategory("focus"));
-                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_MUSIC_FOCUS");
+                    Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_MUSIC_FOCUS");
                     break;
                 case 4:
                     adapter.setItem((ArrayList<Music>) dao.findByCategory("classic"));
-                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_MUSIC_CLASSIC");
+                    Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_MUSIC_CLASSIC");
             }
             adapter.setTabPosition(position);
             return null;

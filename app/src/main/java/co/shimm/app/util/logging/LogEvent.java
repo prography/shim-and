@@ -87,7 +87,7 @@ public enum LogEvent {
             }
         }
     },
-    PAGE_MOVE {
+    PAGE_CHANGE {
         @Override
         String toStringWith(String... args) {
             if (args.length == 1) {

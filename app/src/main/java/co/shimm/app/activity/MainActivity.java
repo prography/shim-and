@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         AudioApplication.getInstance().getServiceInterface().pause();
                     }
                     isPreviousBreath=true;
-                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_BREATHE");
+                    Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_BREATHE");
                     return true;
                 case R.id.navigation_asmr:
                     transaction.replace(R.id.frame_layout, asmrFragment).commitAllowingStateLoss();
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         AudioApplication.getInstance().getServiceInterface().play();
                         isPreviousBreath=false;
                     }
-                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_ASMR");
+                    Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_ASMR");
                     return true;
                 case R.id.navigation_home:
                     transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                         AudioApplication.getInstance().getServiceInterface().play();
                         isPreviousBreath=false;
                     }
-                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_HOME");
+                    Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_HOME");
                     return true;
                 case R.id.navigation_music:
                     transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                         AudioApplication.getInstance().getServiceInterface().play();
                         isPreviousBreath=false;
                     }
-                    Log.i(LogEvent.PAGE_MOVE, "FRAGMENT_ETC");
+                    Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_ETC");
                     return true;
             }
             return false;
