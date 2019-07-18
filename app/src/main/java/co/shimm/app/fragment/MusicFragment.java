@@ -139,6 +139,10 @@ public class MusicFragment extends Fragment {
                     .load(music.getThumbnail())
                     .into(holder.thumbnail);
             holder.title.setText(music.getTitle());
+            int seconds = (music.getDuration()/1000)%60;
+            long minutes = ((music.getDuration()-seconds)/1000)/60;
+            String string = String.format("%d:%02d", minutes, seconds);
+            holder.duration.setText(string);
             if (music.isFavorite()) {
                 ImageViewCompat.setImageTintList(holder.actionToggle, ColorStateList.valueOf(Color.parseColor("#FF7B7B")));
                 holder.actionToggle.setImageResource(R.drawable.ic_favorite);
@@ -216,6 +220,7 @@ public class MusicFragment extends Fragment {
         class ViewHolder extends RecyclerView.ViewHolder {
             ImageView thumbnail;
             TextView title;
+            TextView duration;
             ImageButton actionToggle;
             ImageButton actionClick;
 
@@ -223,6 +228,7 @@ public class MusicFragment extends Fragment {
                 super(itemView);
                 thumbnail = itemView.findViewById(R.id.image_music_thumbnail);
                 title = itemView.findViewById(R.id.text_music_title);
+                duration = itemView.findViewById(R.id.text_music_duration);
                 actionToggle = itemView.findViewById(R.id.button_toggle_favorite);
                 actionClick = itemView.findViewById(R.id.button_show_play_options);
             }

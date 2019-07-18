@@ -22,6 +22,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/text_music_duration"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="40dp"
+            android:layout_height="24dp"
+            android:layout_margin="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#FFFFDE"
+            android:text="test"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
             android:id="@+id/text_music_title"
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="match_parent"
