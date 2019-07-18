@@ -21,7 +21,9 @@ import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import co.shimm.app.R;
 import co.shimm.app.media.AudioApplication;
@@ -84,6 +86,10 @@ public class AsmrFragment extends Fragment {
                     .load(asmr.getThumbnail())
                     .into(holder.thumbnail);
             holder.title.setText(asmr.getTitle());
+            int seconds = (asmr.getDuration()/1000)%60;
+            long minutes = ((asmr.getDuration()-seconds)/1000)/60;
+            String string = String.format("%d:%02d", minutes, seconds);
+            holder.duration.setText(string);
             holder.action.setOnClickListener(view -> {
                 PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
                 MenuInflater inflater = popupMenu.getMenuInflater();
@@ -139,12 +145,14 @@ public class AsmrFragment extends Fragment {
         class ViewHolder extends RecyclerView.ViewHolder {
             ImageView thumbnail;
             TextView title;
+            TextView duration;
             ImageButton action;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 thumbnail = itemView.findViewById(R.id.image_asmr_thumbnail);
                 title = itemView.findViewById(R.id.text_asmr_title);
+                duration = itemView.findViewById(R.id.text_asmr_duration);
                 action = itemView.findViewById(R.id.button_play_asmr);
             }
         }

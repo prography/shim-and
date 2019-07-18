@@ -12,7 +12,7 @@ public class Asmr {
     private int id;
     @SerializedName("sleep_name")
     private String title;
-    @SerializedName("sleep_time")
+    @SerializedName("sleep_msec")
     private int duration;
     @SerializedName("sleep_picture")
     private String thumbnail;

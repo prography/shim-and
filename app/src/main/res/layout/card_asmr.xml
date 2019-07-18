@@ -38,6 +38,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+        
+        <TextView
+            android:id="@+id/text_asmr_duration"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="40dp"
+            android:layout_height="24dp"
+            android:layout_margin="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#FFFFDE"
+            android:text="test"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/button_play_asmr"/>
 
         <ImageButton
             android:id="@+id/button_play_asmr"
