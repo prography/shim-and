@@ -15,15 +15,42 @@
         android:scaleType="fitXY"
         app:srcCompat="@drawable/img_music" />
 
-    <TextView
-        android:id="@+id/noti_title"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
         android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:text="Sample Title"
-        android:textColor="@android:color/black" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/noti_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="12dp"
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="Sample Title"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/noti_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="12dp"
+            android:textSize="8dp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="Sample Artist"
+            android:textColor="@android:color/black" />
+
+
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/noti_rewind"

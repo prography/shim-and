@@ -133,10 +133,17 @@ public class NotificationPlayer {
             AppWidgetTarget target = new AppWidgetTarget(mService.getApplicationContext(), R.id.noti_img_albumart, remoteViews, R.layout.notification_player);
             if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
                 Glide.with(mService.getApplicationContext()).asBitmap().centerCrop().load(music.getThumbnail()).override(480, 342).into(target);
-                remoteViews.setTextViewText(R.id.noti_title, music.getTitle());
+                if(music.getTitle().contains("(ASMR)")||music.getTitle().contains("(HOME)")){
+                    remoteViews.setTextViewText(R.id.noti_title, music.getTitle().substring(7));
+                    remoteViews.setTextViewText(R.id.noti_artist, "");
+                }else {
+                    remoteViews.setTextViewText(R.id.noti_title, music.getTitle());
+                    remoteViews.setTextViewText(R.id.noti_artist, music.getArtist());
+                }
             } else {
                 remoteViews.setImageViewResource(R.id.noti_img_albumart, R.drawable.img_music);
                 remoteViews.setTextViewText(R.id.noti_title, "재생중인 음악이 없습니다");
+                remoteViews.setTextViewText(R.id.noti_artist, "");
             }
         }
     }

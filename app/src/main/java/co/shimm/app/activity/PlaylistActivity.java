@@ -34,6 +34,7 @@ import static co.shimm.app.activity.MainActivity.musicPlayList;
 public class PlaylistActivity extends AppCompatActivity {
     public ImageView playerImage;
     public TextView playerTitle;
+    public TextView playerArtist;
     public ImageButton playerPlayBtn;
     public ImageButton playerRewindBtn;
     public ImageButton playerForwardBtn;
@@ -52,6 +53,7 @@ public class PlaylistActivity extends AppCompatActivity {
 
         playerImage = findViewById(R.id.player_music_image);
         playerTitle = findViewById(R.id.player_music_title);
+        playerArtist = findViewById(R.id.player_music_artist);
         playerPlayBtn = findViewById(R.id.player_btn_play_pause);
         playerForwardBtn = findViewById(R.id.player_btn_forward);
         playerRewindBtn = findViewById(R.id.player_btn_rewind);
@@ -99,10 +101,16 @@ public class PlaylistActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(music.getThumbnail())
                     .into(playerImage);
-            playerTitle.setText(music.getTitle());
+            if(music.getTitle().contains("(HOME)")||music.getTitle().contains("(ASMR)")){
+                playerTitle.setText(music.getTitle().substring(7));
+            }else {
+                playerTitle.setText(music.getTitle());
+            }
+            playerArtist.setText(music.getArtist());
         } else {
             playerImage.setImageResource(R.drawable.img_music);
             playerTitle.setText("재생중인 음악이 없습니다");
+            playerArtist.setText("");
         }
 
         if (AudioApplication.getInstance().getServiceInterface().isPlaying()
@@ -129,7 +137,12 @@ public class PlaylistActivity extends AppCompatActivity {
             Glide.with(holder.itemView.getContext())
                     .load(music.getThumbnail())
                     .into(holder.thumbnail);
-            holder.title.setText(music.getTitle());
+            if(music.getTitle().contains("(HOME)")||music.getTitle().contains("(ASMR)")){
+                holder.title.setText(music.getTitle().substring(7));
+            }else {
+                holder.title.setText(music.getTitle());
+            }
+            holder.artist.setText(music.getArtist());
             holder.action.setOnClickListener(view -> {
                 Log.i(music.getTitle().contains("(ASMR)") ? LogEvent.PLAYLIST_REMOVE_ASMR : LogEvent.PLAYLIST_REMOVE_MUSIC, String.valueOf(music.getId()));
                 musicPlayList.remove(position);
@@ -151,12 +164,14 @@ public class PlaylistActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             ImageView thumbnail;
             TextView title;
+            TextView artist;
             ImageButton action;
 
             ViewHolder(View itemView) {
                 super(itemView);
                 thumbnail = itemView.findViewById(R.id.music_item_image);
                 title = itemView.findViewById(R.id.music_item_title);
+                artist = itemView.findViewById(R.id.music_item_artist);
                 action = itemView.findViewById(R.id.music_item_delete);
             }
         }

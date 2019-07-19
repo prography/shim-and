@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     static CardView musicPlayerCard;
     ImageView musicPlayerImage;
     TextView musicPlayerTitle;
+    TextView musicPlayerArtist;
     ImageButton musicPlayerPlayBtn;
     ImageButton musicPlayerRewindBtn;
     ImageButton musicPlayerForwardBtn;
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
         musicPlayerImage = findViewById(R.id.image_music_thumbnail);
         musicPlayerTitle = findViewById(R.id.text_music_title);
+        musicPlayerArtist = findViewById(R.id.text_music_artist);
         musicPlayerPlayBtn = findViewById(R.id.button_play_pause);
         musicPlayerForwardBtn = findViewById(R.id.button_forward);
         musicPlayerRewindBtn = findViewById(R.id.button_rewind);
@@ -242,10 +244,16 @@ public class MainActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(music.getThumbnail())
                     .into(musicPlayerImage);
-            musicPlayerTitle.setText(music.getTitle());
+            if(music.getTitle().contains("(HOME)")||music.getTitle().contains("(ASMR)")){
+                musicPlayerTitle.setText(music.getTitle().substring(7));
+            }else {
+                musicPlayerTitle.setText(music.getTitle());
+            }
+            musicPlayerArtist.setText(music.getArtist());
         } else {
             musicPlayerImage.setImageResource(R.drawable.img_music);
             musicPlayerTitle.setText("재생중인 음악이 없습니다");
+            musicPlayerArtist.setText("");
         }
         if (AudioApplication.getInstance().getServiceInterface().isPlaying()
                 && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
