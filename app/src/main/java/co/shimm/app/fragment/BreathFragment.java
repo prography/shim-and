@@ -36,11 +36,11 @@ public class BreathFragment extends Fragment {
         new Thread(() -> {
             try {
                 while (true) {
-                    textHandler.sendMessage(textHandler.obtainMessage(1, "Breath In"));
+                    textHandler.sendMessage(textHandler.obtainMessage(1, "Breathe In"));
                     Thread.sleep(3333);
                     textHandler.sendMessage(textHandler.obtainMessage(1, "Hold"));
                     Thread.sleep(1334);
-                    textHandler.sendMessage(textHandler.obtainMessage(1, "Breath Out"));
+                    textHandler.sendMessage(textHandler.obtainMessage(1, "Breathe Out"));
                     Thread.sleep(3333);
                 }
             } catch (InterruptedException e) {
