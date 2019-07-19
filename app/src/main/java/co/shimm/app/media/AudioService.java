@@ -11,18 +11,18 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 
 import androidx.annotation.NonNull;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import co.shimm.app.room.Music;
 import co.shimm.app.util.logging.Log;
 import co.shimm.app.util.logging.LogEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AudioService extends Service {
     private final IBinder mBinder = new AudioServiceBinder();
@@ -39,27 +39,21 @@ public class AudioService extends Service {
         isPrepared = true;
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                isPrepared = true;
-                mp.start();
-                sendBroadcast(new Intent(BroadcastActions.PREPARED));
-                updateNotificationPlayer();
-            }
+        mMediaPlayer.setOnPreparedListener(mp -> {
+            isPrepared = true;
+            mp.start();
+            sendBroadcast(new Intent(BroadcastActions.PREPARED));
+            updateNotificationPlayer();
         });
-        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if (isPrepared) {
-                    forward();
-                    isPrepared = false;
-                } else {
-                    isPrepared = false;
-                    sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
-                }
-                updateNotificationPlayer();
+        mMediaPlayer.setOnCompletionListener(mp -> {
+            if (isPrepared) {
+                forward();
+                isPrepared = false;
+            } else {
+                isPrepared = false;
+                sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
             }
+            updateNotificationPlayer();
         });
         mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
@@ -150,12 +144,18 @@ public class AudioService extends Service {
     public void play(int position) {
         queryAudioItem(position);
         stopWithNoLog();
-        prepare();
-        mMediaPlayer.start();
-        new Handler().postDelayed(() -> {
-            sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED)); // MusicPlayer
-            updateNotificationPlayer(); // NoticationPlayer
-        }, 300);
+        try {
+            mMediaPlayer.setDataSource(musicList.get(mCurrentPosition).getUrl());
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mMediaPlayer.setOnPreparedListener(mediaPlayer -> {
+                mMediaPlayer.start();
+                sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED)); // MusicPlayer
+                updateNotificationPlayer(); // NoticationPlayer
+            });
+            mMediaPlayer.prepareAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (musicList.size() != 0) {
             if (musicList.get(mCurrentPosition).getTitle().contains("(HOME)")) {
                 Log.i(LogEvent.HOME_MUSIC_PLAY, String.valueOf(musicList.get(mCurrentPosition).getId()));
