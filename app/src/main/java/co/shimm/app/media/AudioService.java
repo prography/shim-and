@@ -13,8 +13,6 @@ import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.widget.ProgressBar;
-
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
@@ -26,29 +24,17 @@ import co.shimm.app.room.Music;
 import co.shimm.app.util.logging.Log;
 import co.shimm.app.util.logging.LogEvent;
 
-import static co.shimm.app.activity.MainActivity.playerProgressBar;
-import static co.shimm.app.activity.MainActivity.progressBar;
 
 public class AudioService extends Service {
     private final IBinder mBinder = new AudioServiceBinder();
     private MediaPlayer mMediaPlayer;
     private boolean isPrepared;
     private int mCurrentPosition = 0;
-    private int pos = 0; // 현재 곡 재생 시간
     private List<Music> musicList = new ArrayList<>();
     private Music music;
     private boolean isHomePlayed = true; // Home 음악이 재생 중인지 여부
     private NotificationPlayer mNotificationPlayer;
 
-    class progressThread extends Thread{
-        @Override
-        public void run(){
-            while(isPlaying()){
-                progressBar.setProgress(mMediaPlayer.getCurrentPosition());
-                playerProgressBar.setProgress(mMediaPlayer.getCurrentPosition());
-            }
-        }
-    }
 
     public void onCreate() {
         super.onCreate();
@@ -149,8 +135,6 @@ public class AudioService extends Service {
         }
         mMediaPlayer.stop();
         mMediaPlayer.reset();
-        progressBar.setProgress(0);
-        playerProgressBar.setProgress(0);
     }
 
     public void setPlayList(List<Music> list) {
@@ -169,15 +153,6 @@ public class AudioService extends Service {
             mMediaPlayer.setOnPreparedListener(mediaPlayer -> {
                 mMediaPlayer.start();
                 sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED)); // MusicPlayer
-                if(pos==0){
-                    progressBar.setMax(mMediaPlayer.getDuration());
-                    playerProgressBar.setMax(mMediaPlayer.getDuration());
-                    new progressThread().start();
-                }else{
-                    progressBar.setProgress(0);
-                    playerProgressBar.setProgress(0);
-                    pos=0;
-                }
                 updateNotificationPlayer(); // NoticationPlayer
             });
             mMediaPlayer.prepareAsync();
@@ -209,16 +184,7 @@ public class AudioService extends Service {
             }
             mMediaPlayer.start();
             sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
-            if(pos==0){
-                progressBar.setMax(mMediaPlayer.getDuration());
-                playerProgressBar.setMax(mMediaPlayer.getDuration());
-                new progressThread().start();
-            }else{
-                progressBar.setProgress(0);
-                playerProgressBar.setProgress(0);
-                pos=0;
-            }
-            updateNotificationPlayer();
+                        updateNotificationPlayer();
         }
     }
 
@@ -233,7 +199,6 @@ public class AudioService extends Service {
                     Log.i(LogEvent.MUSIC_PAUSE, String.valueOf(musicList.get(mCurrentPosition).getId()));
                 }
             }
-            pos = mMediaPlayer.getCurrentPosition();
             mMediaPlayer.pause();
             sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
             updateNotificationPlayer();

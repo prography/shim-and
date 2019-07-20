@@ -52,6 +52,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 //import co.shimm.app.shimapplication.dev.MusicPlayerNotification;
 
 
@@ -62,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static String userID;
     static CardView musicPlayerCard;
-    public static ProgressBar progressBar;
-    public static ProgressBar playerProgressBar;
     ImageView musicPlayerImage;
     TextView musicPlayerTitle;
     TextView musicPlayerArtist;
@@ -101,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
         userID = Settings.Secure.getString(getApplicationContext()
                 .getContentResolver(), Settings.Secure.ANDROID_ID);
         setContentView(R.layout.activity_main);
-        progressBar = (ProgressBar)findViewById(R.id.progress_music_play);
-        playerProgressBar = findViewById(R.id.progress_music_play);
 
         LogSender.SSAID = userID;
         Theme.apply(PreferenceManager.getDefaultSharedPreferences(getApplicationContext())

@@ -20,10 +20,12 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name="co.shimm.app.activity.SettingsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.MyApp.NoActionBar"/>
         <activity
             android:name="co.shimm.app.activity.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,15 +35,19 @@
         </activity>
         <activity
             android:name="co.shimm.app.activity.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp.NoActionBar" />
         <activity
             android:name="co.shimm.app.activity.AppDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp.NoActionBar" />
         <activity
             android:name="co.shimm.app.activity.FeedbackActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp.NoActionBar" />
         <activity
             android:name="co.shimm.app.activity.PlaylistActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp.NoActionBar" />
 
         <service
