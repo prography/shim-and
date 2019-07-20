@@ -129,3 +129,6 @@ fabric.properties
 
 # DB Schema
 schema/
+
+### Firebase ###
+google-services.json
