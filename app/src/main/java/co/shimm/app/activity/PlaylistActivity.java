@@ -51,6 +51,7 @@ public class PlaylistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
 
+
         playerImage = findViewById(R.id.player_music_image);
         playerTitle = findViewById(R.id.player_music_title);
         playerArtist = findViewById(R.id.player_music_artist);

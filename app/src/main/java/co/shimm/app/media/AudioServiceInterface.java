@@ -122,6 +122,15 @@ public class AudioServiceInterface {
         }
     }
 
+    public int getPlayListSize(){
+        if(mService!=null){
+            return mService.getPlayListSize();
+        }
+        else{
+            return 0;
+        }
+    }
+
     public void setmCurrentPosition(int position) {
         mService.setmCurrentPosition(position);
     }

@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static String userID;
     static CardView musicPlayerCard;
+    public static ProgressBar progressBar;
+    public static ProgressBar playerProgressBar;
     ImageView musicPlayerImage;
     TextView musicPlayerTitle;
     TextView musicPlayerArtist;
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private EtcFragment etcFragment = new EtcFragment();
 
     private boolean isPreviousBreath = false;
+    private boolean isPlaying = false;
     public static boolean isCurrentEtc = false;
     public static boolean isChangedTheme = false;
 
@@ -90,12 +94,15 @@ public class MainActivity extends AppCompatActivity {
         musicPlayerCard.setVisibility(View.VISIBLE);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userID = Settings.Secure.getString(getApplicationContext()
                 .getContentResolver(), Settings.Secure.ANDROID_ID);
         setContentView(R.layout.activity_main);
+        progressBar = (ProgressBar)findViewById(R.id.progress_music_play);
+        playerProgressBar = findViewById(R.id.progress_music_play);
 
         LogSender.SSAID = userID;
         Theme.apply(PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
@@ -260,6 +267,12 @@ public class MainActivity extends AppCompatActivity {
             musicPlayerPlayBtn.setImageResource(R.drawable.ic_pause);
         } else {
             musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
+        }
+        if(AudioApplication.getInstance().getServiceInterface().getPlayListSize()==0
+        ||AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()){
+            musicPlayerCard.setVisibility(View.INVISIBLE);
+        }else{
+            musicPlayerCard.setVisibility(View.VISIBLE);
         }
     }
 
