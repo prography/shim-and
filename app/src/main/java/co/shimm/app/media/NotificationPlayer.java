@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import androidx.annotation.RequiresApi;
@@ -135,8 +136,9 @@ public class NotificationPlayer {
                 Glide.with(mService.getApplicationContext()).asBitmap().centerCrop().load(music.getThumbnail()).override(480, 342).into(target);
                 if(music.getTitle().contains("(ASMR)")||music.getTitle().contains("(HOME)")){
                     remoteViews.setTextViewText(R.id.noti_title, music.getTitle().substring(7));
-                    remoteViews.setTextViewText(R.id.noti_artist, "");
+                    remoteViews.setViewVisibility(R.id.noti_artist, View.GONE);
                 }else {
+                    remoteViews.setViewVisibility(R.id.noti_artist,View.VISIBLE);
                     remoteViews.setTextViewText(R.id.noti_title, music.getTitle());
                     remoteViews.setTextViewText(R.id.noti_artist, music.getArtist());
                 }

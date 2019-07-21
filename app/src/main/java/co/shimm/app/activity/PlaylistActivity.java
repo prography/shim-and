@@ -105,14 +105,16 @@ public class PlaylistActivity extends AppCompatActivity {
                     .into(playerImage);
             if(music.getTitle().contains("(HOME)")||music.getTitle().contains("(ASMR)")){
                 playerTitle.setText(music.getTitle().substring(7));
+                playerArtist.setVisibility(View.GONE);
             }else {
                 playerTitle.setText(music.getTitle());
+                playerArtist.setVisibility(View.VISIBLE);
             }
             playerArtist.setText(music.getArtist());
         } else {
             playerImage.setImageResource(R.drawable.img_music);
             playerTitle.setText("재생중인 음악이 없습니다");
-            playerArtist.setText("");
+            playerArtist.setVisibility(View.GONE);
         }
 
         if (AudioApplication.getInstance().getServiceInterface().isPlaying()
@@ -139,12 +141,14 @@ public class PlaylistActivity extends AppCompatActivity {
             Glide.with(holder.itemView.getContext())
                     .load(music.getThumbnail())
                     .into(holder.thumbnail);
+            holder.artist.setText(music.getArtist());
             if(music.getTitle().contains("(HOME)")||music.getTitle().contains("(ASMR)")){
                 holder.title.setText(music.getTitle().substring(7));
+                holder.artist.setVisibility(View.GONE);
             }else {
                 holder.title.setText(music.getTitle());
+                holder.artist.setVisibility(View.VISIBLE);
             }
-            holder.artist.setText(music.getArtist());
             holder.action.setOnClickListener(view -> {
                 Log.i(music.getTitle().contains("(ASMR)") ? LogEvent.PLAYLIST_REMOVE_ASMR : LogEvent.PLAYLIST_REMOVE_MUSIC, String.valueOf(music.getId()));
                 musicPlayList.remove(position);

@@ -250,14 +250,16 @@ public class MainActivity extends AppCompatActivity {
                     .into(musicPlayerImage);
             if(music.getTitle().contains("(HOME)")||music.getTitle().contains("(ASMR)")){
                 musicPlayerTitle.setText(music.getTitle().substring(7));
+                musicPlayerArtist.setVisibility(View.GONE);
             }else {
                 musicPlayerTitle.setText(music.getTitle());
+                musicPlayerArtist.setVisibility(View.VISIBLE);
             }
             musicPlayerArtist.setText(music.getArtist());
         } else {
             musicPlayerImage.setImageResource(R.drawable.img_music);
             musicPlayerTitle.setText("재생중인 음악이 없습니다");
-            musicPlayerArtist.setText("");
+            musicPlayerArtist.setVisibility(View.GONE);
         }
         if (AudioApplication.getInstance().getServiceInterface().isPlaying()
                 && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
