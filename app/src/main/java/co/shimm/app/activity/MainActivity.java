@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.facebook.FacebookSdk;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -134,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_asmr:
                     transaction.replace(R.id.frame_layout, asmrFragment).commitAllowingStateLoss();
-                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()
+                        &&AudioApplication.getInstance().getServiceInterface().getPlayListSize()!=0) {
                         musicPlayerCard.setVisibility(View.VISIBLE);
                     }
                     if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
@@ -154,7 +156,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_music:
                     transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
-                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()
+                        &&AudioApplication.getInstance().getServiceInterface().getPlayListSize()!=0) {
                         musicPlayerCard.setVisibility(View.VISIBLE);
                     }
                     if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){

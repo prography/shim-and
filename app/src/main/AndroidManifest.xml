@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
         <activity
             android:name="co.shimm.app.activity.SettingsActivity"
             android:screenOrientation="portrait"
