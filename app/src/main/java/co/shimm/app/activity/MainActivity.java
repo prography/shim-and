@@ -12,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.facebook.FacebookSdk;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,7 +53,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-//import co.shimm.app.shimapplication.dev.MusicPlayerNotification;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -70,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton musicPlayerPlayBtn;
     ImageButton musicPlayerRewindBtn;
     ImageButton musicPlayerForwardBtn;
+    public ProgressBar mainProgressBar;
+
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private EtcFragment etcFragment = new EtcFragment();
 
     private boolean isPreviousBreath = false;
-    private boolean isPlaying = false;
+    public static boolean isPlaying = false;
     public static boolean isCurrentEtc = false;
     public static boolean isChangedTheme = false;
 
@@ -94,6 +94,15 @@ public class MainActivity extends AppCompatActivity {
         musicPlayerCard.setVisibility(View.VISIBLE);
     }
 
+
+    class mainProgressThread extends Thread {
+        @Override
+        public void run(){
+            while(AudioApplication.getInstance().getServiceInterface().isPlaying()){
+                mainProgressBar.setProgress(AudioApplication.getInstance().getServiceInterface().getProgressPosition());
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
         musicPlayerForwardBtn = findViewById(R.id.button_forward);
         musicPlayerRewindBtn = findViewById(R.id.button_rewind);
         musicPlayerCard = findViewById(R.id.card_music_player);
+        mainProgressBar = findViewById(R.id.progress_music_play);
+
 
         musicPlayerRewindBtn.setOnClickListener(v -> {
             AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
@@ -210,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
         registerBroadcast();
         updateMusicUI();
 
-        //MusicPlayerNotification.notify(getApplicationContext(), "asdfg", 1);
     }
 
     @Override
@@ -276,6 +286,10 @@ public class MainActivity extends AppCompatActivity {
             musicPlayerCard.setVisibility(View.INVISIBLE);
         }else{
             musicPlayerCard.setVisibility(View.VISIBLE);
+        }
+        if(AudioApplication.getInstance().getServiceInterface().isPlaying()){
+            mainProgressBar.setMax(music.getDuration());
+            new mainProgressThread().start();
         }
     }
 

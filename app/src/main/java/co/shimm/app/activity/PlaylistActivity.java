@@ -39,7 +39,7 @@ public class PlaylistActivity extends AppCompatActivity {
     public ImageButton playerPlayBtn;
     public ImageButton playerRewindBtn;
     public ImageButton playerForwardBtn;
-
+    public ProgressBar playListProgressBar;
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -47,6 +47,15 @@ public class PlaylistActivity extends AppCompatActivity {
             updateUI();
         }
     };
+
+    class playListProgressThread extends Thread {
+        @Override
+        public void run(){
+            while(AudioApplication.getInstance().getServiceInterface().isPlaying()){
+                playListProgressBar.setProgress(AudioApplication.getInstance().getServiceInterface().getProgressPosition());
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +68,8 @@ public class PlaylistActivity extends AppCompatActivity {
         playerPlayBtn = findViewById(R.id.player_btn_play_pause);
         playerForwardBtn = findViewById(R.id.player_btn_forward);
         playerRewindBtn = findViewById(R.id.player_btn_rewind);
+        playListProgressBar = findViewById(R.id.progress_playlist_play);
+
         playerRewindBtn.setOnClickListener(v -> {
             AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
             AudioApplication.getInstance().getServiceInterface().rewind();
@@ -116,12 +127,15 @@ public class PlaylistActivity extends AppCompatActivity {
             playerTitle.setText("재생중인 음악이 없습니다");
             playerArtist.setVisibility(View.GONE);
         }
-
         if (AudioApplication.getInstance().getServiceInterface().isPlaying()
                 && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
             playerPlayBtn.setImageResource(R.drawable.ic_pause);
         } else {
             playerPlayBtn.setImageResource(R.drawable.ic_play);
+        }
+        if(AudioApplication.getInstance().getServiceInterface().isPlaying()){
+            playListProgressBar.setMax(music.getDuration());
+            new playListProgressThread().start();
         }
     }
 

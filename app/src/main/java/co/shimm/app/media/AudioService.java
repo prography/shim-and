@@ -24,7 +24,6 @@ import co.shimm.app.room.Music;
 import co.shimm.app.util.logging.Log;
 import co.shimm.app.util.logging.LogEvent;
 
-
 public class AudioService extends Service {
     private final IBinder mBinder = new AudioServiceBinder();
     private MediaPlayer mMediaPlayer;
@@ -307,6 +306,10 @@ public class AudioService extends Service {
 
     public void setIsHomePlayed(boolean check) {
         isHomePlayed = check;
+    }
+
+    public int getProgressPosition(){
+        return mMediaPlayer.getCurrentPosition();
     }
 
     @Override

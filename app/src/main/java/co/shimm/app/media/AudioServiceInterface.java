@@ -134,4 +134,12 @@ public class AudioServiceInterface {
     public void setmCurrentPosition(int position) {
         mService.setmCurrentPosition(position);
     }
+
+    public int getProgressPosition(){
+        if(mService!=null){
+            return mService.getProgressPosition();
+        }else{
+            return 0;
+        }
+    }
 }
