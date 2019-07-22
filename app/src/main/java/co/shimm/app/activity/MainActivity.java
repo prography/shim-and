@@ -124,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_breath:
                     transaction.replace(R.id.frame_layout, breathFragment).commitAllowingStateLoss();
-                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
+                    if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()
+                            &&AudioApplication.getInstance().getServiceInterface().getPlayListSize()!=0) {
                         musicPlayerCard.setVisibility(View.VISIBLE);
                     }
                     if(AudioApplication.getInstance().getServiceInterface().isPlaying()){
