@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import org.jetbrains.annotations.NotNull;
 
 import co.shimm.app.R;
+import co.shimm.app.activity.AlarmActivity;
 import co.shimm.app.activity.AppDetailActivity;
 import co.shimm.app.activity.FeedbackActivity;
 import co.shimm.app.activity.SettingsActivity;
@@ -28,6 +29,7 @@ public class EtcFragment extends Fragment {
         Button feedbackButton = view.findViewById(R.id.button_show_feedback_input);
         Button appInfoButton = view.findViewById(R.id.button_show_app_info);
         Button settingButton = view.findViewById(R.id.button_show_settings);
+        Button alarmButton = view.findViewById(R.id.button_show_alarm);
 
         feedbackButton.setOnClickListener(view1 -> {
             isCurrentEtc = true;
@@ -45,6 +47,12 @@ public class EtcFragment extends Fragment {
             isCurrentEtc = true;
             Log.i(LogEvent.PAGE_CHANGE, "ACTIVITY_SETTINGS");
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(intent);
+        });
+        alarmButton.setOnClickListener(view4 -> {
+            isCurrentEtc = true;
+            Log.i(LogEvent.PAGE_CHANGE, "ACTIVITY_ALARM");
+            Intent intent = new Intent(getActivity(), AlarmActivity.class);
             startActivity(intent);
         });
         return view;

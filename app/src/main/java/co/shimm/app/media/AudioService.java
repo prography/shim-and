@@ -134,6 +134,8 @@ public class AudioService extends Service {
         }
         mMediaPlayer.stop();
         mMediaPlayer.reset();
+        sendBroadcast(new Intent(BroadcastActions.PLAY_STATE_CHANGED));
+        updateNotificationPlayer();
     }
 
     public void setPlayList(List<Music> list) {

@@ -44,6 +44,15 @@
             android:gravity="start|center_vertical"
             android:text="@string/settings" />
 
+        <Button
+            android:id="@+id/button_show_alarm"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:text="@string/alarm" />
+
+
     </LinearLayout>
 
 </LinearLayout>
