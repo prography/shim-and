@@ -18,7 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.AlarmActivity"></activity>
+
+        <activity
+            android:name=".activity.AlarmActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MyApp.NoActionBar"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

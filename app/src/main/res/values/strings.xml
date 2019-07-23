@@ -15,6 +15,7 @@
     <string name="title">제목</string>
     <string name="contact">전화번호 또는 이메일</string>
     <string name="send_feedback">의견 보내기</string>
+    <string name="privacy">개인정보처리방침</string>
     <string name="content">내용</string>
     <string name="feedback">1:1 문의</string>
     <string name="app_info">어플리케이션 정보</string>
