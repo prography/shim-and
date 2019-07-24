@@ -16,6 +16,9 @@ public interface MusicDao {
     @Query("SELECT * FROM music WHERE id = (:id)")
     List<Music> findById(int id);
 
+    @Query("SELECT * FROM music WHERE title = (:title)")
+    List<Music> findByTitle(String title);
+
     @Query("SELECT * FROM music ORDER BY `order`")
     List<Music> getAll();
 

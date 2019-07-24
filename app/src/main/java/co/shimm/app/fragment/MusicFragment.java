@@ -2,6 +2,7 @@ package co.shimm.app.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -23,6 +24,7 @@ import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -31,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -212,6 +215,14 @@ public class MusicFragment extends Fragment {
                     inflater.inflate(R.menu.options_music_play, popupMenu.getMenu());
                     popupMenu.setOnMenuItemClickListener(menuItem -> {
                         musicPlayList.add(music);
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+                        SharedPreferences.Editor editor = preferences.edit();
+                        JSONArray jsonArray = new JSONArray();
+                        for (Music row: musicPlayList){
+                            jsonArray.put(row.getTitle());
+                        }
+                        editor.putString("playlist", jsonArray.toString());
+                        editor.apply();
                         Log.i(LogEvent.PLAYLIST_ADD_MUSIC, String.valueOf(music.getId()));
                         switch (menuItem.getItemId()) {
                             case R.id.option_play_now:

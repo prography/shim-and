@@ -1,6 +1,7 @@
 package co.shimm.app.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,11 +16,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -103,6 +106,14 @@ public class AsmrFragment extends Fragment {
                             .setUrl(asmr.getUrl())
                             .build();
                     musicPlayList.add(musicLike);
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+                    JSONArray jsonArray = new JSONArray();
+                    for (Music row: musicPlayList){
+                        jsonArray.put(row.getTitle());
+                    }
+                    editor.putString("playlist", jsonArray.toString());
+                    editor.apply();
                     Log.i(LogEvent.PLAYLIST_ADD_ASMR, String.valueOf(musicLike.getId()));
                     switch (menuItem.getItemId()) {
                         case R.id.option_play_now:

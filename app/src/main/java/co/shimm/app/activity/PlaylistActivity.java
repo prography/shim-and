@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -166,6 +169,14 @@ public class PlaylistActivity extends AppCompatActivity {
             holder.action.setOnClickListener(view -> {
                 Log.i(music.getTitle().contains("(ASMR)") ? LogEvent.PLAYLIST_REMOVE_ASMR : LogEvent.PLAYLIST_REMOVE_MUSIC, String.valueOf(music.getId()));
                 musicPlayList.remove(position);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = preferences.edit();
+                JSONArray jsonArray = new JSONArray();
+                for (Music row: musicPlayList){
+                    jsonArray.put(row.getTitle());
+                }
+                editor.putString("playlist", jsonArray.toString());
+                editor.apply();
                 notifyDataSetChanged();
                 AudioApplication.getInstance().getServiceInterface().delete(position, musicPlayList);
                 updateUI();

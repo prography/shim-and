@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -22,6 +23,15 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import co.shimm.app.R;
 import co.shimm.app.fragment.AsmrFragment;
 import co.shimm.app.fragment.BreathFragment;
@@ -35,16 +45,11 @@ import co.shimm.app.retrofit.ShimService;
 import co.shimm.app.retrofit.response.AsmrListResponse;
 import co.shimm.app.retrofit.response.MusicListResponse;
 import co.shimm.app.room.Asmr;
+import co.shimm.app.room.AsmrDao;
 import co.shimm.app.room.Music;
+import co.shimm.app.room.MusicDao;
 import co.shimm.app.room.ShimDatabase;
 import co.shimm.app.util.Theme;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import co.shimm.app.util.logging.Log;
 import co.shimm.app.util.logging.LogEvent;
 import co.shimm.app.util.logging.LogSender;
@@ -53,55 +58,39 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-
-
 public class MainActivity extends AppCompatActivity {
     public static final List<co.shimm.app.room.Music> mainList = new ArrayList<>();
     // 재생목록 추가를 위한 Music Play List
     public static ArrayList<Music> musicPlayList = new ArrayList<>();
 
     public static String userID;
+    public static boolean isPlaying = false;
+    public static boolean isCurrentEtc = false;
+    public static boolean isChangedTheme = false;
     static CardView musicPlayerCard;
+    public ProgressBar mainProgressBar;
     ImageView musicPlayerImage;
     TextView musicPlayerTitle;
     TextView musicPlayerArtist;
     ImageButton musicPlayerPlayBtn;
     ImageButton musicPlayerRewindBtn;
     ImageButton musicPlayerForwardBtn;
-    public ProgressBar mainProgressBar;
-
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             updateMusicUI();
         }
     };
-
     private FragmentManager fragmentManager = getSupportFragmentManager();
-
     private HomeFragment homeFragment = new HomeFragment();
     private AsmrFragment asmrFragment = new AsmrFragment();
     private BreathFragment breathFragment = new BreathFragment();
     private MusicFragment musicFragment = new MusicFragment();
     private EtcFragment etcFragment = new EtcFragment();
-
     private boolean isPreviousBreath = false;
-    public static boolean isPlaying = false;
-    public static boolean isCurrentEtc = false;
-    public static boolean isChangedTheme = false;
 
     public static void showPlayer() {
         musicPlayerCard.setVisibility(View.VISIBLE);
-    }
-
-
-    class mainProgressThread extends Thread {
-        @Override
-        public void run(){
-            while(AudioApplication.getInstance().getServiceInterface().isPlaying()){
-                mainProgressBar.setProgress(AudioApplication.getInstance().getServiceInterface().getProgressPosition());
-            }
-        }
     }
 
     @Override
@@ -116,15 +105,46 @@ public class MainActivity extends AppCompatActivity {
                 .getString("theme", "night_owl"));
         fetchMusicList();
 
+        ShimDatabase database = ShimDatabase.getInstance(getApplicationContext());
+        AsmrDao asmrDao = database.getAsmrDao();
+        MusicDao musicDao = database.getMusicDao();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String json = preferences.getString("playlist", "[]");
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            new Thread(() -> {
+                for (int i = 0; i < jsonArray.length(); i += 1) {
+                    String title = jsonArray.optString(i);
+                    List<Asmr> asmrList = asmrDao.findByTitle(title.replace("(ASMR) ", ""));
+                    List<Music> musicList = musicDao.findByTitle(title);
+                    if (asmrList.size() > 0) {
+                        Asmr asmr = asmrList.get(0);
+                        Music musicLike = new Music.Builder()
+                                .setId(asmr.getId())
+                                .setTitle(asmr.getTitle())
+                                .setDuration(asmr.getDuration())
+                                .setThumbnail(asmr.getThumbnail())
+                                .setUrl(asmr.getUrl())
+                                .build();
+                        musicPlayList.add(musicLike);
+                    } else if (musicList.size() > 0) {
+                        musicPlayList.add(musicList.get(0));
+                    }
+                }
+            }).start();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, homeFragment)
                 .commitAllowingStateLoss();
-        if(isChangedTheme){
+        if (isChangedTheme) {
             navigation.setSelectedItemId(R.id.navigation_etc);
             fragmentManager.beginTransaction().replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
-            isChangedTheme=false;
-        }else {
+            isChangedTheme = false;
+        } else {
             navigation.setSelectedItemId(R.id.navigation_home);
         }// Default Position Setting
 
@@ -134,53 +154,53 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_breath:
                     transaction.replace(R.id.frame_layout, breathFragment).commitAllowingStateLoss();
                     if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()
-                            &&AudioApplication.getInstance().getServiceInterface().getPlayListSize()!=0) {
+                            && AudioApplication.getInstance().getServiceInterface().getPlayListSize() != 0) {
                         musicPlayerCard.setVisibility(View.VISIBLE);
                     }
-                    if(AudioApplication.getInstance().getServiceInterface().isPlaying()){
+                    if (AudioApplication.getInstance().getServiceInterface().isPlaying()) {
                         AudioApplication.getInstance().getServiceInterface().pause();
                     }
-                    isPreviousBreath=true;
+                    isPreviousBreath = true;
                     Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_BREATHE");
                     return true;
                 case R.id.navigation_asmr:
                     transaction.replace(R.id.frame_layout, asmrFragment).commitAllowingStateLoss();
                     if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()
-                        &&AudioApplication.getInstance().getServiceInterface().getPlayListSize()!=0) {
+                            && AudioApplication.getInstance().getServiceInterface().getPlayListSize() != 0) {
                         musicPlayerCard.setVisibility(View.VISIBLE);
                     }
-                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                    if (!AudioApplication.getInstance().getServiceInterface().isPlaying() && isPreviousBreath == true) {
                         AudioApplication.getInstance().getServiceInterface().play();
-                        isPreviousBreath=false;
+                        isPreviousBreath = false;
                     }
                     Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_ASMR");
                     return true;
                 case R.id.navigation_home:
                     transaction.replace(R.id.frame_layout, homeFragment).commitAllowingStateLoss();
                     musicPlayerCard.setVisibility(View.INVISIBLE);
-                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                    if (!AudioApplication.getInstance().getServiceInterface().isPlaying() && isPreviousBreath == true) {
                         AudioApplication.getInstance().getServiceInterface().play();
-                        isPreviousBreath=false;
+                        isPreviousBreath = false;
                     }
                     Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_HOME");
                     return true;
                 case R.id.navigation_music:
                     transaction.replace(R.id.frame_layout, musicFragment).commitAllowingStateLoss();
                     if (!AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()
-                        &&AudioApplication.getInstance().getServiceInterface().getPlayListSize()!=0) {
+                            && AudioApplication.getInstance().getServiceInterface().getPlayListSize() != 0) {
                         musicPlayerCard.setVisibility(View.VISIBLE);
                     }
-                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                    if (!AudioApplication.getInstance().getServiceInterface().isPlaying() && isPreviousBreath == true) {
                         AudioApplication.getInstance().getServiceInterface().play();
-                        isPreviousBreath=false;
+                        isPreviousBreath = false;
                     }
                     return true;
                 case R.id.navigation_etc:
                     transaction.replace(R.id.frame_layout, etcFragment).commitAllowingStateLoss();
                     musicPlayerCard.setVisibility(View.INVISIBLE);
-                    if(!AudioApplication.getInstance().getServiceInterface().isPlaying()&&isPreviousBreath==true){
+                    if (!AudioApplication.getInstance().getServiceInterface().isPlaying() && isPreviousBreath == true) {
                         AudioApplication.getInstance().getServiceInterface().play();
-                        isPreviousBreath=false;
+                        isPreviousBreath = false;
                     }
                     Log.i(LogEvent.PAGE_CHANGE, "FRAGMENT_ETC");
                     return true;
@@ -234,11 +254,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()&&!isCurrentEtc) {
+        if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed() && !isCurrentEtc) {
             AudioApplication.getInstance().getServiceInterface().pause();
         }
     }
-
 
     @Override
     protected void onDestroy() {
@@ -262,10 +281,10 @@ public class MainActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(music.getThumbnail())
                     .into(musicPlayerImage);
-            if(music.getTitle().contains("(HOME)")||music.getTitle().contains("(ASMR)")){
+            if (music.getTitle().contains("(HOME)") || music.getTitle().contains("(ASMR)")) {
                 musicPlayerTitle.setText(music.getTitle().substring(7));
                 musicPlayerArtist.setVisibility(View.GONE);
-            }else {
+            } else {
                 musicPlayerTitle.setText(music.getTitle());
                 musicPlayerArtist.setVisibility(View.VISIBLE);
             }
@@ -281,13 +300,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             musicPlayerPlayBtn.setImageResource(R.drawable.ic_play);
         }
-        if(AudioApplication.getInstance().getServiceInterface().getPlayListSize()==0
-        ||AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()){
+        if (AudioApplication.getInstance().getServiceInterface().getPlayListSize() == 0
+                || AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
             musicPlayerCard.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             musicPlayerCard.setVisibility(View.VISIBLE);
         }
-        if(AudioApplication.getInstance().getServiceInterface().isPlaying()){
+        if (AudioApplication.getInstance().getServiceInterface().isPlaying()) {
             mainProgressBar.setMax(music.getDuration());
             new mainProgressThread().start();
         }
@@ -318,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NotNull Call<MusicListResponse> call, @NotNull Response<MusicListResponse> response) {
                 ArrayList<Music> musicList = (ArrayList<Music>) Objects.requireNonNull(response.body()).getData();
                 for (Music music : musicList) {
-                    music.setTitle("(HOME)"+music.getTitle());
+                    music.setTitle("(HOME)" + music.getTitle());
                     music.setThumbnail("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getThumbnail());
                     music.setUrl("https://s3.ap-northeast-2.amazonaws.com/shim-main/" + music.getUrl());
                 }
@@ -379,5 +398,14 @@ public class MainActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    class mainProgressThread extends Thread {
+        @Override
+        public void run() {
+            while (AudioApplication.getInstance().getServiceInterface().isPlaying()) {
+                mainProgressBar.setProgress(AudioApplication.getInstance().getServiceInterface().getProgressPosition());
+            }
+        }
     }
 }
