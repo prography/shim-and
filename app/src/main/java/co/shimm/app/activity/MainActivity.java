@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
         if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
             Glide.with(this)
                     .load(music.getThumbnail())
+                    .error(R.drawable.img_music)
                     .into(musicPlayerImage);
             if (music.getTitle().contains("(HOME)") || music.getTitle().contains("(ASMR)")) {
                 musicPlayerTitle.setText(music.getTitle().substring(7));

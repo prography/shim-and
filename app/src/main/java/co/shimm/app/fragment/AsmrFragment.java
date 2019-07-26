@@ -87,6 +87,7 @@ public class AsmrFragment extends Fragment {
             Asmr asmr = asmrList.get(position);
             Glide.with(holder.itemView.getContext())
                     .load(asmr.getThumbnail())
+                    .error(R.drawable.img_music)
                     .into(holder.thumbnail);
             holder.title.setText(asmr.getTitle());
             int seconds = (asmr.getDuration()/1000)%60;

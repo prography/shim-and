@@ -178,6 +178,7 @@ public class MusicFragment extends Fragment {
                 Music music = musicList.get(position);
                 Glide.with(holder.itemView.getContext())
                         .load(music.getThumbnail())
+                        .error(R.drawable.img_music)
                         .into(holder.thumbnail);
                 holder.title.setText(music.getTitle());
                 int seconds = (music.getDuration() / 1000) % 60;

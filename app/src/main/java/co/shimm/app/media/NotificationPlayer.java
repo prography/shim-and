@@ -133,7 +133,12 @@ public class NotificationPlayer {
             Music music = AudioApplication.getInstance().getServiceInterface().getMusic();
             AppWidgetTarget target = new AppWidgetTarget(mService.getApplicationContext(), R.id.noti_img_albumart, remoteViews, R.layout.notification_player);
             if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
-                Glide.with(mService.getApplicationContext()).asBitmap().centerCrop().load(music.getThumbnail()).override(480, 342).into(target);
+                Glide.with(mService.getApplicationContext())
+                        .asBitmap()
+                        .centerCrop()
+                        .load(music.getThumbnail())
+                        .override(480, 342)
+                        .into(target);
                 if(music.getTitle().contains("(ASMR)")||music.getTitle().contains("(HOME)")){
                     remoteViews.setTextViewText(R.id.noti_title, music.getTitle().substring(7));
                     remoteViews.setViewVisibility(R.id.noti_artist, View.GONE);

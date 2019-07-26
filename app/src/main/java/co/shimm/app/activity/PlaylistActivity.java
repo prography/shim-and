@@ -116,6 +116,7 @@ public class PlaylistActivity extends AppCompatActivity {
         if (music != null && !AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
             Glide.with(this)
                     .load(music.getThumbnail())
+                    .error(R.drawable.img_music)
                     .into(playerImage);
             if(music.getTitle().contains("(HOME)")||music.getTitle().contains("(ASMR)")){
                 playerTitle.setText(music.getTitle().substring(7));
@@ -157,6 +158,7 @@ public class PlaylistActivity extends AppCompatActivity {
             final Music music = musicList.get(position);
             Glide.with(holder.itemView.getContext())
                     .load(music.getThumbnail())
+                    .error(R.drawable.img_music)
                     .into(holder.thumbnail);
             holder.artist.setText(music.getArtist());
             if(music.getTitle().contains("(HOME)")||music.getTitle().contains("(ASMR)")){
