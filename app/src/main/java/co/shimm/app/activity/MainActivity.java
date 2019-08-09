@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         musicPlayerCard.setVisibility(View.VISIBLE);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,7 +226,11 @@ public class MainActivity extends AppCompatActivity {
 
         musicPlayerPlayBtn.setOnClickListener(v -> {
             AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
-            AudioApplication.getInstance().getServiceInterface().togglePlay();
+            if(AudioApplication.getInstance().getServiceInterface().isPlaying()){
+                AudioApplication.getInstance().getServiceInterface().pause();
+            }else{
+                AudioApplication.getInstance().getServiceInterface().play();
+            }
         });
 
         musicPlayerForwardBtn.setOnClickListener(v -> {
@@ -249,6 +254,32 @@ public class MainActivity extends AppCompatActivity {
         if (AudioApplication.getInstance().getServiceInterface().getIsHomePlayed()) {
             AudioApplication.getInstance().getServiceInterface().play();
         }
+        musicPlayerRewindBtn.setOnClickListener(v -> {
+            AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+            AudioApplication.getInstance().getServiceInterface().rewind();
+        });
+
+        musicPlayerPlayBtn.setOnClickListener(v -> {
+            AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+            if(AudioApplication.getInstance().getServiceInterface().isPlaying()){
+                AudioApplication.getInstance().getServiceInterface().pause();
+            }else{
+                AudioApplication.getInstance().getServiceInterface().play();
+            }
+        });
+
+        musicPlayerForwardBtn.setOnClickListener(v -> {
+            AudioApplication.getInstance().getServiceInterface().setPlayList(musicPlayList);
+            AudioApplication.getInstance().getServiceInterface().forward();
+        });
+
+        musicPlayerCard.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), PlaylistActivity.class);
+            startActivity(intent);
+        });
+
+        registerBroadcast();
+        updateMusicUI();
     }
 
     @Override
